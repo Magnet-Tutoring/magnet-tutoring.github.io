@@ -1400,3 +1400,91 @@ noscript nav {
     animation: none !important;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Pricing blocks (rendered from data/pricing.json by render.js)
+   Each block is a .card holding a tier list; the bundle adds worked examples.
+--------------------------------------------------------------------------- */
+.pricing-block h3 {
+  margin-top: 0;
+}
+.pricing-tiers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.pricing-tier {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--border);
+}
+.pricing-tier:last-child {
+  border-bottom: 0;
+}
+.pricing-tier-label {
+  color: var(--text);
+}
+.pricing-tier-price {
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.pricing-note {
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+/* Bundle card: highlight it with an accent border and lead with the price. */
+.pricing-bundle {
+  border-color: var(--accent);
+}
+.pricing-bundle-price {
+  margin: 0 0 var(--space-1);
+  color: var(--accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.pricing-bundle-desc {
+  margin: 0 0 var(--space-2);
+  color: var(--text);
+}
+.pricing-examples {
+  margin: 0;
+  padding-left: var(--space-3);
+  color: var(--text);
+}
+.pricing-examples li {
+  margin-bottom: 4px;
+}
+.pricing-examples li:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Reviews (rendered from data/reviews.json by render.js; the home page also
+   hand-writes a few cards using these same classes).
+--------------------------------------------------------------------------- */
+.review-quote {
+  margin: 0 0 var(--space-2);
+  padding: 0;
+  color: var(--text);
+  font-style: italic;
+  overflow-wrap: anywhere;
+}
+.review-rating {
+  margin: 0 0 var(--space-1);
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+.review-name {
+  margin: 0;
+  font-weight: 700;
+}
+.review-role {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
