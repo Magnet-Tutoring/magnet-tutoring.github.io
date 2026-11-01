@@ -207,6 +207,19 @@
     ]
   },
   {
+    "name": "Physical Science",
+    "category": "Science",
+    "topics": [
+      "Matter and its properties",
+      "Forces and motion",
+      "Work, energy, and power",
+      "Waves, sound, and light",
+      "Electricity and magnetism",
+      "Heat and temperature",
+      "Intro to atoms and elements"
+    ]
+  },
+  {
     "name": "Literature",
     "category": "English",
     "topics": [
