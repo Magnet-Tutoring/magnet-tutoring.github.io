@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ — Magnet Tutoring</title>
+  <meta name="description" content="Answers to common questions about Magnet Tutoring: cost, private vs. group, the $70 bundle, where we meet, how to book, payment, cancellations, subjects, and tutors.">
+
+  <!-- Open Graph (per page) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FAQ — Magnet Tutoring">
+  <meta property="og:description" content="Answers to common questions about Magnet Tutoring: cost, private vs. group, the $70 bundle, where we meet, how to book, payment, cancellations, subjects, and tutors.">
+  <meta property="og:image" content="assets/logo.svg">
+
+  <!-- Canonical URL -->
+  <!-- TODO(founders): replace with the real GitHub Pages / custom domain -->
+  <link rel="canonical" href="https://magnettutoring.example/faq.html">
+
+  <!-- Favicon (relative, every page) -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- EXACT inline theme script: must run before the stylesheet link / before first paint -->
+  <script>
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved ?? (prefersDark ? 'dark' : 'light');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- page scripts: non-render-blocking. layout + theme on every page; render.js only where needed -->
+  <script src="js/layout.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+</head>
+<body data-page="faq">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <noscript>
+    <nav aria-label="Primary (no JavaScript)">
+      <a href="index.html">Home</a> · <a href="about.html">About</a> ·
+      <a href="subjects.html">Subjects</a> · <a href="pricing.html">Pricing</a> ·
+      <a href="tutors.html">Tutors</a> · <a href="book.html">Book</a> ·
+      <a href="reviews.html">Reviews</a> · <a href="faq.html">FAQ</a>
+    </nav>
+  </noscript>
+
+  <main id="main">
+    <section class="section">
+      <div class="container prose">
+        <h1>Frequently Asked Questions</h1>
+
+        <details class="accordion" data-reveal>
+          <summary>What does it cost?</summary>
+          <p>Private one-on-one sessions start at $10 (30 minutes), and small-group sessions start at $5 per person (30 minutes). There's also a $70 bundle you can mix across private and group hours. See the <a href="pricing.html">full pricing page</a> for every rate.</p>
+        </details>
+
+        <details class="accordion" data-reveal>
+          <summary>What's the difference between private and group sessions?</summary>
+          <p>A private session is one-on-one with your tutor — all the time and attention is yours. A group session is a small group of up to four students learning together at a lower per-person price. Group pricing is per person.</p>
+        </details>
+
+        <details class="accordion" data-reveal>
+          <summary>How does the $70 bundle work?</summary>
+          <p>The bundle is a flexible credit worth 4 private hours or up to 8 group hours — 1 private hour equals 2 group hours, so you can mix and match. For example, you could use it as 4 private hours, as 8 group hours, or as 2 private hours plus 4 group hours.</p>
+        </details>
+
+        <details class="accordion" data-reveal>
+          <summary>Where do we meet?</summary>
+          <!-- TODO(founders): confirm the library branch, meeting area, and check-in -->
+          <p>Sessions are held at your local library. TODO(founders) — confirm the exact branch, where inside the library you meet, and how students check in. See the <a href="about.html">About page</a> for details as they're confirmed.</p>
+        </details>
+
+        <details class="accordion" data-reveal>
+          <summary>How do I book?</summary>
+          <p>Head to the <a href="book.html">Book a Session</a> page and load the booking tool to pick a time. You can also open booking in a new tab, or email us and we'll help you find a slot.</p>
+        </details>
+
+        <details class="accordion" data-reveal>
+          <summary>How is payment handled?</summary>
+          <p>For now, payment is handled offline — you pay on arrival at your session. There's nothing to pay online when you book.</p>
+        </details>
+
+        <details class="accordion" data-reveal>
+          <summary>What's the cancellation policy?</summary>
+          <!-- TODO(founders): confirm the cancellation / no-show policy -->
+          <p>TODO(founders) — confirm how far in advance families need to cancel or reschedule, and what happens for a missed session.</p>
+        </details>
+
+        <details class="accordion" data-reveal>
+          <summary>What subjects do you cover?</summary>
+          <p>We cover a wide range, from math and science to English, history, world languages, and computer science. Browse the <a href="subjects.html">Subjects page</a> to see everything, and reach out if you don't see what you need.</p>
+        </details>
+
+        <details class="accordion" data-reveal>
+          <summary>Who are the tutors?</summary>
+          <p>Our tutors are top students in the Wheeler Magnet program — peers who recently mastered the same material and love helping others get there. Meet them on the <a href="tutors.html">Tutors page</a>.</p>
+        </details>
+
+        <h2>Contact</h2>
+        <p>Still have a question? Email us at <a href="mailto:hello@magnettutoring.example">hello@magnettutoring.example</a>.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal>
+          <h2>Ready to get started?</h2>
+          <p>Pick a subject, book a time, and meet your tutor at the library.</p>
+          <p class="btn-row">
+            <a class="btn btn-primary" href="book.html">Book a Session</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

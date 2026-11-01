@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — Magnet Tutoring</title>
+  <meta name="description" content="Why we started Magnet Tutoring, how a session works, and where we meet. One-on-one and small-group tutoring by top Wheeler Magnet students.">
+
+  <!-- Open Graph (per page) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About — Magnet Tutoring">
+  <meta property="og:description" content="Why we started Magnet Tutoring, how a session works, and where we meet. One-on-one and small-group tutoring by top Wheeler Magnet students.">
+  <meta property="og:image" content="assets/logo.svg">
+
+  <!-- Canonical URL -->
+  <!-- TODO(founders): replace with the real GitHub Pages / custom domain -->
+  <link rel="canonical" href="https://magnettutoring.example/about.html">
+
+  <!-- Favicon (relative, every page) -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- EXACT inline theme script: must run before the stylesheet link / before first paint -->
+  <script>
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved ?? (prefersDark ? 'dark' : 'light');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- page scripts: non-render-blocking. layout + theme on every page; render.js only where needed -->
+  <script src="js/layout.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+</head>
+<body data-page="about">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <noscript>
+    <nav aria-label="Primary (no JavaScript)">
+      <a href="index.html">Home</a> · <a href="about.html">About</a> ·
+      <a href="subjects.html">Subjects</a> · <a href="pricing.html">Pricing</a> ·
+      <a href="tutors.html">Tutors</a> · <a href="book.html">Book</a> ·
+      <a href="reviews.html">Reviews</a> · <a href="faq.html">FAQ</a>
+    </nav>
+  </noscript>
+
+  <main id="main">
+    <section class="section">
+      <div class="container prose">
+        <h1>About Magnet Tutoring</h1>
+
+        <h2>Our mission</h2>
+        <p>
+          Magnet Tutoring connects students with top Wheeler Magnet students for friendly,
+          affordable help right at the local library. Our mission is simple: make quality
+          tutoring easy to reach, whatever your budget or subject.
+        </p>
+
+        <h2>Our story</h2>
+        <p>
+          We started because we saw how much a little one-on-one help can change the way a
+          student feels about a subject. Not everyone can afford expensive private tutoring,
+          and not everyone learns best in a big classroom. So we built something in between:
+          peer tutoring from students who recently mastered the same material, offered at a
+          price families can manage, in a place that's already part of the community.
+        </p>
+
+        <h2>How a session works</h2>
+        <p>
+          You choose the length that fits your needs — we offer 30-minute, 45-minute, and
+          one-hour sessions. You can book a private, one-on-one session, or a small group of
+          up to four students who want to learn together at a lower per-person rate.
+        </p>
+        <p>
+          <!-- TODO(founders): confirm what students should bring to a session -->
+          <strong>What to bring:</strong> TODO(founders) — confirm what students should bring
+          (for example, the assignment or notes they want to work on, a device, and any
+          materials the tutor should see ahead of time).
+        </p>
+
+        <h2>Where we meet</h2>
+        <p>
+          <!-- TODO(founders): confirm the library branch, meeting area, and check-in process -->
+          We meet at your local library.
+        </p>
+        <ul>
+          <li><strong>Library branch:</strong> TODO(founders) — confirm the exact library branch (name and address).</li>
+          <li><strong>Meeting area:</strong> TODO(founders) — confirm where inside the library you meet (for example, a study room or a specific table area).</li>
+          <li><strong>Check-in:</strong> TODO(founders) — confirm how students check in when they arrive and how they find their tutor.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal>
+          <h2>Ready to get started?</h2>
+          <p>Pick a subject, book a time, and meet your tutor at the library.</p>
+          <p class="btn-row">
+            <a class="btn btn-primary" href="book.html">Book a Session</a>
+            <a class="btn btn-secondary" href="pricing.html">See pricing</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
