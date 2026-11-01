@@ -1,0 +1,31 @@
+{
+  "private": {
+    "label": "Private (one-on-one)",
+    "perPerson": true,
+    "tiers": [
+      { "label": "1 hour", "price": "$20" },
+      { "label": "45 min", "price": "$15" },
+      { "label": "30 min", "price": "$10" }
+    ]
+  },
+  "group": {
+    "label": "Group (up to 4 students)",
+    "perPerson": true,
+    "note": "Price is per person.",
+    "tiers": [
+      { "label": "1 hour", "price": "$10" },
+      { "label": "45 min", "price": "$7.50" },
+      { "label": "30 min", "price": "$5" }
+    ]
+  },
+  "bundle": {
+    "label": "Bundle",
+    "price": "$70",
+    "description": "A flexible credit worth 4 private hours or up to 8 group hours — 1 private hour equals 2 group hours, so you can mix and match however you like.",
+    "examples": [
+      "4 private hours",
+      "8 group hours",
+      "2 private hours + 4 group hours"
+    ]
+  }
+}

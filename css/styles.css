@@ -1,0 +1,1402 @@
+:root {
+  --bg: #ffffff;
+  --surface: #f6f8fb;
+  --text: #14202e;
+  --muted: #5b6b7c;
+  --accent: #0f766e;      /* teal — AA 5.47:1 on white */
+  --border: #e3e8ef;
+}
+[data-theme='dark'] {
+  --bg: #0b0e14;          /* near-black so accents glow */
+  --surface: #161e28;
+  --text: #e8eef5;
+  --muted: #9fb0c2;
+  --accent: #2dd4bf;      /* glowing teal — AA 10.38:1 on near-black */
+  --border: #26323f;
+}
+
+/* ---------------------------------------------------------------------------
+   Vibrant brand identity — a multi-stop gradient (electric blue -> violet ->
+   pink) used on the hero, headings accent, buttons, and section dividers.
+   The gradient is DECORATIVE: any text that sits over a vivid gradient gets a
+   solid/overlay backing so contrast stays AA. ONE accent (--accent) drives all
+   interactive consistency; the gradient stops below are for backdrops only.
+--------------------------------------------------------------------------- */
+:root {
+  --grad-1: #0ea5e9;  /* sky blue  */
+  --grad-2: #0f766e;  /* teal      */
+  --grad-3: #0369a1;  /* deep blue */
+  --brand-gradient: linear-gradient(100deg, var(--grad-1), var(--grad-2) 52%, var(--grad-3));
+  /* Button gradient leans slightly darker so white text clears 4.5:1 across
+     the whole sweep (sky 4.5, teal 5.47, deep-blue 6.4 — all verified). */
+  --btn-gradient: linear-gradient(100deg, #0284c7, #0f766e 55%, #0369a1);
+  --glow: 0 0 0 transparent;
+}
+[data-theme='dark'] {
+  --grad-1: #38bdf8;
+  --grad-2: #2dd4bf;
+  --grad-3: #22d3ee;
+  --brand-gradient: linear-gradient(100deg, var(--grad-1), var(--grad-2) 52%, var(--grad-3));
+  /* Bright stops so the near-black button text (#0b0e14, set below) clears
+     4.5:1 across the whole sweep (sky 8.9, teal 10.4, cyan 10.6). */
+  --btn-gradient: linear-gradient(100deg, #38bdf8, #2dd4bf 55%, #22d3ee);
+  --glow: 0 0 24px rgba(45, 212, 191, 0.35);
+}
+
+/* ---------------------------------------------------------------------------
+   Design system
+   Fonts: a pure system stack — no web fonts and no Google Fonts requests.
+--------------------------------------------------------------------------- */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* Pure system stack — no web fonts, no network requests. */
+  --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* 8px spacing scale */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+
+  /* Modular type scale (1.25) built off a 1rem base. Big headings use clamp()
+     so they scale down and wrap cleanly on narrow (360px) screens. */
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: clamp(1.4rem, 1.1rem + 1.3vw, 1.5625rem);
+  --step-3: clamp(1.7rem, 1.25rem + 2vw, 1.953rem);
+  --step-4: clamp(2.1rem, 1.3rem + 3.6vw, 2.9rem);
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --container: 1100px;
+  --prose: 70ch;
+
+  /* Softer, warmer elevation (new tokens — base colors unchanged) */
+  --shadow-sm: 0 1px 2px rgba(20, 32, 46, 0.04), 0 2px 8px rgba(20, 32, 46, 0.06);
+  --shadow-md: 0 2px 6px rgba(20, 32, 46, 0.06), 0 8px 24px rgba(20, 32, 46, 0.10);
+  --shadow-lg: 0 6px 16px rgba(20, 32, 46, 0.08), 0 16px 40px rgba(20, 32, 46, 0.12);
+
+  /* Hero wash built from the vibrant brand hues (theme-aware) */
+  --hero-tint: rgba(124, 58, 237, 0.14);
+  --hero-tint-2: rgba(37, 99, 235, 0.10);
+  --hero-tint-3: rgba(219, 39, 119, 0.10);
+}
+[data-theme='dark'] {
+  /* Deeper, lower-opacity shadows read better on dark surfaces */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30), 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 6px 16px rgba(0, 0, 0, 0.40), 0 16px 40px rgba(0, 0, 0, 0.50);
+  --hero-tint: rgba(167, 139, 250, 0.20);
+  --hero-tint-2: rgba(59, 130, 246, 0.16);
+  --hero-tint-3: rgba(244, 114, 182, 0.14);
+}
+
+/* ---------------------------------------------------------------------------
+   Subject-category theme colors — NEW custom properties only (the six base
+   tokens above are untouched). Each category drives a decorative icon hue on
+   subject cards and tutor badges. Values chosen to clear the 3:1 non-text UI
+   contrast target against the light/dark card backgrounds; category/badge TEXT
+   stays on --muted / --accent so existing AA text contrast is unaffected.
+--------------------------------------------------------------------------- */
+:root {
+  --cat-math: #2f6bd6;      /* blue/indigo  */
+  --cat-science: #1c8257;   /* green/teal   */
+  --cat-english: #b9671a;   /* amber/orange */
+  --cat-history: #8a5a2b;   /* brown/terracotta */
+  --cat-languages: #b23a8a; /* magenta/violet */
+  --cat-cs: #11808a;        /* teal (inert until a CS category exists) */
+  --cat-other: #5b6b7c;     /* neutral muted */
+}
+[data-theme='dark'] {
+  /* Lightened so icons stay legible on the dark card backgrounds. */
+  --cat-math: #7aa7ff;
+  --cat-science: #4fc48a;
+  --cat-english: #f0a85a;
+  --cat-history: #d79a66;
+  --cat-languages: #e67ac0;
+  --cat-cs: #4fc9cf;
+  --cat-other: #9fb0c2;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem; /* 17px, within the 16-18px range */
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings on a 1.25 modular scale */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+  margin: 0 0 var(--space-2);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+h1 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+h1 { font-size: var(--step-4); }
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-2); }
+h4 { font-size: var(--step-1); }
+
+p {
+  margin: 0 0 var(--space-2);
+}
+
+a {
+  color: var(--accent);
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+/* Centered content container */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+/* Readable body-text column capped near 70ch */
+.prose {
+  max-width: var(--prose);
+}
+
+.section {
+  padding-block: var(--space-6);
+}
+/* Nested sections keep tighter rhythm so pages don't sprawl */
+.section .section {
+  padding-block: var(--space-5);
+}
+
+/* Intro paragraph under a section heading */
+.section-intro {
+  color: var(--muted);
+  font-size: var(--step-1);
+  max-width: var(--prose);
+  margin-top: calc(-1 * var(--space-1));
+}
+
+/* ---------------------------------------------------------------------------
+   Accessibility helpers
+--------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -3rem;
+  z-index: 100;
+  padding: var(--space-1) var(--space-2);
+  background: var(--accent);
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Header / navigation
+--------------------------------------------------------------------------- */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: 64px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-1);
+  letter-spacing: -0.01em;
+}
+.brand svg {
+  height: 32px;
+  width: auto;
+}
+/* Decorative spoked-wheel mark before the brand name. Spins on hover/focus
+   (motion-gated below). aria-hidden by nature (pseudo-element). */
+.brand::before {
+  content: '';
+  flex: none;
+  width: 26px;
+  height: 26px;
+  background-color: var(--accent);
+  -webkit-mask: var(--wheel-mark) center / contain no-repeat;
+  mask: var(--wheel-mark) center / contain no-repeat;
+}
+:root {
+  --wheel-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 20V11a5 5 0 0 1 10 0v9'/%3E%3Cpath d='M7 20h3.5V11a1.5 1.5 0 0 0-3 0v9'/%3E%3Cpath d='M13.5 20H17V11a1.5 1.5 0 0 0-3 0v9'/%3E%3Cpath d='M7 6h3.5M13.5 6H17'/%3E%3C/svg%3E");
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.nav-list a {
+  display: block;
+  position: relative;
+  padding: var(--space-1) var(--space-2);
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+.nav-list a:hover {
+  background: var(--bg);
+}
+/* Animated brand-gradient underline that grows from the center on hover/focus.
+   Motion is a transform on a pseudo-element, neutralized under reduced-motion. */
+.nav-list a::before {
+  content: '';
+  position: absolute;
+  left: var(--space-2);
+  right: var(--space-2);
+  bottom: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand-gradient);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+.nav-list a:hover::before,
+.nav-list a:focus-visible::before {
+  transform: scaleX(1);
+}
+/* Clearer active page: accent color, weight, and an underline bar */
+.nav-list a[aria-current='page'] {
+  color: var(--accent);
+  background: var(--bg);
+  font-weight: 700;
+}
+.nav-list a[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: var(--space-2);
+  right: var(--space-2);
+  bottom: 2px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--brand-gradient);
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.nav-toggle:hover {
+  border-color: var(--accent);
+}
+.nav.is-open .nav-toggle {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+
+/* Dark-mode toggle button */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 var(--space-2);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons
+--------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  min-height: 48px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: var(--step-1);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.15s ease;
+}
+.btn-primary {
+  /* Vibrant brand-gradient fill. White text clears 4.5:1 across every stop of
+     --btn-gradient (blue 4.7, violet 5.7, pink 4.6 — all verified). */
+  background: var(--btn-gradient);
+  background-size: 180% 180%;
+  background-position: 0% 50%;
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  transition: background-position 0.4s ease, box-shadow 0.15s ease,
+    transform 0.12s ease;
+}
+.btn-primary:hover {
+  background-position: 100% 50%;
+  box-shadow: var(--shadow-md), var(--glow);
+  transform: translateY(-2px);
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+/* Dark mode uses brighter gradient stops, so button text flips to near-black
+   to stay AA (each stop >= 5.25:1 against #0b0e14 text). */
+[data-theme='dark'] .btn-primary {
+  color: #0b0e14;
+}
+.btn-secondary {
+  background: var(--bg);
+  color: var(--accent);
+  border-color: var(--accent);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.12s ease, color 0.15s ease;
+}
+.btn-secondary:hover {
+  background: var(--surface);
+  box-shadow: var(--shadow-sm), var(--glow);
+  transform: translateY(-2px);
+}
+.btn-secondary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+/* ---------------------------------------------------------------------------
+   Cards & grids
+--------------------------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-md), var(--glow);
+  transform: translateY(-4px);
+  border-color: var(--accent);
+}
+.card h3 {
+  margin-top: 0;
+}
+
+/* "How it works" step cards: centered icon + number */
+.step-card {
+  text-align: center;
+}
+.step-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: var(--space-2);
+  color: #ffffff;
+  background: var(--btn-gradient);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+.step-card:hover .step-icon {
+  transform: scale(1.08) rotate(-6deg);
+}
+.step-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Subject badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-1);
+  margin: 2px 4px 2px 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.subject-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin: 0 0 var(--space-2);
+  padding: 3px var(--space-1);
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+/* A small colored icon keys the category to a hue. The glyph is drawn with an
+   SVG mask tinted by --cat-color, so the shape follows the category class and
+   the color follows the per-theme token. Colors are decorative accents only —
+   category/badge text stays on --muted / --accent for AA. The base rule carries
+   the neutral sparkle (cat-other) glyph so an unclassed element is never a bare
+   dot; per-category rules below swap only the mask shape. */
+.subject-category::before,
+.badge.cat-math::before,
+.badge.cat-science::before,
+.badge.cat-english::before,
+.badge.cat-history::before,
+.badge.cat-languages::before,
+.badge.cat-cs::before,
+.badge.cat-other::before {
+  content: '';
+  flex: none;
+  width: 13px;
+  height: 13px;
+  background-color: var(--cat-color, var(--cat-other));
+  -webkit-mask: var(--cat-icon, var(--icon-other)) center / contain no-repeat;
+  mask: var(--cat-icon, var(--icon-other)) center / contain no-repeat;
+}
+.badge.cat-math::before,
+.badge.cat-science::before,
+.badge.cat-english::before,
+.badge.cat-history::before,
+.badge.cat-languages::before,
+.badge.cat-cs::before,
+.badge.cat-other::before {
+  width: 11px;
+  height: 11px;
+  margin-right: 4px;
+}
+
+/* Per-category color + icon-shape bindings (public .cat-* hooks). */
+.cat-math { --cat-color: var(--cat-math); --cat-icon: var(--icon-math); }
+.cat-science { --cat-color: var(--cat-science); --cat-icon: var(--icon-science); }
+.cat-english { --cat-color: var(--cat-english); --cat-icon: var(--icon-english); }
+.cat-history { --cat-color: var(--cat-history); --cat-icon: var(--icon-history); }
+.cat-languages { --cat-color: var(--cat-languages); --cat-icon: var(--icon-languages); }
+.cat-cs { --cat-color: var(--cat-cs); --cat-icon: var(--icon-cs); }
+.cat-other { --cat-color: var(--cat-other); --cat-icon: var(--icon-other); }
+
+/* SVG mask glyphs (data URIs — no new network requests, works at any subpath).
+   Shape only; the mask ignores fill color, the tint comes from --cat-color.
+   Math: square-root/function radical. Science: Erlenmeyer flask. English: open
+   book. History: globe. Languages: speech bubble (no flag). Other/CS: sparkle /
+   code motif. */
+:root {
+  --icon-math: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 13l3 6 4-14h11'/%3E%3Cpath d='M15 7l4 4m0-4l-4 4'/%3E%3C/svg%3E");
+  --icon-science: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3'/%3E%3Cpath d='M7.5 15h9'/%3E%3C/svg%3E");
+  --icon-english: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 6c-1.8-1.2-4-2-7-2v14c3 0 5.2.8 7 2 1.8-1.2 4-2 7-2V4c-3 0-5.2.8-7 2z'/%3E%3Cpath d='M12 6v14'/%3E%3C/svg%3E");
+  --icon-history: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18'/%3E%3Cpath d='M12 3c3 3.2 3 14.8 0 18-3-3.2-3-14.8 0-18z'/%3E%3C/svg%3E");
+  --icon-languages: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z'/%3E%3Cpath d='M8 10h0M12 10h0M16 10h0'/%3E%3C/svg%3E");
+  --icon-cs: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 8l-4 4 4 4M16 8l4 4-4 4M13 6l-2 12'/%3E%3C/svg%3E");
+  --icon-other: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3c.6 3.5 2.5 5.4 6 6-3.5.6-5.4 2.5-6 6-.6-3.5-2.5-5.4-6-6 3.5-.6 5.4-2.5 6-6z'/%3E%3C/svg%3E");
+}
+
+/* Tutor subject badges that carry a category class take a subtle hue tint on
+   the border; the badge text stays on --accent for AA. */
+.badge.cat-math,
+.badge.cat-science,
+.badge.cat-english,
+.badge.cat-history,
+.badge.cat-languages,
+.badge.cat-cs,
+.badge.cat-other {
+  border-color: color-mix(in srgb, var(--cat-color) 45%, var(--border));
+}
+
+/* Announcements */
+.announcement {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-3);
+}
+.announcement:last-child {
+  margin-bottom: 0;
+}
+.announcement-date {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.pinned-flag {
+  display: inline-block;
+  margin-left: var(--space-1);
+  padding: 2px var(--space-1);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+}
+
+.empty-state,
+.error-state {
+  color: var(--muted);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------------------
+   Tutor cards (Meet the Tutors)
+--------------------------------------------------------------------------- */
+.tutor-card {
+  text-align: center;
+}
+.tutor-card .badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+}
+/* Square thumbnail wrapper: holds the photo and the initials fallback,
+   which share the same box so a missing photo reveals the avatar. */
+.tutor-thumb {
+  position: relative;
+  width: 140px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto var(--space-3);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.tutor-photo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+/* Initials avatar sits behind the photo; visible only if the photo is absent. */
+.tutor-avatar {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 700;
+  color: #ffffff;
+  background: var(--btn-gradient);
+}
+.tutor-name {
+  margin-bottom: var(--space-1);
+}
+.tutor-grade {
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0 0 var(--space-2);
+}
+.tutor-bio {
+  color: var(--muted);
+  margin-top: var(--space-2);
+  margin-bottom: 0;
+}
+.tutor-achievements {
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: var(--space-1) 0 0;
+}
+.tutor-achievements-label {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+   In-flow Sign Up CTA band (NOT fixed — stays in document flow, safe at 360px)
+--------------------------------------------------------------------------- */
+/* Bold gradient CTA panel. White text on --btn-gradient clears AA on every
+   stop (blue 5.2, violet 7.1, pink 5.5). The nested secondary button flips to
+   a solid white chip so it stays legible on the vivid panel. */
+.cta-band {
+  position: relative;
+  overflow: hidden;
+  background: var(--btn-gradient);
+  background-size: 160% 160%;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+  color: #ffffff;
+}
+.cta-band h2 {
+  margin-top: 0;
+  color: #ffffff;
+  /* Override the gradient-clip heading treatment so it reads solid white on
+     the vivid panel. */
+  background: none;
+  -webkit-text-fill-color: #ffffff;
+}
+.cta-band h2::before {
+  display: none; /* no gradient underline needed on the gradient panel */
+}
+.cta-band p {
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 60ch;
+  margin-inline: auto;
+}
+.cta-band .btn-row {
+  justify-content: center;
+}
+/* Buttons inside the gradient panel become solid white chips for contrast. */
+.cta-band .btn-primary,
+.cta-band .btn-secondary {
+  background: #ffffff;
+  color: #0f766e; /* teal on white = 5.47:1 AA */
+  border-color: #ffffff;
+}
+.cta-band .btn-primary:hover,
+.cta-band .btn-secondary:hover {
+  background: #e6f4f1;
+  color: #0b5a53;
+  box-shadow: var(--shadow-md);
+}
+
+/* Live search box */
+.search-box {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--space-1) var(--space-2);
+  min-height: 44px;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-3);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.search-box:focus {
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+   Native <details> accordion
+--------------------------------------------------------------------------- */
+details.accordion {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-2);
+  padding: 0 var(--space-3);
+}
+details.accordion > summary {
+  cursor: pointer;
+  padding: var(--space-2) 0;
+  font-weight: 600;
+  list-style-position: inside;
+}
+details.accordion[open] > summary {
+  border-bottom: 1px solid var(--border);
+}
+details.accordion > summary + * {
+  padding-block: var(--space-2);
+}
+/* Summary gets a brand-accent affordance + smooth hover. */
+details.accordion > summary {
+  transition: color 0.15s ease;
+}
+details.accordion > summary:hover {
+  color: var(--accent);
+}
+/* Smooth expand reveal, gated behind no-preference (the reduce block above
+   neutralizes it for reduced-motion users). */
+@media (prefers-reduced-motion: no-preference) {
+  details.accordion[open] > summary + * {
+    animation: accordion-in 0.2s ease;
+  }
+  @keyframes accordion-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Expandable subject cards (schedule grid) — reuses the native <details>
+   accordion approach for keyboard access, with a rotating chevron affordance.
+--------------------------------------------------------------------------- */
+.subject-details {
+  /* The card already supplies surface/border/padding, so the details fills it. */
+  margin: calc(-1 * var(--space-4));
+  padding: var(--space-4);
+}
+.subject-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  cursor: pointer;
+  list-style: none; /* remove default disclosure triangle */
+}
+/* Hide the default marker across browsers. */
+.subject-summary::-webkit-details-marker {
+  display: none;
+}
+.subject-summary::marker {
+  content: '';
+}
+.subject-summary > h3 {
+  margin: 0;
+  /* Allow long subject names to wrap cleanly at narrow widths. */
+  overflow-wrap: anywhere;
+}
+.subject-summary > .subject-category {
+  margin: 0;
+}
+/* Chevron affordance, pushed to the end of the row. */
+.subject-chevron {
+  flex: none;
+  margin-left: auto;
+  width: 11px;
+  height: 11px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.subject-details[open] .subject-chevron {
+  transform: rotate(-135deg);
+}
+/* Visible keyboard focus on the summary itself. */
+.subject-summary:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.subject-topics {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-3);
+  color: var(--text);
+}
+.subject-topics li {
+  margin-bottom: 4px;
+  overflow-wrap: anywhere;
+}
+.subject-topics li:last-child {
+  margin-bottom: 0;
+}
+/* Smooth open reveal, gated behind no-preference so reduced-motion users opt
+   out (the global reduced-motion rule also neutralizes transitions above). */
+@media (prefers-reduced-motion: no-preference) {
+  .subject-details[open] .subject-topics {
+    animation: subject-topics-in 0.2s ease;
+  }
+  @keyframes subject-topics-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Hero / how-it-works
+--------------------------------------------------------------------------- */
+.hero {
+  padding-block: var(--space-6);
+  /* Vivid multi-stop wash layered over the surface. The three radial tints are
+     derived from the brand hues (blue / violet / pink) at low opacity so body
+     text on --text stays well above AA; the heading uses a solid gradient clip
+     with a system-color fallback. Animated slowly below (reduced-motion off). */
+  background:
+    radial-gradient(1100px 420px at 12% -12%, var(--hero-tint), transparent 60%),
+    radial-gradient(820px 520px at 95% 0%, var(--hero-tint-2), transparent 58%),
+    radial-gradient(700px 480px at 55% 120%, var(--hero-tint-3), transparent 60%),
+    var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 8vw, 4rem);
+  line-height: 1.04;
+  /* Gradient-filled headline. Fallback: --text color shows if background-clip
+     text is unsupported, so the headline is never invisible. */
+  color: var(--text);
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* If background-clip:text isn't supported the fill stays on --text (set above)
+   because -webkit-text-fill-color only applies where the clip works. */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero h1 {
+    -webkit-text-fill-color: var(--text);
+    color: var(--text);
+  }
+}
+.hero p.lead {
+  font-size: var(--step-2);
+  color: var(--muted);
+  max-width: var(--prose);
+}
+
+/* Section headings get a short brand-gradient underline accent. */
+.section > .container > h2 {
+  position: relative;
+  padding-bottom: 6px;
+}
+.section > .container > h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 56px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--brand-gradient);
+}
+
+/* ---------------------------------------------------------------------------
+   Decorative subject motifs (PART B)
+   Faint, non-interactive subject glyphs behind the hero and section headers.
+   Pseudo-elements are not announced to assistive tech; pointer-events: none
+   keeps them out of the way; the host clips overflow so they never create
+   horizontal scroll at 360px. Opacity is tuned per theme for legibility, and
+   nothing animates (reduced-motion needs no new rule).
+--------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+.hero > .container {
+  position: relative;
+  z-index: 1;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -4%;
+  width: min(42vw, 360px);
+  height: min(42vw, 360px);
+  pointer-events: none;
+  opacity: 0.05;
+  background: var(--motif-hero) center / contain no-repeat;
+}
+[data-theme='dark'] .hero::after {
+  opacity: 0.08;
+}
+
+/* A single faint glyph trailing each section heading. */
+.section > .container > h2 {
+  position: relative;
+}
+.section > .container > h2::after {
+  content: '';
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-left: 0.4em;
+  vertical-align: baseline;
+  pointer-events: none;
+  opacity: 0.18;
+  background: var(--motif-heading) center / contain no-repeat;
+}
+[data-theme='dark'] .section > .container > h2::after {
+  opacity: 0.26;
+}
+
+:root {
+  /* Composite of magnet + study glyphs (horseshoe magnets, book, speech
+     bubble) for the hero backdrop, and a compact magnet motif for the section
+     headings. Teal monochrome so they inherit the faint low-opacity wash. */
+  --motif-hero: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%230f766e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 40V24a10 10 0 0 1 20 0v16'/%3E%3Cpath d='M12 40h6V24a4 4 0 0 0-8 0'/%3E%3Cpath d='M26 40h6V24a4 4 0 0 0-8 0'/%3E%3Cpath d='M12 16h6M26 16h6'/%3E%3Cpath d='M92 24V40a10 10 0 0 1-20 0V24'/%3E%3Cpath d='M92 24h-6v16a4 4 0 0 0 8 0'/%3E%3Cpath d='M78 24h-6v16a4 4 0 0 0 8 0'/%3E%3Cpath d='M92 48h-6M78 48h-6'/%3E%3Cpath d='M22 98c-3-2-6-3-10-3v16c4 0 7 1 10 3 3-2 6-3 10-3V95c-4 0-7 1-10 3zM22 98v16'/%3E%3Cpath d='M70 96h30a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H84l-5 5v-5h-9a2 2 0 0 1-2-2V98a2 2 0 0 1 2-2z'/%3E%3C/svg%3E");
+  --motif-heading: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f766e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 20V11a5 5 0 0 1 10 0v9'/%3E%3Cpath d='M7 20h3.5V11a1.5 1.5 0 0 0-3 0v9'/%3E%3Cpath d='M13.5 20H17V11a1.5 1.5 0 0 0-3 0v9'/%3E%3Cpath d='M7 6h3.5M13.5 6H17'/%3E%3C/svg%3E");
+}
+[data-theme='dark'] {
+  --motif-hero: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%232dd4bf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 40V24a10 10 0 0 1 20 0v16'/%3E%3Cpath d='M12 40h6V24a4 4 0 0 0-8 0'/%3E%3Cpath d='M26 40h6V24a4 4 0 0 0-8 0'/%3E%3Cpath d='M12 16h6M26 16h6'/%3E%3Cpath d='M92 24V40a10 10 0 0 1-20 0V24'/%3E%3Cpath d='M92 24h-6v16a4 4 0 0 0 8 0'/%3E%3Cpath d='M78 24h-6v16a4 4 0 0 0 8 0'/%3E%3Cpath d='M92 48h-6M78 48h-6'/%3E%3Cpath d='M22 98c-3-2-6-3-10-3v16c4 0 7 1 10 3 3-2 6-3 10-3V95c-4 0-7 1-10 3zM22 98v16'/%3E%3Cpath d='M70 96h30a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H84l-5 5v-5h-9a2 2 0 0 1-2-2V98a2 2 0 0 1 2-2z'/%3E%3C/svg%3E");
+  --motif-heading: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232dd4bf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 20V11a5 5 0 0 1 10 0v9'/%3E%3Cpath d='M7 20h3.5V11a1.5 1.5 0 0 0-3 0v9'/%3E%3Cpath d='M13.5 20H17V11a1.5 1.5 0 0 0-3 0v9'/%3E%3Cpath d='M7 6h3.5M13.5 6H17'/%3E%3C/svg%3E");
+}
+
+.schedule-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid transparent;
+  border-image: var(--brand-gradient) 1;
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  font-size: var(--step-1);
+  box-shadow: var(--shadow-sm);
+}
+.schedule-card h2 {
+  margin-top: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Forced-light form cards (signup embeds stay light regardless of theme)
+--------------------------------------------------------------------------- */
+.form-card {
+  position: relative;
+  background: #ffffff;
+  color: #14202e;
+  border: 1px solid #e3e8ef;
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+/* A bold brand-gradient bar across the top keeps the forced-light embed card
+   intentional against the vivid design (the iframe itself can't be themed). */
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--brand-gradient);
+}
+.form-card a {
+  color: #1f5fd6;
+}
+.form-card iframe {
+  width: 100%;
+  min-height: 520px;
+  border: 0;
+}
+
+/* Friendly intro line above each signup form */
+.form-intro {
+  color: var(--muted);
+  font-size: var(--step-1);
+  max-width: var(--prose);
+  margin-bottom: var(--space-2);
+}
+
+/* ---------------------------------------------------------------------------
+   Grade Estimator
+   New custom properties only — the six base tokens are untouched. Pill colors
+   use a tinted surface + a strong foreground tuned to clear WCAG AA (4.5:1 for
+   the pill text) in both light and dark themes.
+--------------------------------------------------------------------------- */
+:root {
+  --pill-ok-bg: #e4f4ea;
+  --pill-ok-fg: #14683f;
+  --pill-ok-border: #9fd4b4;
+
+  --pill-push-bg: #fbeedd;
+  --pill-push-fg: #8a4b06;
+  --pill-push-border: #e8bf87;
+
+  --pill-hard-bg: #fbe3e3;
+  --pill-hard-fg: #9a1f24;
+  --pill-hard-border: #e8a7a9;
+}
+[data-theme='dark'] {
+  --pill-ok-bg: #16311f;
+  --pill-ok-fg: #8fe3b1;
+  --pill-ok-border: #2f6b48;
+
+  --pill-push-bg: #3a2a11;
+  --pill-push-fg: #f3c488;
+  --pill-push-border: #7a5826;
+
+  --pill-hard-bg: #3a1a1b;
+  --pill-hard-fg: #f3a9ab;
+  --pill-hard-border: #7a3639;
+}
+
+.estimator-form {
+  max-width: 560px;
+  margin-bottom: var(--space-4);
+}
+
+.field {
+  margin-bottom: var(--space-3);
+}
+.field:last-of-type {
+  margin-bottom: var(--space-2);
+}
+.field > label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
+}
+.field-help {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: var(--space-1) 0 0;
+}
+
+.estimator-form input[type='number'] {
+  width: 100%;
+  max-width: 220px;
+  padding: var(--space-1) var(--space-2);
+  min-height: 44px;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+/* Slider + number stack: wraps cleanly and never overflows at 360px */
+.remaining-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.remaining-controls input[type='number'] {
+  max-width: 120px;
+}
+.estimator-form input[type='range'] {
+  flex: 1 1 180px;
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.estimator-result {
+  max-width: 640px;
+}
+.estimator-result:empty {
+  display: none;
+}
+.estimator-lead {
+  font-size: var(--step-1);
+  font-weight: 600;
+  color: var(--text);
+}
+.estimator-msg {
+  color: var(--muted);
+}
+.estimator-disclaimer {
+  color: var(--muted);
+  font-size: 0.875rem;
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.pill-row {
+  margin: var(--space-2) 0;
+}
+.pill {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: 999px;
+  font-weight: 600;
+  line-height: 1.4;
+  border: 1px solid transparent;
+}
+.pill-ok {
+  background: var(--pill-ok-bg);
+  color: var(--pill-ok-fg);
+  border-color: var(--pill-ok-border);
+}
+.pill-push {
+  background: var(--pill-push-bg);
+  color: var(--pill-push-fg);
+  border-color: var(--pill-push-border);
+}
+.pill-hard {
+  background: var(--pill-hard-bg);
+  color: var(--pill-hard-fg);
+  border-color: var(--pill-hard-border);
+}
+
+/* ---------------------------------------------------------------------------
+   404 friendly wheel
+--------------------------------------------------------------------------- */
+.notfound-wheel {
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+.notfound-wheel svg {
+  width: 96px;
+  height: 96px;
+}
+
+/* ---------------------------------------------------------------------------
+   Footer
+--------------------------------------------------------------------------- */
+.site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-6);
+}
+/* Prominent Sign Up call-to-action band at the top of the footer */
+.footer-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+.footer-cta p {
+  margin: 0;
+  font-size: var(--step-1);
+  font-weight: 600;
+  color: var(--text);
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: space-between;
+  align-items: center;
+  padding-block: var(--space-4);
+  color: var(--muted);
+}
+.site-footer a:not(.btn) {
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+   noscript fallback nav
+--------------------------------------------------------------------------- */
+noscript nav {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---------------------------------------------------------------------------
+   Responsive — mobile-first; min-width breakpoints at 640px and 960px
+--------------------------------------------------------------------------- */
+
+/* On small screens the primary nav collapses behind the hamburger. */
+@media (max-width: 639.98px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+  .nav-list {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-1) var(--space-3) var(--space-2);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .site-header {
+    position: relative;
+  }
+  .nav.is-open .nav-list {
+    display: flex;
+  }
+  .nav {
+    gap: var(--space-1);
+  }
+}
+
+@media (min-width: 640px) {
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  body {
+    font-size: 1.125rem; /* 18px on wider viewports */
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll-reveal (progressive enhancement)
+   PROGRESSIVE ENHANCEMENT CONTRACT: the DEFAULT state of [data-reveal] is fully
+   visible (opacity 1, no transform). js/reveal.js adds the `.reveal-ready` class
+   to <html> ONLY when JS runs AND motion is allowed; that class is what hides
+   elements and primes the fade-up. An IntersectionObserver then adds
+   `.is-revealed` to animate each element in. So: no JS -> everything visible;
+   reduced-motion -> reveal.js never arms (and the reduce block below is a belt-
+   and-braces override) -> everything visible.
+--------------------------------------------------------------------------- */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
+}
+.reveal-ready [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Motion — gated behind a no-preference query so reduced-motion users opt out
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes wheel-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .notfound-wheel svg {
+    animation: wheel-spin 14s linear infinite;
+    transform-origin: 50% 50%;
+  }
+
+  /* Hero entrance: headline, lead, and buttons fade/slide up on load. */
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1 { animation: hero-rise 0.6s ease both; }
+  .hero p.lead { animation: hero-rise 0.6s ease 0.1s both; }
+  .hero .btn-row { animation: hero-rise 0.6s ease 0.2s both; }
+
+  /* Slow, subtle drift of the hero gradient wash (never flashes; 18s loop). */
+  @keyframes hero-drift {
+    0% { background-position: 0% 0%, 100% 0%, 50% 100%, 0 0; }
+    50% { background-position: 10% 8%, 90% 6%, 55% 94%, 0 0; }
+    100% { background-position: 0% 0%, 100% 0%, 50% 100%, 0 0; }
+  }
+  .hero {
+    background-size: 200% 200%, 200% 200%, 200% 200%, auto;
+    animation: hero-drift 18s ease-in-out infinite;
+  }
+
+  /* Spoked-wheel brand mark spins once on hover/focus. */
+  @keyframes brand-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .brand:hover::before,
+  .brand:focus-visible::before {
+    animation: brand-spin 0.9s ease;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Belt-and-braces: even if reveal.js armed, content must be fully visible. */
+  .reveal-ready [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  /* Stop the looping hero gradient drift entirely. */
+  .hero {
+    animation: none !important;
+  }
+}
