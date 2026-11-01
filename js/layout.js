@@ -33,11 +33,27 @@
     var inner = document.createElement('div');
     inner.className = 'container header-inner';
 
-    // Brand / home link
+    // Brand / home link (logo mark + wordmark)
     var brand = document.createElement('a');
     brand.className = 'brand';
     brand.href = 'index.html';
-    brand.textContent = 'Magnet Tutoring';
+
+    var brandLogo = document.createElement('img');
+    brandLogo.className = 'brand-logo';
+    brandLogo.src = 'assets/logo.png';
+    brandLogo.alt = '';            // decorative: the wordmark beside it names the site
+    brandLogo.setAttribute('aria-hidden', 'true');
+    brandLogo.setAttribute('fetchpriority', 'high');
+    brandLogo.setAttribute('decoding', 'async');
+    brandLogo.width = 40;
+    brandLogo.height = 40;
+
+    var brandText = document.createElement('span');
+    brandText.className = 'brand-text';
+    brandText.textContent = 'Magnet Tutoring';
+
+    brand.appendChild(brandLogo);
+    brand.appendChild(brandText);
 
     // Nav wrapper
     var nav = document.createElement('nav');
