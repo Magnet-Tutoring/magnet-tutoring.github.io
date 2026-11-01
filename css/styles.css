@@ -477,6 +477,13 @@ svg {
   grid-template-columns: 1fr;
 }
 
+/* Subject tiles stack vertically (one per row) at every width, overriding the
+   grid-2 / grid-3 column classes that render.js adds to the subject grids. */
+#subjects-grid .grid,
+#subjects-preview .grid {
+  grid-template-columns: 1fr;
+}
+
 /* ---------------------------------------------------------------------------
    Layout-stable reservations for JS-rendered regions (CLS = 0)
 
@@ -489,8 +496,10 @@ svg {
    the Lighthouse desktop viewport (1350px, 3-column grid) so the reserved space
    matches the final content and nothing moves.
 --------------------------------------------------------------------------- */
-#subjects-preview:empty { min-height: 336px; }
-#subjects-grid:empty    { min-height: 712px; }
+/* Subject tiles now stack one per row, so these containers are taller: the
+   home preview shows 6 single-column cards and the full grid shows all ~23. */
+#subjects-preview:empty { min-height: 560px; }
+#subjects-grid:empty    { min-height: 2000px; }
 #tutors-grid:empty      { min-height: 2052px; }
 /* reviews.json is currently empty, so the rendered result is the short
    "Reviews coming soon" message. Reserve only that height; revisit if real
