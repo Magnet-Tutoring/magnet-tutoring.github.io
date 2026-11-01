@@ -146,9 +146,9 @@
                 <option>30 minutes</option>
                 <option>45 minutes</option>
                 <option>1 hour</option>
-                <option>Bundle ($70 credit)</option>
                 <option>Not sure yet</option>
               </select>
+              <p class="field-help">Buying the $70 bundle instead? Use the bundle section below.</p>
             </div>
 
             <div class="field">
@@ -179,6 +179,46 @@
               that work, and we'll get you booked.
             </p>
           </div>
+        </section>
+
+        <section class="section" aria-labelledby="bundle-heading">
+          <h2 id="bundle-heading">Buy the $70 bundle</h2>
+          <p class="form-intro">
+            The bundle is a flexible credit worth 4 private hours of tutoring — or up to
+            8 group hours (1 private hour = 2 group hours). Mix and match however you like.
+            Payment is handled offline. Request a bundle below and we'll email you back to
+            arrange payment and schedule your first session.
+          </p>
+
+          <form id="bundle-form" class="booking-form" novalidate>
+            <div class="field">
+              <label for="bundle-name">Your name <span aria-hidden="true">*</span></label>
+              <input type="text" id="bundle-name" name="name" autocomplete="name" required>
+            </div>
+
+            <div class="field">
+              <label for="bundle-email">Your email <span aria-hidden="true">*</span></label>
+              <input type="email" id="bundle-email" name="email" autocomplete="email" required>
+              <p class="field-help">So we can reply to arrange payment and scheduling.</p>
+            </div>
+
+            <div class="field">
+              <label for="bundle-student">Student name &amp; grade</label>
+              <input type="text" id="bundle-student" name="student" placeholder="e.g. Jamie, 8th grade">
+            </div>
+
+            <div class="field">
+              <label for="bundle-notes">Anything else?</label>
+              <textarea id="bundle-notes" name="notes" rows="3"
+                placeholder="Subjects you're interested in, or how you'd like to split the credit"></textarea>
+            </div>
+
+            <p class="btn-row">
+              <button type="submit" class="btn btn-primary">Request the $70 bundle</button>
+            </p>
+
+            <p id="bundle-status" class="form-intro" role="status" aria-live="polite"></p>
+          </form>
         </section>
       </div>
     </section>
@@ -254,6 +294,53 @@
             CLUB_EMAIL + '. If it did not, email us directly at that address.';
         }
       });
+
+      // --- Bundle purchase form: a separate prefilled email, kept distinct from
+      // session bookings so the two don't mix in the inbox. ---
+      var bundleForm = document.getElementById('bundle-form');
+      var bundleStatus = document.getElementById('bundle-status');
+      if (bundleForm) {
+        function bval(name) {
+          var el = bundleForm.elements[name];
+          return el && el.value ? el.value.trim() : '';
+        }
+
+        bundleForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          if (!bundleForm.checkValidity()) {
+            bundleForm.reportValidity();
+            return;
+          }
+
+          var emailSubject = 'Bundle purchase request ($70 credit)';
+
+          var lines = [
+            'Hi Magnet Tutoring,',
+            '',
+            'I would like to buy the $70 bundle (4 private-hour credit / up to 8 group hours).',
+            '',
+            'Name: ' + bval('name'),
+            'Email: ' + bval('email'),
+            'Student name & grade: ' + (bval('student') || '—'),
+            'Notes: ' + (bval('notes') || '—'),
+            '',
+            'Please let me know how to pay and how to schedule. Thanks!'
+          ];
+
+          var href = 'mailto:' + CLUB_EMAIL +
+            '?subject=' + encodeURIComponent(emailSubject) +
+            '&body=' + encodeURIComponent(lines.join('\r\n'));
+
+          window.location.href = href;
+
+          if (bundleStatus) {
+            bundleStatus.textContent =
+              'Your email app should open with your bundle request ready to send to ' +
+              CLUB_EMAIL + '. If it did not, email us directly at that address.';
+          }
+        });
+      }
     })();
   </script>
 </body>
