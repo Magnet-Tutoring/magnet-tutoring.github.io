@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# TODO(founders): replace the magnettutoring.example domain with the real
+# GitHub Pages / custom domain once it is live.
+Sitemap: https://magnettutoring.example/sitemap.xml

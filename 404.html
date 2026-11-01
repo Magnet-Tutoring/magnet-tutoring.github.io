@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page Not Found — Magnet Tutoring</title>
+  <meta name="description" content="That page could not be found. Head back to the Magnet Tutoring home page.">
+
+  <!-- Open Graph (per page) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Page Not Found — Magnet Tutoring">
+  <meta property="og:description" content="That page could not be found. Head back to the Magnet Tutoring home page.">
+  <meta property="og:image" content="assets/logo.svg">
+
+  <!-- Canonical URL -->
+  <!-- TODO(founders): replace with the real GitHub Pages / custom domain -->
+  <link rel="canonical" href="https://magnettutoring.example/404.html">
+
+  <!-- Favicon (relative, every page) -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- EXACT inline theme script: must run before the stylesheet link / before first paint -->
+  <script>
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved ?? (prefersDark ? 'dark' : 'light');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- page scripts: non-render-blocking. layout + theme on every page; render.js only where needed -->
+  <script src="js/layout.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+</head>
+<body data-page="notfound">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <noscript>
+    <nav aria-label="Primary (no JavaScript)">
+      <a href="index.html">Home</a> · <a href="about.html">About</a> ·
+      <a href="subjects.html">Subjects</a> · <a href="pricing.html">Pricing</a> ·
+      <a href="tutors.html">Tutors</a> · <a href="book.html">Book</a> ·
+      <a href="reviews.html">Reviews</a> · <a href="faq.html">FAQ</a>
+    </nav>
+  </noscript>
+
+  <main id="main">
+    <section class="section">
+      <div class="container prose">
+        <span class="notfound-wheel" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12h3l2-7 4 14 2-7h3"></path>
+            <circle cx="20" cy="12" r="1.5"></circle>
+          </svg>
+        </span>
+        <h1>Looks like this page took a wrong turn</h1>
+        <p>We couldn't find the page you were after — it may have moved or never existed. No worries, let's get you back on track.</p>
+        <p class="btn-row">
+          <a class="btn btn-primary" href="index.html">Back to home</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

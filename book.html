@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book a Session — Magnet Tutoring</title>
+  <meta name="description" content="Book a one-on-one or small-group tutoring session with Magnet Tutoring, held at your local library. Reserve a time or email us to get started.">
+
+  <!-- Open Graph (per page) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Book a Session — Magnet Tutoring">
+  <meta property="og:description" content="Book a one-on-one or small-group tutoring session with Magnet Tutoring, held at your local library. Reserve a time or email us to get started.">
+  <meta property="og:image" content="assets/logo.svg">
+
+  <!-- Canonical URL -->
+  <!-- TODO(founders): replace with the real GitHub Pages / custom domain -->
+  <link rel="canonical" href="https://magnettutoring.example/book.html">
+
+  <!-- Favicon (relative, every page) -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- EXACT inline theme script: must run before the stylesheet link / before first paint -->
+  <script>
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved ?? (prefersDark ? 'dark' : 'light');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- page scripts: non-render-blocking. layout + theme on every page; render.js only where needed -->
+  <script src="js/layout.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+</head>
+<body data-page="book">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <noscript>
+    <nav aria-label="Primary (no JavaScript)">
+      <a href="index.html">Home</a> · <a href="about.html">About</a> ·
+      <a href="subjects.html">Subjects</a> · <a href="pricing.html">Pricing</a> ·
+      <a href="tutors.html">Tutors</a> · <a href="book.html">Book</a> ·
+      <a href="reviews.html">Reviews</a> · <a href="faq.html">FAQ</a>
+    </nav>
+  </noscript>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <h1>Book a Session</h1>
+        <p class="prose">
+          Reserve a private one-on-one session or a small group of up to four. Sessions are
+          held at your local library, and payment is handled on arrival.
+        </p>
+
+        <section class="section" aria-labelledby="booking-heading">
+          <h2 id="booking-heading">Reserve a time</h2>
+          <p class="form-intro">
+            Load the booking tool below to pick a slot. Prefer a new window? Use the link
+            underneath, or email us and we'll help you find a time.
+          </p>
+
+          <p class="btn-row">
+            <!-- TODO(founders): replace href with the real Google booking link -->
+            <button type="button" id="load-booking" class="btn btn-primary">Load booking</button>
+            <a class="btn btn-secondary" id="booking-new-tab"
+               href="https://calendar.google.com/calendar/u/0/appointments/TODO_FOUNDERS_BOOKING_LINK"
+               target="_blank" rel="noopener">Open booking in a new tab</a>
+          </p>
+
+          <!-- Facade target: starts as a labeled placeholder; the booking iframe is
+               injected here only after the user clicks "Load booking". No iframe loads
+               on page load, so Lighthouse Performance stays 100. -->
+          <div class="form-card" id="booking-card">
+            <!-- TODO(founders): once a real Google booking link exists, (1) set the
+                 #booking-new-tab href above and (2) set BOOKING_SRC in the script below
+                 to the embeddable booking URL. Until then this placeholder is shown. -->
+            <p><strong>Booking isn't connected yet.</strong></p>
+            <p>
+              TODO(founders) — add the Google booking link. In the meantime, email us at
+              <a href="mailto:hello@magnettutoring.example">hello@magnettutoring.example</a>
+              with the subject, session type (private or group), and a few times that work,
+              and we'll get you booked.
+            </p>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <!-- Facade script: injects the booking iframe only on click. No user/JSON data flows
+       through it, so it is safe to defer. No iframe loads until "Load booking" is clicked. -->
+  <script defer>
+    (function () {
+      'use strict';
+      // TODO(founders): set this to the embeddable Google booking URL (e.g. the
+      // appointment schedule's embed link). While it stays null, the button keeps
+      // showing the placeholder card instead of loading an empty iframe.
+      var BOOKING_SRC = null;
+
+      var btn = document.getElementById('load-booking');
+      var card = document.getElementById('booking-card');
+      if (!btn || !card) {
+        return;
+      }
+
+      btn.addEventListener('click', function () {
+        if (!BOOKING_SRC) {
+          // No real link yet: focus the placeholder so the user sees the fallback.
+          card.setAttribute('tabindex', '-1');
+          card.focus();
+          return;
+        }
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('src', BOOKING_SRC);
+        iframe.setAttribute('width', '100%');
+        iframe.setAttribute('height', '700');
+        iframe.setAttribute('title', 'Magnet Tutoring booking');
+        iframe.setAttribute('loading', 'lazy');
+
+        while (card.firstChild) {
+          card.removeChild(card.firstChild);
+        }
+        card.appendChild(iframe);
+        btn.disabled = true;
+        btn.textContent = 'Booking loaded';
+      });
+    })();
+  </script>
+</body>
+</html>

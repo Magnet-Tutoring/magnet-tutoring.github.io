@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO(founders): replace the magnettutoring.example domain below with the real
+     GitHub Pages / custom domain, then resubmit this sitemap in Google Search Console. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://magnettutoring.example/index.html</loc>
+  </url>
+  <url>
+    <loc>https://magnettutoring.example/about.html</loc>
+  </url>
+  <url>
+    <loc>https://magnettutoring.example/subjects.html</loc>
+  </url>
+  <url>
+    <loc>https://magnettutoring.example/pricing.html</loc>
+  </url>
+  <url>
+    <loc>https://magnettutoring.example/tutors.html</loc>
+  </url>
+  <url>
+    <loc>https://magnettutoring.example/book.html</loc>
+  </url>
+  <url>
+    <loc>https://magnettutoring.example/reviews.html</loc>
+  </url>
+  <url>
+    <loc>https://magnettutoring.example/faq.html</loc>
+  </url>
+</urlset>

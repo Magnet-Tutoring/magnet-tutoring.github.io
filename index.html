@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magnet Tutoring — One-on-One &amp; Small-Group Tutoring at Your Library</title>
+  <meta name="description" content="One-on-one and small-group tutoring by top Wheeler Magnet students, at your local library. Book a session from $5 per group session.">
+
+  <!-- Open Graph (per page) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Magnet Tutoring — One-on-One &amp; Small-Group Tutoring at Your Library">
+  <meta property="og:description" content="One-on-one and small-group tutoring by top Wheeler Magnet students, at your local library. Book a session from $5 per group session.">
+  <meta property="og:image" content="assets/logo.svg">
+
+  <!-- Canonical URL -->
+  <!-- TODO(founders): replace with the real GitHub Pages / custom domain -->
+  <link rel="canonical" href="https://magnettutoring.example/index.html">
+
+  <!-- Favicon (relative, every page) -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- EXACT inline theme script: must run before the stylesheet link / before first paint -->
+  <script>
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved ?? (prefersDark ? 'dark' : 'light');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- page scripts: non-render-blocking. layout + theme on every page; render.js only where needed -->
+  <script src="js/layout.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+  <script type="module" src="js/render.js"></script>
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <noscript>
+    <nav aria-label="Primary (no JavaScript)">
+      <a href="index.html">Home</a> · <a href="about.html">About</a> ·
+      <a href="subjects.html">Subjects</a> · <a href="pricing.html">Pricing</a> ·
+      <a href="tutors.html">Tutors</a> · <a href="book.html">Book</a> ·
+      <a href="reviews.html">Reviews</a> · <a href="faq.html">FAQ</a>
+    </nav>
+  </noscript>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container">
+        <h1>Magnet Tutoring</h1>
+        <p class="lead">One-on-one and small-group tutoring by top Wheeler Magnet students — at your local library.</p>
+        <p class="btn-row">
+          <a class="btn btn-primary" href="book.html">Book a Session</a>
+          <a class="btn btn-secondary" href="pricing.html">See pricing</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <p class="badge-row trust-row">
+          <span class="badge">Taught by top Magnet students</span>
+          <span class="badge">Meets at the library</span>
+          <span class="badge">From $5 per group session</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>How it works</h2>
+        <p class="section-intro">Three easy steps from stuck to sorted.</p>
+        <div class="grid grid-3">
+          <article class="card step-card" data-reveal>
+            <span class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </span>
+            <h3>1. Pick a subject</h3>
+            <p>Tell us what you want help with. From math and science to English and world languages, our tutors have you covered.</p>
+          </article>
+          <article class="card step-card" data-reveal>
+            <span class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </span>
+            <h3>2. Book a time</h3>
+            <p>Choose a slot that works for you — private one-on-one or a small group of up to four students.</p>
+          </article>
+          <article class="card step-card" data-reveal>
+            <span class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </span>
+            <h3>3. Meet at the library</h3>
+            <p>Show up at your local library and work through the tough stuff together, one concept at a time, until it clicks.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Subjects we cover</h2>
+        <p class="section-intro">From algebra to AP Computer Science — here's a taste of what our tutors can help with.</p>
+        <div id="subjects-preview"></div>
+        <p class="btn-row">
+          <a class="btn btn-secondary" href="subjects.html">Browse all subjects</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Simple, friendly pricing</h2>
+        <p class="section-intro pricing-teaser">Private from $10 · Group from $5 · Bundle $70</p>
+        <p class="btn-row">
+          <a class="btn btn-secondary" href="pricing.html">See full pricing</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>What families say</h2>
+        <p class="section-intro">A few words from students and parents we've worked with.</p>
+        <div class="grid grid-3">
+          <article class="card review-card" data-reveal>
+            <blockquote class="review-quote">My daughter went from dreading algebra to actually looking forward to her sessions. The library setting is easy and relaxed.</blockquote>
+            <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
+            <p class="review-name">Parent of a 9th grader</p>
+          </article>
+          <article class="card review-card" data-reveal>
+            <blockquote class="review-quote">My tutor explained chemistry in a way my class never did. Group sessions are great because my friends and I learn together.</blockquote>
+            <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
+            <p class="review-name">10th grade student</p>
+          </article>
+          <article class="card review-card" data-reveal>
+            <blockquote class="review-quote">Affordable, close to home, and taught by students who clearly know their stuff. We've booked the bundle twice now.</blockquote>
+            <p class="review-rating" aria-label="5 out of 5 stars">★★★★★</p>
+            <p class="review-name">Parent of an 11th grader</p>
+          </article>
+        </div>
+        <p class="btn-row">
+          <a class="btn btn-secondary" href="reviews.html">Read more reviews</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band" data-reveal>
+          <h2>Ready when you are</h2>
+          <p>Pick a subject, book a time, and meet your tutor at the library. It's that simple.</p>
+          <p class="btn-row">
+            <a class="btn btn-primary" href="book.html">Book a Session</a>
+            <a class="btn btn-secondary" href="pricing.html">See pricing</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
