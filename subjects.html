@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subjects We Cover — Magnet Tutoring</title>
+  <meta name="description" content="Browse the subjects Magnet Tutoring covers, from math and science to English and world languages. Search live and expand any subject to see the topics.">
+
+  <!-- Open Graph (per page) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Subjects We Cover — Magnet Tutoring">
+  <meta property="og:description" content="Browse the subjects Magnet Tutoring covers, from math and science to English and world languages. Search live and expand any subject to see the topics.">
+  <meta property="og:image" content="assets/logo.svg">
+
+  <!-- Canonical URL -->
+  <!-- TODO(founders): replace with the real GitHub Pages / custom domain -->
+  <link rel="canonical" href="https://magnettutoring.example/subjects.html">
+
+  <!-- Favicon (relative, every page) -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- EXACT inline theme script: must run before the stylesheet link / before first paint -->
+  <script>
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved ?? (prefersDark ? 'dark' : 'light');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- page scripts: non-render-blocking. layout + theme on every page; render.js only where needed -->
+  <script src="js/layout.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+  <script type="module" src="js/render.js"></script>
+</head>
+<body data-page="subjects">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <noscript>
+    <nav aria-label="Primary (no JavaScript)">
+      <a href="index.html">Home</a> · <a href="about.html">About</a> ·
+      <a href="subjects.html">Subjects</a> · <a href="pricing.html">Pricing</a> ·
+      <a href="tutors.html">Tutors</a> · <a href="book.html">Book</a> ·
+      <a href="reviews.html">Reviews</a> · <a href="faq.html">FAQ</a>
+    </nav>
+  </noscript>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <h1>Subjects We Cover</h1>
+        <p class="section-intro">Search below to see if we cover what you need — and if you don't see it, reach out anyway. Expand any subject to see the specific topics we can help with.</p>
+
+        <p>
+          <label for="subject-search">Search subjects</label><br>
+          <input type="search" id="subject-search" name="subject-search" class="search-box" placeholder="Try &quot;math&quot; or &quot;Spanish&quot;" autocomplete="off">
+        </p>
+        <div id="subjects-grid"></div>
+
+        <section class="section">
+          <h2>What to expect from a session</h2>
+          <ul>
+            <li>Arrive on time so you get the full session of help.</li>
+            <li>Bring the assignment, notes, or materials you want to work on.</li>
+            <li>Let your tutor know your goal for the session so we can make the most of it.</li>
+          </ul>
+          <p>
+            <!-- TODO(founders): confirm the cancellation / rescheduling policy -->
+            <strong>Cancellation policy:</strong> TODO(founders) — confirm how far in advance families need to cancel or reschedule a booked session.
+          </p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
