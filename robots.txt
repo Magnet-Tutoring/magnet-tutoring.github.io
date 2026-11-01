@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 
-# TODO(founders): replace the magnettutoring.example domain with the real
-# GitHub Pages / custom domain once it is live.
-Sitemap: https://magnettutoring.example/sitemap.xml
+# Note: if you later add a custom domain, update the Sitemap URL below to match.
+Sitemap: https://aaravmarfatia-png.github.io/magnet-tutoring/sitemap.xml
