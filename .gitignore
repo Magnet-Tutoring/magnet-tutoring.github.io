@@ -1,0 +1,10 @@
+# Planning artifacts — not part of the deployed site
+.agents/
+# Read-only reference clone — copied from, never deployed
+wheely-good-reference/
+# OS cruft
+.DS_Store
+# Founder-provided source photos — not referenced by the site
+*.JPG
+*.JPEG
+*.HEIC

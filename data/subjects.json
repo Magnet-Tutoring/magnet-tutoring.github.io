@@ -1,0 +1,176 @@
+[
+  {
+    "name": "Pre-Algebra",
+    "category": "Math",
+    "topics": [
+      "Integers and operations",
+      "Fractions, decimals, and percents",
+      "Ratios and proportions",
+      "Intro to variables",
+      "Order of operations",
+      "Basic equations",
+      "Intro to the coordinate plane"
+    ]
+  },
+  {
+    "name": "Algebra 1",
+    "category": "Math",
+    "topics": [
+      "Solving linear equations",
+      "Inequalities",
+      "Systems of equations",
+      "Functions and graphing",
+      "Exponent rules",
+      "Factoring",
+      "Quadratic equations",
+      "Word problems"
+    ]
+  },
+  {
+    "name": "Geometry",
+    "category": "Math",
+    "topics": [
+      "Angles and lines",
+      "Triangles and congruence",
+      "Similarity",
+      "The Pythagorean theorem",
+      "Circles",
+      "Area and volume",
+      "Coordinate geometry",
+      "Intro to proofs"
+    ]
+  },
+  {
+    "name": "Algebra 2",
+    "category": "Math",
+    "topics": [
+      "Quadratics and the quadratic formula",
+      "Polynomials",
+      "Rational expressions",
+      "Exponential and logarithmic functions",
+      "Systems of equations",
+      "Complex numbers",
+      "Sequences and series"
+    ]
+  },
+  {
+    "name": "Biology",
+    "category": "Science",
+    "topics": [
+      "Cell structure and function",
+      "The cell cycle and mitosis",
+      "Genetics and heredity",
+      "DNA and protein synthesis",
+      "Evolution and natural selection",
+      "Ecology and ecosystems",
+      "Human body systems"
+    ]
+  },
+  {
+    "name": "Chemistry",
+    "category": "Science",
+    "topics": [
+      "Atomic structure",
+      "The periodic table and trends",
+      "Chemical bonding",
+      "Balancing chemical equations",
+      "Stoichiometry",
+      "States of matter and gas laws",
+      "Acids and bases",
+      "Chemical reactions"
+    ]
+  },
+  {
+    "name": "Literature",
+    "category": "English",
+    "topics": [
+      "Reading comprehension",
+      "Theme and analysis",
+      "Literary devices",
+      "Character and plot analysis",
+      "Poetry",
+      "Annotating texts",
+      "Writing about literature"
+    ]
+  },
+  {
+    "name": "Composition",
+    "category": "English",
+    "topics": [
+      "Thesis statements",
+      "Essay structure",
+      "Paragraph development",
+      "Grammar and mechanics",
+      "Revising and editing",
+      "Citations and avoiding plagiarism",
+      "Argumentative and narrative writing"
+    ]
+  },
+  {
+    "name": "Social Studies",
+    "category": "History/Social Studies",
+    "topics": [
+      "Reading primary and secondary sources",
+      "Key historical eras and themes",
+      "Geography skills",
+      "Civics and government basics",
+      "Cause and effect in history",
+      "Essay and DBQ writing"
+    ]
+  },
+  {
+    "name": "Spanish 1",
+    "category": "World Languages",
+    "topics": [
+      "Greetings and introductions",
+      "Present-tense regular verbs",
+      "Nouns and articles",
+      "Numbers, dates, and time",
+      "Basic vocabulary",
+      "Simple questions",
+      "Ser vs. estar"
+    ]
+  },
+  {
+    "name": "Spanish 2",
+    "category": "World Languages",
+    "topics": [
+      "Preterite and imperfect past tenses",
+      "Reflexive verbs",
+      "Direct and indirect object pronouns",
+      "Comparisons",
+      "Expanded vocabulary",
+      "Short conversations"
+    ]
+  },
+  {
+    "name": "Spanish 3",
+    "category": "World Languages",
+    "topics": [
+      "Intro to the subjunctive mood",
+      "Future and conditional tenses",
+      "Por vs. para",
+      "Commands",
+      "Reading short texts",
+      "Paragraph writing"
+    ]
+  },
+  {
+    "name": "Spanish 4",
+    "category": "World Languages",
+    "topics": [
+      "Advanced subjunctive",
+      "Compound tenses",
+      "Advanced reading and composition",
+      "Idiomatic expressions",
+      "Discussion and presentation skills"
+    ]
+  },
+  {
+    "name": "Other subjects available on request",
+    "category": "Other",
+    "topics": [
+      "Don't see your subject? Email us and we'll do our best to help."
+    ]
+  }
+]
