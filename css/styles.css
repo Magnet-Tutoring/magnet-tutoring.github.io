@@ -243,6 +243,15 @@ svg {
 /* ---------------------------------------------------------------------------
    Header / navigation
 --------------------------------------------------------------------------- */
+/* Reserve the shared header's height while layout.js is still populating the
+   empty #site-header mount, so injecting the nav does not push #main down
+   after first paint (CLS = 0). The reservation drops to auto the moment the
+   header content is appended, so there is never a leftover gap. 65px matches
+   the rendered header (.header-inner min-height 64px + 1px bottom border). */
+#site-header:empty {
+  min-height: 65px;
+}
+
 .site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -463,6 +472,24 @@ svg {
   gap: var(--space-3);
   grid-template-columns: 1fr;
 }
+
+/* ---------------------------------------------------------------------------
+   Layout-stable reservations for JS-rendered regions (CLS = 0)
+
+   render.js injects a `.grid` of cards into these containers AFTER first paint.
+   To stop the page from shifting as a container grows from zero height, we
+   reserve space with min-height WHILE the container is still empty. The :empty
+   selector means the reservation applies only before content arrives and drops
+   to auto the instant render.js appends its grid — so there is never a visible
+   empty gap once content is present. Values are sized to the rendered height at
+   the Lighthouse desktop viewport (1350px, 3-column grid) so the reserved space
+   matches the final content and nothing moves.
+--------------------------------------------------------------------------- */
+#subjects-preview:empty { min-height: 336px; }
+#subjects-grid:empty    { min-height: 712px; }
+#tutors-grid:empty      { min-height: 2052px; }
+#reviews-list:empty     { min-height: 700px; }
+#pricing-blocks:empty   { min-height: 450px; }
 
 .card {
   background: var(--surface);
