@@ -1515,3 +1515,66 @@ noscript nav {
   color: var(--muted);
   font-size: 0.875rem;
 }
+
+/* ---------------------------------------------------------------------------
+   Booking form controls
+   Themed inputs/selects/textareas that adapt to light + dark. Text on
+   --surface clears WCAG AA in both themes; focus uses the accent ring.
+--------------------------------------------------------------------------- */
+.booking-form {
+  max-width: 560px;
+  margin-bottom: var(--space-4);
+}
+.booking-form input[type='text'],
+.booking-form input[type='email'],
+.booking-form select,
+.booking-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.625rem 0.75rem;
+}
+.booking-form textarea {
+  resize: vertical;
+  min-height: 2.75rem;
+}
+.booking-form input::placeholder,
+.booking-form textarea::placeholder {
+  color: var(--muted);
+}
+.booking-form input:focus-visible,
+.booking-form select:focus-visible,
+.booking-form textarea:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+/* Fieldset for the session-type radios */
+.booking-form fieldset.field {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2);
+}
+.booking-form fieldset.field > legend {
+  font-weight: 600;
+  padding: 0 var(--space-1);
+}
+.booking-form .choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: 400;
+  margin-bottom: var(--space-1);
+  cursor: pointer;
+}
+.booking-form .choice:last-child {
+  margin-bottom: 0;
+}
+.booking-form .choice input[type='radio'] {
+  width: auto;
+  accent-color: var(--accent);
+}
