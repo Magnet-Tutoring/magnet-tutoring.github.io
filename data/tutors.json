@@ -43,5 +43,14 @@
     "bioFile": "data/bios/mateus-aguiar.txt",
     "bio": "I am a freshman in the Wheeler Magnet program. Outside of class I like to play the piano, watch physics documentaries, walk my dog, and build and create new things. That curiosity about how things work is exactly what I bring to tutoring, because I love breaking a problem down until it finally makes sense.\n\nWhen we work together, I will be patient and meet you at your level, no matter how stuck you feel at the start. My goal is for you to walk away not just with the answer, but with a real understanding of how to get there on your own next time. Bring whatever you are working on and we will take it one step at a time.",
     "photo": "MA.webp"
+  },
+  {
+    "name": "Ryan Tran",
+    "grade": "9th grade",
+    "subjects": ["Physical Science"],
+    "achievements": "",
+    "bioFile": "data/bios/ryan-tran.txt",
+    "bio": "I am a student in the Wheeler Magnet program and the physical science tutor here at Magnet Tutoring. I'm Vietnamese, and I've always loved taking things apart to see how they work — that curiosity is what pulled me into physics and chemistry.\n\nWhen we work together, I'll break big ideas into small, clear steps and connect them to things you can picture. Bring whatever you're stuck on and we'll work through it together until it makes sense.",
+    "photo": ""
   }
 ]
