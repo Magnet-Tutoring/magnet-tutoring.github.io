@@ -188,7 +188,7 @@ Each item has a `TODO(founders)` marker in the source for easy searching:
   the meeting area inside the library, and the check-in process.
 - **What to bring** — `about.html` has a placeholder for what students should bring.
 - **Cancellation / no-show policy** — `pricing.html` and `faq.html` have placeholders.
-- **Club email** — set to `hello@magnettutoring.example` in `js/layout.js` (`CLUB_EMAIL`),
+- **Club email** — set to `wheelytutoringclub@gmail.com` in `js/layout.js` (`CLUB_EMAIL`),
   `book.html`, and `faq.html`. Update everywhere if it changes.
 - **Tutor details and photos** — confirm each tutor's `grade`, `achievements`, and `bio` in
   `data/tutors.json`, and that the photos in `assets/tutors/` are final.
