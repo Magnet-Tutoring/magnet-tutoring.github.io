@@ -4,6 +4,7 @@
     "grade": "9th grade",
     "subjects": ["Pre-Algebra", "Algebra 1", "Geometry", "Algebra 2", "Biology", "Chemistry"],
     "achievements": "1430 on the PSAT 8/9, a 4.0 GPA, and A's in all classes.",
+    "bioFile": "data/bios/aarav-marfatia.txt",
     "bio": "I am a 9th grader in the Wheeler Magnet program who loves to do robotics and coding. Outside of the classroom I play both the piano and the cello, so I know what it feels like to practice something over and over until it finally clicks. Working through a tricky problem and seeing it come together is one of my favorite feelings, and I like helping other people get to that same moment.\n\nWhen I am tutoring, my goal is to make the material feel a lot less intimidating. I try to explain things in more than one way until it makes sense, and I never want anyone to feel embarrassed for asking a question. Come as you are, bring whatever you are stuck on, and we will figure it out together.",
     "photo": "AM.webp"
   },
@@ -12,6 +13,7 @@
     "grade": "9th grade",
     "subjects": ["Pre-Algebra", "Algebra 1", "Geometry", "Algebra 2", "Biology", "Chemistry"],
     "achievements": "1360 on the PSAT 8/9, a 4.0 GPA, and A's in all classes.",
+    "bioFile": "data/bios/adhidev-nithyanadan.txt",
     "bio": "I am a 9th grader in the Wheeler Magnet program with a true passion for cricket, and I love the outdoors and enjoy learning something new every day. That curiosity is a big part of why I like tutoring: there is always another way to look at a problem, and I enjoy finding the explanation that finally makes it make sense for someone.\n\nWhen we work together, I will meet you wherever you are and build up from there, no matter how stuck things feel at the start. I believe anyone can improve with a little patience and the right support, and I am here to be that support. Bring your questions and your assignment, and we will take it one step at a time.",
     "photo": "AN.webp"
   },
@@ -20,6 +22,7 @@
     "grade": "9th grade",
     "subjects": ["Spanish 1", "Spanish 2", "Spanish 3", "Spanish 4"],
     "achievements": "",
+    "bioFile": "data/bios/adam-ozon.txt",
     "bio": "I am a 9th grader in the Wheeler Magnet program, and Spanish is the subject I love helping with most. Learning a language can feel overwhelming at first, with all the new vocabulary and verb endings, but I have found that it clicks once you stop trying to memorize everything at once and start using it a little at a time. I like making that process feel a lot less stressful.\n\nWhen we work together, I will go at your pace and explain things in plain terms, whether you are just starting Spanish 1 or working through the subjunctive in Spanish 4. Bring your assignment or whatever you are stuck on, and we will practice it together until it feels natural.",
     "photo": "AS.webp"
   },
@@ -28,6 +31,7 @@
     "grade": "9th grade",
     "subjects": ["Other subjects available on request"],
     "achievements": "Member of the Math Team and Science Olympiad.",
+    "bioFile": "data/bios/ethan-torres.txt",
     "bio": "I am a 9th grader in the Wheeler Magnet program, and I'm part of the Math Team and Science Olympiad. Geometry is my favorite subject — I love how it turns tricky ideas into something you can actually picture and work through. When I'm not studying, you'll usually find me playing games or walking my dog.\n\nI enjoy helping other people get past the moment where a problem feels impossible, because I know how good it feels when it finally clicks. Bring whatever you're stuck on and we'll work through it together, one step at a time.",
     "photo": "ET.webp"
   },
@@ -36,6 +40,7 @@
     "grade": "9th grade",
     "subjects": ["Literature", "Composition"],
     "achievements": "1270 on the PSAT 8/9, Simpson Math Bee winner, a 4.0 GPA, and A's in all classes.",
+    "bioFile": "data/bios/mateus-aguiar.txt",
     "bio": "I am a freshman in the Wheeler Magnet program. Outside of class I like to play the piano, watch physics documentaries, walk my dog, and build and create new things. That curiosity about how things work is exactly what I bring to tutoring, because I love breaking a problem down until it finally makes sense.\n\nWhen we work together, I will be patient and meet you at your level, no matter how stuck you feel at the start. My goal is for you to walk away not just with the answer, but with a real understanding of how to get there on your own next time. Bring whatever you are working on and we will take it one step at a time.",
     "photo": "MA.webp"
   }

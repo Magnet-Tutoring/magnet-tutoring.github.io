@@ -41,6 +41,15 @@ async function loadJSON(path) {
   return res.json();
 }
 
+// Fetch a plain-text file (used for per-tutor bio files in data/bios/).
+async function loadText(path) {
+  const res = await fetch(path);
+  if (!res.ok) {
+    throw new Error('Request failed: ' + res.status);
+  }
+  return res.text();
+}
+
 // ---- subjects ------------------------------------------------------------
 
 // Maps a category name to a decorative color+icon class. The class only drives
@@ -272,10 +281,19 @@ function tutorCard(tutor, categoryByName) {
   }
 
   if (tutor.bio) {
-    var bio = document.createElement('p');
-    bio.className = 'tutor-bio';
-    bio.textContent = tutor.bio;
-    card.appendChild(bio);
+    // Render the bio as one <p> per paragraph. Paragraphs are separated by a
+    // blank line (two newlines), so the per-tutor .txt files stay easy to edit.
+    var paragraphs = String(tutor.bio).split(/\n\s*\n/);
+    paragraphs.forEach(function (para) {
+      var text = para.replace(/\s+/g, ' ').trim();
+      if (!text) {
+        return;
+      }
+      var bio = document.createElement('p');
+      bio.className = 'tutor-bio';
+      bio.textContent = text;
+      card.appendChild(bio);
+    });
   }
 
   return card;
@@ -325,6 +343,25 @@ async function initTutors() {
     }
   } catch (e) {
     categoryByName = {};
+  }
+
+  // Load each tutor's bio from its own editable .txt file (data/bios/*.txt)
+  // when a bioFile is given. This lets each tutor edit a plain-text file
+  // without touching tutors.json. If a file is missing or fails to load, we
+  // keep the inline `bio` from tutors.json as a fallback. Fetched in parallel.
+  if (Array.isArray(tutors)) {
+    await Promise.all(tutors.map(async function (tutor) {
+      if (tutor && tutor.bioFile) {
+        try {
+          var text = await loadText(tutor.bioFile);
+          if (text && text.trim()) {
+            tutor.bio = text;
+          }
+        } catch (e) {
+          // Keep the inline bio fallback.
+        }
+      }
+    }));
   }
 
   renderTutors(grid, tutors, categoryByName);
