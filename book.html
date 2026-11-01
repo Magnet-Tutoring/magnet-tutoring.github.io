@@ -4,16 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Book a Session — Magnet Tutoring</title>
-  <meta name="description" content="Book a one-on-one or small-group tutoring session with Magnet Tutoring, held at your local library. Reserve a time or email us to get started.">
+  <meta name="description" content="Book a one-on-one or small-group tutoring session with Magnet Tutoring, held at your local library. Fill out the form and we'll email you back to confirm a time.">
 
   <!-- Open Graph (per page) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Book a Session — Magnet Tutoring">
-  <meta property="og:description" content="Book a one-on-one or small-group tutoring session with Magnet Tutoring, held at your local library. Reserve a time or email us to get started.">
+  <meta property="og:description" content="Book a one-on-one or small-group tutoring session with Magnet Tutoring, held at your local library. Fill out the form and we'll email you back to confirm a time.">
   <meta property="og:image" content="assets/logo.svg">
 
   <!-- Canonical URL -->
-  <!-- TODO(founders): replace with the real GitHub Pages / custom domain -->
   <link rel="canonical" href="https://aaravmarfatia-png.github.io/magnet-tutoring/book.html">
 
   <!-- Favicon (relative, every page) -->
@@ -29,7 +28,7 @@
 
   <link rel="stylesheet" href="css/styles.css">
 
-  <!-- page scripts: non-render-blocking. layout + theme on every page; render.js only where needed -->
+  <!-- page scripts: non-render-blocking. layout + theme on every page -->
   <script src="js/layout.js" defer></script>
   <script src="js/theme.js" defer></script>
   <script src="js/reveal.js" defer></script>
@@ -54,37 +53,130 @@
         <h1>Book a Session</h1>
         <p class="prose">
           Reserve a private one-on-one session or a small group of up to four. Sessions are
-          held at your local library, and payment is handled on arrival.
+          held at your local library, and payment is handled on arrival. Fill out the form
+          below and it will open your email app with everything filled in — just hit send and
+          we'll reply to confirm a time.
         </p>
 
         <section class="section" aria-labelledby="booking-heading">
-          <h2 id="booking-heading">Reserve a time</h2>
+          <h2 id="booking-heading">Request a session</h2>
           <p class="form-intro">
-            Load the booking tool below to pick a slot. Prefer a new window? Use the link
-            underneath, or email us and we'll help you find a time.
+            All fields marked with <span aria-hidden="true">*</span> are required.
+            When you submit, your email app opens with a ready-to-send message to
+            <a href="mailto:wheelytutoringclub@gmail.com">wheelytutoringclub@gmail.com</a>.
           </p>
 
-          <p class="btn-row">
-            <!-- TODO(founders): replace href with the real Google booking link -->
-            <button type="button" id="load-booking" class="btn btn-primary">Load booking</button>
-            <a class="btn btn-secondary" id="booking-new-tab"
-               href="https://calendar.google.com/calendar/u/0/appointments/TODO_FOUNDERS_BOOKING_LINK"
-               target="_blank" rel="noopener">Open booking in a new tab</a>
-          </p>
+          <form id="booking-form" class="booking-form" novalidate>
+            <div class="field">
+              <label for="bf-name">Your name <span aria-hidden="true">*</span></label>
+              <input type="text" id="bf-name" name="name" autocomplete="name" required>
+            </div>
 
-          <!-- Facade target: starts as a labeled placeholder; the booking iframe is
-               injected here only after the user clicks "Load booking". No iframe loads
-               on page load, so Lighthouse Performance stays 100. -->
-          <div class="form-card" id="booking-card">
-            <!-- TODO(founders): once a real Google booking link exists, (1) set the
-                 #booking-new-tab href above and (2) set BOOKING_SRC in the script below
-                 to the embeddable booking URL. Until then this placeholder is shown. -->
-            <p><strong>Booking isn't connected yet.</strong></p>
+            <div class="field">
+              <label for="bf-email">Your email <span aria-hidden="true">*</span></label>
+              <input type="email" id="bf-email" name="email" autocomplete="email" required>
+              <p class="field-help">So we can reply to confirm your session.</p>
+            </div>
+
+            <div class="field">
+              <label for="bf-student">Student name &amp; grade</label>
+              <input type="text" id="bf-student" name="student" placeholder="e.g. Jamie, 8th grade">
+            </div>
+
+            <div class="field">
+              <label for="bf-subject">Subject <span aria-hidden="true">*</span></label>
+              <select id="bf-subject" name="subject" required>
+                <option value="" selected disabled>Choose a subject…</option>
+                <optgroup label="Elementary School (K–5)">
+                  <option>Elementary Math</option>
+                  <option>Elementary Reading &amp; Phonics</option>
+                  <option>Elementary Writing</option>
+                  <option>Elementary Science</option>
+                  <option>Elementary Social Studies</option>
+                </optgroup>
+                <optgroup label="Middle School (6–8)">
+                  <option>Middle School Math</option>
+                  <option>Middle School English &amp; Reading</option>
+                  <option>Middle School Science</option>
+                  <option>Middle School Social Studies</option>
+                </optgroup>
+                <optgroup label="Math">
+                  <option>Pre-Algebra</option>
+                  <option>Algebra 1</option>
+                  <option>Geometry</option>
+                  <option>Algebra 2</option>
+                </optgroup>
+                <optgroup label="Science">
+                  <option>Biology</option>
+                  <option>Chemistry</option>
+                </optgroup>
+                <optgroup label="English">
+                  <option>Literature</option>
+                  <option>Composition</option>
+                </optgroup>
+                <optgroup label="History / Social Studies">
+                  <option>Social Studies</option>
+                </optgroup>
+                <optgroup label="World Languages">
+                  <option>Spanish 1</option>
+                  <option>Spanish 2</option>
+                  <option>Spanish 3</option>
+                  <option>Spanish 4</option>
+                </optgroup>
+                <option>Other (tell us below)</option>
+              </select>
+            </div>
+
+            <fieldset class="field">
+              <legend>Session type <span aria-hidden="true">*</span></legend>
+              <label class="choice">
+                <input type="radio" name="sessionType" value="Private (one-on-one)" required>
+                Private — one-on-one
+              </label>
+              <label class="choice">
+                <input type="radio" name="sessionType" value="Group (up to 4 students)">
+                Group — up to 4 students
+              </label>
+            </fieldset>
+
+            <div class="field">
+              <label for="bf-length">Session length <span aria-hidden="true">*</span></label>
+              <select id="bf-length" name="length" required>
+                <option value="" selected disabled>Choose a length…</option>
+                <option>30 minutes</option>
+                <option>45 minutes</option>
+                <option>1 hour</option>
+                <option>Bundle ($70 credit)</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="bf-times">Preferred days &amp; times <span aria-hidden="true">*</span></label>
+              <textarea id="bf-times" name="times" rows="3" required
+                placeholder="e.g. Weekday afternoons after 4pm, or Saturday mornings"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="bf-notes">Anything else?</label>
+              <textarea id="bf-notes" name="notes" rows="3"
+                placeholder="Goals, topics to focus on, or questions"></textarea>
+            </div>
+
+            <p class="btn-row">
+              <button type="submit" class="btn btn-primary">Open email to book</button>
+            </p>
+
+            <p id="bf-status" class="form-intro" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="form-card">
+            <p><strong>Prefer to email directly?</strong></p>
             <p>
-              TODO(founders) — add the Google booking link. In the meantime, email us at
-              <a href="mailto:wheelytutoringclub@gmail.com">wheelytutoringclub@gmail.com</a>
-              with the subject, session type (private or group), and a few times that work,
-              and we'll get you booked.
+              Write to
+              <a href="mailto:wheelytutoringclub@gmail.com?subject=Tutoring%20session%20request">wheelytutoringclub@gmail.com</a>
+              with the subject, session type (private or group), length, and a few times
+              that work, and we'll get you booked.
             </p>
           </div>
         </section>
@@ -94,42 +186,73 @@
 
   <footer id="site-footer"></footer>
 
-  <!-- Facade script: injects the booking iframe only on click. No user/JSON data flows
-       through it, so it is safe to defer. No iframe loads until "Load booking" is clicked. -->
+  <!-- Booking form: builds a prefilled mailto to the club inbox. No backend needed,
+       so every request lands in the founders' email. Deferred; no data leaves the page
+       except through the visitor's own email client. -->
   <script defer>
     (function () {
       'use strict';
-      // TODO(founders): set this to the embeddable Google booking URL (e.g. the
-      // appointment schedule's embed link). While it stays null, the button keeps
-      // showing the placeholder card instead of loading an empty iframe.
-      var BOOKING_SRC = null;
 
-      var btn = document.getElementById('load-booking');
-      var card = document.getElementById('booking-card');
-      if (!btn || !card) {
-        return;
+      var CLUB_EMAIL = 'wheelytutoringclub@gmail.com';
+
+      var form = document.getElementById('booking-form');
+      var status = document.getElementById('bf-status');
+      if (!form) { return; }
+
+      function val(name) {
+        var el = form.elements[name];
+        return el && el.value ? el.value.trim() : '';
       }
 
-      btn.addEventListener('click', function () {
-        if (!BOOKING_SRC) {
-          // No real link yet: focus the placeholder so the user sees the fallback.
-          card.setAttribute('tabindex', '-1');
-          card.focus();
+      function sessionType() {
+        var picked = form.querySelector('input[name="sessionType"]:checked');
+        return picked ? picked.value : '';
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Native validation first (required fields, valid email).
+        if (!form.checkValidity()) {
+          form.reportValidity();
           return;
         }
-        var iframe = document.createElement('iframe');
-        iframe.setAttribute('src', BOOKING_SRC);
-        iframe.setAttribute('width', '100%');
-        iframe.setAttribute('height', '700');
-        iframe.setAttribute('title', 'Magnet Tutoring booking');
-        iframe.setAttribute('loading', 'lazy');
 
-        while (card.firstChild) {
-          card.removeChild(card.firstChild);
+        var name = val('name');
+        var subject = val('subject');
+        var type = sessionType();
+
+        var emailSubject = 'Tutoring request: ' + subject + ' (' + type + ')';
+
+        var lines = [
+          'Hi Magnet Tutoring,',
+          '',
+          'I would like to book a tutoring session. Here are my details:',
+          '',
+          'Name: ' + name,
+          'Email: ' + val('email'),
+          'Student name & grade: ' + (val('student') || '—'),
+          'Subject: ' + subject,
+          'Session type: ' + type,
+          'Session length: ' + val('length'),
+          'Preferred days & times: ' + val('times'),
+          'Notes: ' + (val('notes') || '—'),
+          '',
+          'Thanks!'
+        ];
+
+        var href = 'mailto:' + CLUB_EMAIL +
+          '?subject=' + encodeURIComponent(emailSubject) +
+          '&body=' + encodeURIComponent(lines.join('\r\n'));
+
+        // Open the visitor's email client with everything prefilled.
+        window.location.href = href;
+
+        if (status) {
+          status.textContent =
+            'Your email app should open with your request ready to send to ' +
+            CLUB_EMAIL + '. If it did not, email us directly at that address.';
         }
-        card.appendChild(iframe);
-        btn.disabled = true;
-        btn.textContent = 'Booking loaded';
       });
     })();
   </script>
