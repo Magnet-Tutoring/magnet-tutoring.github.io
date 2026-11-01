@@ -45,8 +45,7 @@ An array of tutor objects powering the Tutors page (`#tutors-grid`).
 | `name`         | string | Full name. Also used as the photo's `alt` text.                              |
 | `grade`        | string | The tutor's grade (e.g. `Grade 11`).                                         |
 | `achievements` | string | Optional short line of achievements shown under the name.                    |
-| `bioFile`      | string | Path to the tutor's own bio text file, e.g. `data/bios/aarav-marfatia.txt`. The site shows this file's text; see below. |
-| `bio`          | string | Fallback bio used only if `bioFile` is missing or fails to load.             |
+| `bioFile`      | string | Path to the tutor's own bio text file, e.g. `data/bios/aarav-marfatia.txt`. The bio text lives entirely in this file; see below. |
 | `photo`        | string | Image **filename** inside `assets/tutors/` (e.g. `AM.webp`), not a full path. |
 
 #### Editing a tutor's bio (the easy way)
@@ -54,8 +53,8 @@ An array of tutor objects powering the Tutors page (`#tutors-grid`).
 Each tutor has their **own plain-text bio file** in `data/bios/` (for example
 `data/bios/adam-ozon.txt`). To change a bio, just open that `.txt` file and edit the words —
 there's no JSON to break. Leave a **blank line between paragraphs** and each paragraph shows
-as its own paragraph on the site. The `bio` field in `tutors.json` is only a backup used if
-the `.txt` file can't be loaded.
+as its own paragraph on the site. The bio text lives only in these `.txt` files — if a
+tutor's file is missing, their card simply shows no bio.
 
 Photos live in `assets/tutors/`. Use a **square** image (current set is 800×800) saved as
 **WebP** and kept **under 200 KB** each so the page stays fast. If a photo is missing, the
