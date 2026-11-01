@@ -248,7 +248,7 @@ svg {
    after first paint (CLS = 0). The reservation drops to auto the moment the
    header content is appended, so there is never a leftover gap. 65px matches
    the rendered header (.header-inner min-height 64px + 1px bottom border). */
-#site-header:empty {
+#site-header:empty { /* reservation tuned to the logo-row header height */
   min-height: 65px;
 }
 
@@ -279,19 +279,22 @@ svg {
   height: 32px;
   width: auto;
 }
-/* Decorative spoked-wheel mark before the brand name. Spins on hover/focus
-   (motion-gated below). aria-hidden by nature (pseudo-element). */
-.brand::before {
-  content: '';
+/* Real logo mark before the wordmark. Fixed box keeps layout stable (CLS 0). */
+.brand-logo {
   flex: none;
-  width: 26px;
-  height: 26px;
-  background-color: var(--accent);
-  -webkit-mask: var(--wheel-mark) center / contain no-repeat;
-  mask: var(--wheel-mark) center / contain no-repeat;
+  width: 36px;
+  height: 36px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
 }
-:root {
-  --wheel-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 20V11a5 5 0 0 1 10 0v9'/%3E%3Cpath d='M7 20h3.5V11a1.5 1.5 0 0 0-3 0v9'/%3E%3Cpath d='M13.5 20H17V11a1.5 1.5 0 0 0-3 0v9'/%3E%3Cpath d='M7 6h3.5M13.5 6H17'/%3E%3C/svg%3E");
+/* Keep the wordmark on a single line so the header height stays stable. */
+.brand-text {
+  white-space: nowrap;
+}
+/* The brand must not shrink or the nav steals its space and the text wraps. */
+.brand {
+  flex: none;
 }
 
 .nav {
@@ -305,16 +308,17 @@ svg {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
+  gap: 2px;
 }
 .nav-list a {
   display: block;
   position: relative;
-  padding: var(--space-1) var(--space-2);
+  padding: var(--space-1) 10px;
   color: var(--text);
   text-decoration: none;
   border-radius: var(--radius-sm);
   font-weight: 500;
+  white-space: nowrap;
 }
 .nav-list a:hover {
   background: var(--bg);
@@ -488,8 +492,11 @@ svg {
 #subjects-preview:empty { min-height: 336px; }
 #subjects-grid:empty    { min-height: 712px; }
 #tutors-grid:empty      { min-height: 2052px; }
-#reviews-list:empty     { min-height: 700px; }
-#pricing-blocks:empty   { min-height: 450px; }
+/* reviews.json is currently empty, so the rendered result is the short
+   "Reviews coming soon" message. Reserve only that height; revisit if real
+   review cards are added (a full 3-up row renders ~300px). */
+#reviews-list:empty     { min-height: 120px; }
+#pricing-blocks:empty   { min-height: 520px; }
 
 .card {
   background: var(--surface);
@@ -1394,14 +1401,11 @@ noscript nav {
     animation: hero-drift 18s ease-in-out infinite;
   }
 
-  /* Spoked-wheel brand mark spins once on hover/focus. */
-  @keyframes brand-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .brand:hover::before,
-  .brand:focus-visible::before {
-    animation: brand-spin 0.9s ease;
+  /* Logo mark lifts slightly on hover/focus. */
+  .brand:hover .brand-logo,
+  .brand:focus-visible .brand-logo {
+    transform: translateY(-1px) scale(1.04);
+    transition: transform 0.15s ease;
   }
 }
 

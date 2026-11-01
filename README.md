@@ -187,8 +187,9 @@ check-in, tutors, email). These items remain:
   `TODO(founders)`).
 - **Library permission** — confirm the library allows operating/meeting on-site and being
   named on a public site before publishing the branch name.
-- **Logo** — `assets/logo.svg` and `assets/favicon.svg` are placeholder magnet wordmarks.
-  Swap in a real logo file when ready.
+- **Logo** — the real Magnet Tutoring crest is in `assets/logo.png` (header, 40px),
+  `assets/favicon.png` (browser tab), and `assets/logo-og.png` (social share / apple-touch).
+  To change it, replace those three files (keep them optimized — small and well under budget).
 - **Reviews** — `data/reviews.json` is empty, so the Reviews page shows "Reviews coming
   soon." Add real testimonials (name, role, quote, optional rating, `featured` flag) when
   you have them.
