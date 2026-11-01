@@ -144,23 +144,24 @@ pricing render from JSON, the subject search filters live, the subject cards and
 accordion expand, `book.html` loads **no** booking iframe until you click "Load booking", and
 `404.html` links home. There should be zero console errors.
 
-## Swapping in the real Google booking link
+## How booking works
 
-The Book page (`book.html`) uses a **facade**: no booking iframe loads on page load. A
-"Load booking" button injects the Google booking `<iframe>` only when clicked, which keeps
-the page fast. Until a real link exists, the card shows a labeled placeholder plus a `mailto`
-fallback, and an "Open booking in a new tab" link is always present.
+The Book page (`book.html`) uses **email-based booking** — no backend and no third-party
+embed. Two forms are on the page:
 
-To connect a real Google appointment-booking link, edit **two spots** in `book.html`:
+1. **Request a session** — collects name, email, student/grade, subject, session type
+   (private or group), length, and preferred times. On submit, JavaScript builds a
+   prefilled `mailto:` message and opens the visitor's email app addressed to the club
+   inbox. They just press send and it lands in your email.
+2. **Buy the $70 bundle** — a separate form with its own prefilled email (subject line
+   "Bundle purchase request"), so bundle requests stay distinct from session bookings.
 
-1. **The inline facade script near the bottom** — set `BOOKING_SRC` from `null` to the
-   embeddable booking URL. While it stays `null`, the button just reveals the placeholder
-   card instead of loading an empty iframe.
-2. **The "Open booking in a new tab" link** — set the `href` on `#booking-new-tab` (currently
-   a `TODO_FOUNDERS_BOOKING_LINK` placeholder) to the booking page's regular (non-embed) URL.
+The club email is set once as `CLUB_EMAIL` in the inline script at the bottom of
+`book.html` (and in `js/layout.js` for the footer).
 
-Optionally remove or update the placeholder text inside `#booking-card` once the real link is
-live. Test in an incognito window to confirm an outside visitor can reach the booking tool.
+If you ever want direct submissions (no "press send" step, works without an email app, and
+optionally logs to a spreadsheet), swap the `mailto` handler for a free form service like
+Formspree or a Google Form.
 
 ## Deploying to GitHub Pages
 
@@ -175,22 +176,33 @@ like `/REPO-NAME/`.
 
 > This README only documents the process. It does not create a repository or deploy anything.
 
-## TODO(founders) — fill these in before launch
+## Still to confirm before launch
 
-Each item has a `TODO(founders)` marker in the source for easy searching:
+Most founder details are now filled in (schedule, policies, payment, what to bring,
+check-in, tutors, email). These items remain:
 
-- **Canonical domain** — every page's `<link rel="canonical">`, plus `sitemap.xml` and
-  `robots.txt`, use the placeholder `https://magnettutoring.example/...`. Replace with the
-  real GitHub Pages / custom domain.
-- **Booking link** — `book.html` needs the real Google booking URL in `BOOKING_SRC` and the
-  new-tab `href` (see the section above).
-- **Where we meet** — `about.html` and `faq.html` have placeholders for the library branch,
-  the meeting area inside the library, and the check-in process.
-- **What to bring** — `about.html` has a placeholder for what students should bring.
-- **Cancellation / no-show policy** — `pricing.html` and `faq.html` have placeholders.
-- **Club email** — set to `wheelytutoringclub@gmail.com` in `js/layout.js` (`CLUB_EMAIL`),
-  `book.html`, and `faq.html`. Update everywhere if it changes.
-- **Tutor details and photos** — confirm each tutor's `grade`, `achievements`, and `bio` in
-  `data/tutors.json`, and that the photos in `assets/tutors/` are final.
-- **Reviews** — replace any placeholder reviews in `data/reviews.json` (and the static
-  featured reviews on the Home page) with real testimonials when available.
+- **Library branch name & address** — `about.html` and `faq.html` note that sessions are in
+  a study room at the library, but the exact branch is still marked
+  `TODO(founders)`. Fill it in once the library confirms (search the source for
+  `TODO(founders)`).
+- **Library permission** — confirm the library allows operating/meeting on-site and being
+  named on a public site before publishing the branch name.
+- **Logo** — `assets/logo.svg` and `assets/favicon.svg` are placeholder magnet wordmarks.
+  Swap in a real logo file when ready.
+- **Reviews** — `data/reviews.json` is empty, so the Reviews page shows "Reviews coming
+  soon." Add real testimonials (name, role, quote, optional rating, `featured` flag) when
+  you have them.
+- **Custom domain (optional)** — the site is live on the GitHub Pages URL. If you add a
+  custom domain later, update the `<link rel="canonical">` on each page plus `sitemap.xml`
+  and `robots.txt`.
+
+### Already configured
+
+- **Schedule** — Saturdays 3–6 pm (`about.html`, `faq.html`).
+- **Payment** — offline, cash or Apple Pay (`pricing.html`, `faq.html`).
+- **Cancellation** — cancel anytime, 24h notice appreciated, no charge for misses,
+  gradual rescheduling (`pricing.html`, `subjects.html`, `faq.html`).
+- **What to bring** — pencil + notebook, laptop for grades 5–12 (`about.html`).
+- **Check-in** — text on arrival; up to 5 min late accommodated (`about.html`, `faq.html`).
+- **Club email** — `wheelytutoringclub@gmail.com` (`js/layout.js`, `book.html`, `faq.html`).
+- **Booking** — email-based forms (see "How booking works" above).
