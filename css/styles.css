@@ -499,7 +499,7 @@ svg {
 /* Subject tiles now stack one per row, so these containers are taller: the
    home preview shows 6 single-column cards and the full grid shows all ~23. */
 #subjects-preview:empty { min-height: 560px; }
-#subjects-grid:empty    { min-height: 2000px; }
+#subjects-grid:empty    { min-height: 2090px; }
 #tutors-grid:empty      { min-height: 2052px; }
 /* reviews.json is currently empty, so the rendered result is the short
    "Reviews coming soon" message. Reserve only that height; revisit if real
