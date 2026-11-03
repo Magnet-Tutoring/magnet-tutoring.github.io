@@ -222,3 +222,10 @@ check-in, tutors, email). These items remain:
 - **Check-in** — text on arrival; up to 5 min late accommodated (`about.html`, `faq.html`).
 - **Club email** — `tutoringmagnet@gmail.com` (`js/layout.js`, `book.html`, `faq.html`).
 - **Booking** — email-based forms (see "How booking works" above).
+
+## License
+
+Copyright (c) 2026 Magnet Tutoring. All rights reserved. This is **not** open source.
+You must obtain written permission before using, copying, or modifying any part of this
+project. See [LICENSE](LICENSE) for details, or email tutoringmagnet@gmail.com to request
+permission.
