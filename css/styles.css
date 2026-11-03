@@ -513,7 +513,7 @@ svg {
    "Reviews coming soon" message. Reserve only that height; revisit if real
    review cards are added (a full 3-up row renders ~300px). */
 #reviews-list:empty     { min-height: 120px; }
-#pricing-blocks:empty   { min-height: 520px; }
+#pricing-blocks:empty   { min-height: 479px; }
 
 .card {
   background: var(--surface);
@@ -1595,6 +1595,15 @@ noscript nav {
 .pricing-examples li:last-child {
   margin-bottom: 0;
 }
+/* Worked example line under the rate cards. Always present (static), so no
+   layout shift. */
+.pricing-example {
+  margin-top: var(--space-3);
+}
+/* No-JS fallback list of rates. Shown only when scripts don't run. */
+.pricing-noscript h3 {
+  margin: var(--space-3) 0 var(--space-1);
+}
 
 /* ---------------------------------------------------------------------------
    Reviews (rendered from data/reviews.json by render.js; the home page also
@@ -1683,4 +1692,36 @@ noscript nav {
 .booking-form .choice input[type='radio'] {
   width: auto;
   accent-color: var(--accent);
+}
+
+/* Short reassurance line under the submit button. */
+.reply-note {
+  margin-top: var(--space-1);
+}
+
+/* Plain-language privacy note near each form. */
+.privacy-note {
+  max-width: 560px;
+  margin: 0 0 var(--space-4);
+}
+
+/* Inline AJAX status/success/error message. Empty by default (no reserved
+   height, so no load-time shift); only fills in after the user submits.
+   Color/weight only — no transform or layout change that would jank. */
+.form-status {
+  margin: var(--space-1) 0 0;
+  max-width: 560px;
+  color: var(--muted);
+  font-size: var(--step-1);
+}
+.form-status:empty {
+  margin: 0;
+}
+.form-status.is-success {
+  color: var(--pill-ok-fg);
+  font-weight: 600;
+}
+.form-status.is-error {
+  color: var(--pill-push-fg);
+  font-weight: 600;
 }
