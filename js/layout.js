@@ -69,6 +69,25 @@
     brand.appendChild(brandLogo);
     brand.appendChild(brandText);
 
+    // Hidden easter egg: 5 quick clicks on the logo launch a mini-game.
+    // A normal single click still navigates home as expected; only a rapid
+    // 5-click burst (within ~1.5s) triggers the game and cancels navigation.
+    var eggClicks = 0;
+    var eggTimer = null;
+    brand.addEventListener('click', function (e) {
+      eggClicks += 1;
+      if (eggTimer) { clearTimeout(eggTimer); }
+      eggTimer = setTimeout(function () { eggClicks = 0; }, 1500);
+      if (eggClicks >= 5) {
+        e.preventDefault();
+        eggClicks = 0;
+        if (eggTimer) { clearTimeout(eggTimer); }
+        if (window.MagnetGame && typeof window.MagnetGame.launch === 'function') {
+          window.MagnetGame.launch();
+        }
+      }
+    });
+
     // Nav wrapper
     var nav = document.createElement('nav');
     nav.className = 'nav';
