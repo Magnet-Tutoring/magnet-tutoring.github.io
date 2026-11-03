@@ -19,7 +19,8 @@
     { page: 'tutors', href: 'tutors.html', label: 'Tutors' },
     { page: 'book', href: 'book.html', label: 'Book' },
     { page: 'reviews', href: 'reviews.html', label: 'Reviews' },
-    { page: 'faq', href: 'faq.html', label: 'FAQ' }
+    { page: 'faq', href: 'faq.html', label: 'FAQ' },
+    { page: 'account', href: 'account.html', label: 'Account' }
   ];
 
   var CLUB_EMAIL = 'tutoringmagnet@gmail.com';

@@ -37,6 +37,9 @@
   <script src="js/theme.js" defer></script>
   <script src="js/reveal.js" defer></script>
   <script src="js/easter-egg.js" defer></script>
+  <!-- API-first booking submit. Exposes MagnetBookingApi.trySubmit; the inline
+       script below tries it first and falls back to Formspree/mailto. -->
+  <script src="js/booking-api.js" defer></script>
 </head>
 <body data-page="book">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -324,25 +327,23 @@
 
       // Wire one form. `buildRows` returns the [label, value] pairs used for the
       // mailto fallback; `mailSubject` is the email subject line for that form.
-      function wireForm(formId, statusId, mailSubject, buildRows) {
+      // When `apiFirst` is true (the session-request form), we first try the
+      // same-origin API via MagnetBookingApi.trySubmit; only if that is absent
+      // or does not store the booking do we fall back to the Formspree/mailto
+      // path below — the existing behaviour is preserved verbatim, not replaced.
+      function wireForm(formId, statusId, mailSubject, buildRows, apiFirst) {
         var form = document.getElementById(formId);
         var statusEl = document.getElementById(statusId);
         if (!form) { return; }
 
-        form.addEventListener('submit', function (e) {
-          // Native validation first (required fields, valid email).
-          if (!form.checkValidity()) {
-            e.preventDefault();
-            form.reportValidity();
-            return;
-          }
-
+        // The original Formspree/mailto flow, unchanged. Returns nothing; shows
+        // inline feedback and resets the form on success.
+        function formspreeOrMailto() {
           var mailHref = mailtoHref(mailSubject, buildRows(form));
 
           // Not configured yet: never POST to a non-existent endpoint. Fall back
           // to the visitor's email client with a prefilled message.
           if (!isConfigured(form)) {
-            e.preventDefault();
             window.location.href = mailHref;
             setStatus(statusEl, 'info', messageNode(
               'Opening your email app with your request ready to send. If it ' +
@@ -351,7 +352,6 @@
           }
 
           // Configured: POST to Formspree via fetch and show inline feedback.
-          e.preventDefault();
           var submitBtn = form.querySelector('button[type="submit"]');
           if (submitBtn) { submitBtn.disabled = true; }
           setStatus(statusEl, 'info', messageNode('Sending your request…', null));
@@ -375,6 +375,41 @@
             setStatus(statusEl, 'error', messageNode(
               'Sorry, we could not reach the server.', mailHref));
           });
+        }
+
+        form.addEventListener('submit', function (e) {
+          // Native validation first (required fields, valid email).
+          if (!form.checkValidity()) {
+            e.preventDefault();
+            form.reportValidity();
+            return;
+          }
+
+          e.preventDefault();
+
+          // API-first: try the same-origin booking API. If it stores the
+          // booking, show the same success copy; otherwise fall back.
+          if (apiFirst && window.MagnetBookingApi &&
+              typeof window.MagnetBookingApi.trySubmit === 'function') {
+            var submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) { submitBtn.disabled = true; }
+            setStatus(statusEl, 'info', messageNode('Sending your request…', null));
+
+            window.MagnetBookingApi.trySubmit(form).then(function (stored) {
+              if (submitBtn) { submitBtn.disabled = false; }
+              if (stored) {
+                setStatus(statusEl, 'success', messageNode(
+                  'Thanks! We got your request and will reply within 24 hours.', null));
+                form.reset();
+                return;
+              }
+              // API unreachable or returned an error — use the existing path.
+              formspreeOrMailto();
+            });
+            return;
+          }
+
+          formspreeOrMailto();
         });
       }
 
@@ -397,9 +432,10 @@
           ['Preferred days & times', fieldValue(form, 'times')],
           ['Notes', fieldValue(form, 'notes')]
         ];
-      });
+      }, true);
 
-      // Bundle-purchase form.
+      // Bundle-purchase form. Stays Formspree/mailto only — bundles are
+      // recorded manually by an admin, so it does NOT call the booking API.
       wireForm('bundle-form', 'bundle-status', 'New $70 bundle request', function (form) {
         return [
           ['Parent/Guardian name', fieldValue(form, 'guardianName')],

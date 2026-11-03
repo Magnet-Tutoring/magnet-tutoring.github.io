@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account — Magnet Tutoring</title>
+  <meta name="description" content="Sign in to your Magnet Tutoring family account to see your booking requests and remaining bundle credit. Accounts are for parents and guardians of K–12 students.">
+
+  <!-- Open Graph (per page) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Account — Magnet Tutoring">
+  <meta property="og:description" content="Sign in to your Magnet Tutoring family account to see your booking requests and remaining bundle credit.">
+  <meta property="og:url" content="https://magnettutoring.com/account.html">
+  <meta property="og:image" content="https://magnettutoring.com/assets/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://magnettutoring.com/account.html">
+
+  <!-- Favicon (relative, every page) -->
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo-og.png">
+
+  <!-- EXACT inline theme script: must run before the stylesheet link / before first paint -->
+  <script>
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved ?? (prefersDark ? 'dark' : 'light');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- page scripts: non-render-blocking. layout + theme on every page -->
+  <script src="js/layout.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+  <script src="js/easter-egg.js" defer></script>
+  <!-- Account view: feature-detects the session via /api/me and wires the
+       login/register/logout flows. Falls back gracefully if the API is down. -->
+  <script src="js/account.js" defer></script>
+</head>
+<body data-page="account">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <noscript>
+    <nav aria-label="Primary (no JavaScript)">
+      <a href="index.html">Home</a> · <a href="about.html">About</a> ·
+      <a href="subjects.html">Subjects</a> · <a href="pricing.html">Pricing</a> ·
+      <a href="tutors.html">Tutors</a> · <a href="book.html">Book</a> ·
+      <a href="reviews.html">Reviews</a> · <a href="faq.html">FAQ</a> ·
+      <a href="account.html">Account</a>
+    </nav>
+  </noscript>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <h1>Your account</h1>
+        <p class="section-intro">
+          Sign in to see your booking requests and any remaining bundle credit.
+          Accounts are for parents and guardians of K–12 students.
+        </p>
+
+        <!-- Shown while /api/me is in flight; hidden once we know the state. -->
+        <p id="account-loading" class="form-intro">Loading your account…</p>
+
+        <!-- Logged-OUT view: login + register forms. Hidden by default; the
+             script reveals whichever view matches the session. -->
+        <div id="auth-view" hidden>
+          <section class="section" aria-labelledby="login-heading">
+            <h2 id="login-heading">Sign in</h2>
+            <p class="form-intro">
+              Already have a family account? Sign in to view your bookings and credit.
+            </p>
+            <form id="login-form" class="booking-form" novalidate>
+              <div class="field">
+                <label for="login-email">Email <span aria-hidden="true">*</span></label>
+                <input type="email" id="login-email" name="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="login-password">Password <span aria-hidden="true">*</span></label>
+                <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+              </div>
+              <p class="btn-row">
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </p>
+              <p id="login-status" class="form-status" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="section" aria-labelledby="register-heading">
+            <h2 id="register-heading">Create an account</h2>
+            <p class="form-intro">
+              New here? Create a family account to keep track of your bookings and
+              bundle credit. Accounts are for parents and guardians of K–12 students.
+            </p>
+            <form id="register-form" class="booking-form" novalidate>
+              <div class="field">
+                <label for="register-name">Parent/Guardian name <span aria-hidden="true">*</span></label>
+                <input type="text" id="register-name" name="name" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="register-email">Email <span aria-hidden="true">*</span></label>
+                <input type="email" id="register-email" name="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="register-password">Password <span aria-hidden="true">*</span></label>
+                <input type="password" id="register-password" name="password" autocomplete="new-password" minlength="8" required>
+                <p class="field-help">At least 8 characters.</p>
+              </div>
+              <p class="btn-row">
+                <button type="submit" class="btn btn-primary">Create account</button>
+              </p>
+              <p id="register-status" class="form-status" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <p class="field-help privacy-note">
+            We only use the information you share to schedule and run your tutoring
+            sessions. We don't sell it or share it with anyone outside Magnet Tutoring.
+            Sessions are for K–12 students; a parent or guardian should book or approve
+            booking for younger students.
+          </p>
+        </div>
+
+        <!-- Logged-IN view: My account. Hidden by default; populated by the
+             script from GET /api/account (bookings + balance). -->
+        <div id="my-account-view" hidden>
+          <section class="section" aria-labelledby="welcome-heading">
+            <h2 id="welcome-heading">My account</h2>
+            <p class="form-intro">
+              Signed in as <span id="account-name"></span>.
+              <button type="button" id="logout-btn" class="btn">Sign out</button>
+            </p>
+            <p id="account-status" class="form-status" role="status" aria-live="polite"></p>
+          </section>
+
+          <section class="section" aria-labelledby="credit-heading">
+            <h2 id="credit-heading">Bundle credit</h2>
+            <p class="prose">
+              Remaining credit: <strong id="credit-balance">—</strong>
+              private-hour equivalents.
+            </p>
+            <p class="field-help">
+              One bundle is worth 4 private hours, or up to 8 group hours
+              (1 private hour = 2 group hours). Bundles are added by an admin
+              after payment.
+            </p>
+          </section>
+
+          <section class="section" aria-labelledby="bookings-heading">
+            <h2 id="bookings-heading">Your bookings</h2>
+            <p id="bookings-empty" class="form-intro" hidden>
+              You don't have any bookings yet. <a href="book.html">Book a session</a>
+              to get started.
+            </p>
+            <div id="bookings-list" class="prose"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
