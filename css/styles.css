@@ -515,6 +515,18 @@ svg {
 #reviews-list:empty     { min-height: 120px; }
 #pricing-blocks:empty   { min-height: 479px; }
 
+/* account.html: the view swaps from the one-line "Loading your account…"
+   message to either the (tall) login/register forms or the My-account view
+   once GET /api/me resolves. Reserve the taller view's height on the account
+   container WHILE the loading message is still shown, so that swap does not
+   shift layout (CLS = 0). The reservation releases the instant account.js
+   hides #account-loading ([hidden]), so there is never a leftover gap. The
+   reservation is a progressive enhancement: browsers without :has() simply
+   skip it, and the page still works (content just renders a touch lower). */
+body[data-page="account"] .container:has(> #account-loading:not([hidden])) {
+  min-height: 1400px;
+}
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
