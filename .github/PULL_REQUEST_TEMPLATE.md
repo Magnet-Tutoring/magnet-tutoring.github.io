@@ -6,7 +6,7 @@
 
 ## Checklist
 
-- [ ] I edited the right file (see `EDITING.md` if unsure)
+- [ ] I edited the right file (see `docs/EDITING.md` if unsure)
 - [ ] If I changed a `.json` file, the quotes/commas/brackets are intact
 - [ ] Claims (achievements, reviews, "top students") are truthful
 - [ ] I did not expose anyone's private contact info

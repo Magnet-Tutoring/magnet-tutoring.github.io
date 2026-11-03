@@ -4,7 +4,7 @@
 Live at **https://magnettutoring.com/**
 
 > **Want to change the site's content (bios, prices, subjects, wording)?**
-> See **[EDITING.md](EDITING.md)** — a plain-language guide, no coding needed.
+> See **[EDITING.md](docs/EDITING.md)** — a plain-language guide, no coding needed.
 
 A static website for a student-run tutoring service — one-on-one and small-group tutoring
 by top students from Wheeler's Magnet program, held at the local library. It is built with
