@@ -111,3 +111,5 @@ Then open `http://localhost:8000/` in your browser.
 - The library permits paid tutoring on-site and being named publicly.
 - Using the Wheeler Magnet program name is acceptable (the footer carries an
   "independent / not affiliated" disclaimer either way).
+
+<!-- signing enabled 2026-11-02 -->
