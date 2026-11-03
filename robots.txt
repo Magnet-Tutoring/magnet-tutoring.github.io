@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Note: if you later add a custom domain, update the Sitemap URL below to match.
-Sitemap: https://magnet-tutoring.github.io/sitemap.xml
+Sitemap: https://magnettutoring.com/sitemap.xml
