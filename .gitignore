@@ -2,6 +2,9 @@
 .agents/
 # Read-only reference clone — copied from, never deployed
 wheely-good-reference/
+# Server secrets and dependencies
+.env
+node_modules/
 # OS cruft
 .DS_Store
 # Founder-provided source photos — not referenced by the site

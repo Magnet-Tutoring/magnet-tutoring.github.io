@@ -1,0 +1,25 @@
+{
+  "name": "magnet-tutoring",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express service that serves the Magnet Tutoring static site plus API and admin dashboard.",
+  "main": "server/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "migrate": "node server/db/migrate.js",
+    "seed:admin": "node server/db/migrate.js --seed-admin",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "bcrypt": "6.0.0",
+    "connect-pg-simple": "10.0.0",
+    "dotenv": "18.0.9",
+    "express": "5.3.0",
+    "express-session": "1.19.0",
+    "helmet": "8.3.0",
+    "pg": "8.23.1"
+  }
+}
