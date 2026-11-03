@@ -10,7 +10,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const SESSION_TYPES = ['Private (one-on-one)', 'Group (up to 4 students)'];
 const LENGTHS = ['30 minutes', '45 minutes', '1 hour', 'Not sure yet'];
-const STATUSES = ['requested', 'scheduled', 'completed', 'cancelled'];
+// Must match the admin status vocabulary in server/routes/admin.js
+// (ADMIN_STATUSES), which is the only place a booking status is set.
+const STATUSES = ['requested', 'confirmed', 'completed', 'cancelled'];
 
 // Coerce to a trimmed string; non-strings (undefined/null/number) become ''.
 function str(v) {
