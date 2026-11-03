@@ -58,33 +58,46 @@
         <p class="prose">
           Reserve a private one-on-one session or a small group of up to four. Sessions are
           held at your local library, and payment is handled on arrival. Fill out the form
-          below and it will open your email app with everything filled in — just hit send and
-          we'll reply to confirm a time.
+          below and we'll reply to confirm a time.
         </p>
 
         <section class="section" aria-labelledby="booking-heading">
           <h2 id="booking-heading">Request a session</h2>
           <p class="form-intro">
             All fields marked with <span aria-hidden="true">*</span> are required.
-            When you submit, your email app opens with a ready-to-send message to
+            We'll reply to confirm a time. You can also email us anytime at
             <a href="mailto:tutoringmagnet@gmail.com">tutoringmagnet@gmail.com</a>.
           </p>
 
-          <form id="booking-form" class="booking-form" novalidate>
+          <!-- TODO(founders): replace YOUR_FORM_ID with your Formspree form ID from formspree.io (point the form at tutoringmagnet@gmail.com). Until then, submissions fall back to email. -->
+          <form id="booking-form" class="booking-form"
+                action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+            <input type="hidden" name="_subject" value="New tutoring session request">
             <div class="field">
-              <label for="bf-name">Your name <span aria-hidden="true">*</span></label>
-              <input type="text" id="bf-name" name="name" autocomplete="name" required>
+              <label for="bf-guardian-name">Parent/Guardian name <span aria-hidden="true">*</span></label>
+              <input type="text" id="bf-guardian-name" name="guardianName" autocomplete="name" required>
             </div>
 
             <div class="field">
               <label for="bf-email">Your email <span aria-hidden="true">*</span></label>
-              <input type="email" id="bf-email" name="email" autocomplete="email" required>
+              <input type="email" id="bf-email" name="_replyto" autocomplete="email" required>
               <p class="field-help">So we can reply to confirm your session.</p>
             </div>
 
             <div class="field">
-              <label for="bf-student">Student name &amp; grade</label>
-              <input type="text" id="bf-student" name="student" placeholder="e.g. Jamie, 8th grade">
+              <label for="bf-guardian-contact">Parent/Guardian email or phone <span aria-hidden="true">*</span></label>
+              <input type="text" id="bf-guardian-contact" name="guardianContact" autocomplete="tel" required>
+              <p class="field-help">A guardian contact for scheduling and approval.</p>
+            </div>
+
+            <div class="field">
+              <label for="bf-student">Student name</label>
+              <input type="text" id="bf-student" name="student" placeholder="e.g. Jamie">
+            </div>
+
+            <div class="field">
+              <label for="bf-grade">Student grade/level <span aria-hidden="true">*</span></label>
+              <input type="text" id="bf-grade" name="grade" placeholder="e.g. 8th grade" required>
             </div>
 
             <div class="field">
@@ -168,11 +181,19 @@
             </div>
 
             <p class="btn-row">
-              <button type="submit" class="btn btn-primary">Open email to book</button>
+              <button type="submit" class="btn btn-primary">Send booking request</button>
             </p>
+            <p class="field-help reply-note">We're students, so we reply within 24 hours.</p>
 
-            <p id="bf-status" class="form-intro" role="status" aria-live="polite"></p>
+            <p id="bf-status" class="form-status" role="status" aria-live="polite"></p>
           </form>
+
+          <p class="field-help privacy-note">
+            We only use the information you share to schedule and run your tutoring
+            sessions. We don't sell it or share it with anyone outside Magnet Tutoring.
+            Sessions are for K–12 students; a parent or guardian should book or approve
+            booking for younger students.
+          </p>
 
           <div class="form-card">
             <p><strong>Prefer to email directly?</strong></p>
@@ -194,15 +215,18 @@
             arrange payment and schedule your first session.
           </p>
 
-          <form id="bundle-form" class="booking-form" novalidate>
+          <!-- TODO(founders): replace YOUR_FORM_ID with your Formspree form ID from formspree.io (point the form at tutoringmagnet@gmail.com). Until then, submissions fall back to email. -->
+          <form id="bundle-form" class="booking-form"
+                action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+            <input type="hidden" name="_subject" value="New $70 bundle request">
             <div class="field">
-              <label for="bundle-name">Your name <span aria-hidden="true">*</span></label>
-              <input type="text" id="bundle-name" name="name" autocomplete="name" required>
+              <label for="bundle-name">Parent/Guardian name <span aria-hidden="true">*</span></label>
+              <input type="text" id="bundle-name" name="guardianName" autocomplete="name" required>
             </div>
 
             <div class="field">
               <label for="bundle-email">Your email <span aria-hidden="true">*</span></label>
-              <input type="email" id="bundle-email" name="email" autocomplete="email" required>
+              <input type="email" id="bundle-email" name="_replyto" autocomplete="email" required>
               <p class="field-help">So we can reply to arrange payment and scheduling.</p>
             </div>
 
@@ -220,9 +244,17 @@
             <p class="btn-row">
               <button type="submit" class="btn btn-primary">Request the $70 bundle</button>
             </p>
+            <p class="field-help reply-note">We're students, so we reply within 24 hours.</p>
 
-            <p id="bundle-status" class="form-intro" role="status" aria-live="polite"></p>
+            <p id="bundle-status" class="form-status" role="status" aria-live="polite"></p>
           </form>
+
+          <p class="field-help privacy-note">
+            We only use the information you share to schedule and run your tutoring
+            sessions. We don't sell it or share it with anyone outside Magnet Tutoring.
+            Sessions are for K–12 students; a parent or guardian should book or approve
+            booking for younger students.
+          </p>
         </section>
       </div>
     </section>
@@ -230,121 +262,154 @@
 
   <footer id="site-footer"></footer>
 
-  <!-- Booking form: builds a prefilled mailto to the club inbox. No backend needed,
-       so every request lands in the founders' email. Deferred; no data leaves the page
-       except through the visitor's own email client. -->
+  <!-- Booking forms: submit to Formspree over fetch/AJAX so the page shows an
+       inline success message without navigating away. Replies route to the
+       submitter via the _replyto field. IMPORTANT: until the owner pastes a real
+       Formspree form ID, the action still contains the literal 'YOUR_FORM_ID'
+       placeholder — in that case we DO NOT POST (there is no real endpoint).
+       Instead we fall back to opening the visitor's email client with a
+       prefilled message, so the form is never broken before Formspree is set up.
+       Deferred; no data leaves the page except to Formspree (once configured) or
+       the visitor's own email client. -->
   <script defer>
     (function () {
       'use strict';
 
       var CLUB_EMAIL = 'tutoringmagnet@gmail.com';
 
-      var form = document.getElementById('booking-form');
-      var status = document.getElementById('bf-status');
-      if (!form) { return; }
+      // Treat the action as unconfigured while it still carries the placeholder.
+      function isConfigured(form) {
+        return form.action.indexOf('YOUR_FORM_ID') === -1;
+      }
 
-      function val(name) {
+      function fieldValue(form, name) {
         var el = form.elements[name];
         return el && el.value ? el.value.trim() : '';
       }
 
-      function sessionType() {
-        var picked = form.querySelector('input[name="sessionType"]:checked');
-        return picked ? picked.value : '';
-      }
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Native validation first (required fields, valid email).
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-
-        var name = val('name');
-        var subject = val('subject');
-        var type = sessionType();
-
-        var emailSubject = 'Tutoring request: ' + subject + ' (' + type + ')';
-
-        var lines = [
-          'Hi Magnet Tutoring,',
-          '',
-          'I would like to book a tutoring session. Here are my details:',
-          '',
-          'Name: ' + name,
-          'Email: ' + val('email'),
-          'Student name & grade: ' + (val('student') || '—'),
-          'Subject: ' + subject,
-          'Session type: ' + type,
-          'Session length: ' + val('length'),
-          'Preferred days & times: ' + val('times'),
-          'Notes: ' + (val('notes') || '—'),
-          '',
-          'Thanks!'
-        ];
-
-        var href = 'mailto:' + CLUB_EMAIL +
+      // Build a mailto: fallback from the form's current values. `rows` is an
+      // array of [label, value] pairs describing what goes in the email body.
+      function mailtoHref(emailSubject, rows) {
+        var lines = ['Hi Magnet Tutoring,', ''];
+        rows.forEach(function (row) {
+          lines.push(row[0] + ': ' + (row[1] || '—'));
+        });
+        lines.push('', 'Thanks!');
+        return 'mailto:' + CLUB_EMAIL +
           '?subject=' + encodeURIComponent(emailSubject) +
           '&body=' + encodeURIComponent(lines.join('\r\n'));
+      }
 
-        // Open the visitor's email client with everything prefilled.
-        window.location.href = href;
-
-        if (status) {
-          status.textContent =
-            'Your email app should open with your request ready to send to ' +
-            CLUB_EMAIL + '. If it did not, email us directly at that address.';
+      function setStatus(statusEl, kind, node) {
+        if (!statusEl) { return; }
+        while (statusEl.firstChild) {
+          statusEl.removeChild(statusEl.firstChild);
         }
-      });
+        statusEl.className = 'form-status is-' + kind;
+        statusEl.appendChild(node);
+      }
 
-      // --- Bundle purchase form: a separate prefilled email, kept distinct from
-      // session bookings so the two don't mix in the inbox. ---
-      var bundleForm = document.getElementById('bundle-form');
-      var bundleStatus = document.getElementById('bundle-status');
-      if (bundleForm) {
-        function bval(name) {
-          var el = bundleForm.elements[name];
-          return el && el.value ? el.value.trim() : '';
+      // A success/error message node. On error we include a working mailto link
+      // so the visitor always has a way through.
+      function messageNode(text, mailHref) {
+        var frag = document.createDocumentFragment();
+        frag.appendChild(document.createTextNode(text));
+        if (mailHref) {
+          frag.appendChild(document.createTextNode(' '));
+          var a = document.createElement('a');
+          a.href = mailHref;
+          a.textContent = 'Email us at ' + CLUB_EMAIL + ' instead.';
+          frag.appendChild(a);
         }
+        return frag;
+      }
 
-        bundleForm.addEventListener('submit', function (e) {
-          e.preventDefault();
+      // Wire one form. `buildRows` returns the [label, value] pairs used for the
+      // mailto fallback; `mailSubject` is the email subject line for that form.
+      function wireForm(formId, statusId, mailSubject, buildRows) {
+        var form = document.getElementById(formId);
+        var statusEl = document.getElementById(statusId);
+        if (!form) { return; }
 
-          if (!bundleForm.checkValidity()) {
-            bundleForm.reportValidity();
+        form.addEventListener('submit', function (e) {
+          // Native validation first (required fields, valid email).
+          if (!form.checkValidity()) {
+            e.preventDefault();
+            form.reportValidity();
             return;
           }
 
-          var emailSubject = 'Bundle purchase request ($70 credit)';
+          var mailHref = mailtoHref(mailSubject, buildRows(form));
 
-          var lines = [
-            'Hi Magnet Tutoring,',
-            '',
-            'I would like to buy the $70 bundle (4 private-hour credit / up to 8 group hours).',
-            '',
-            'Name: ' + bval('name'),
-            'Email: ' + bval('email'),
-            'Student name & grade: ' + (bval('student') || '—'),
-            'Notes: ' + (bval('notes') || '—'),
-            '',
-            'Please let me know how to pay and how to schedule. Thanks!'
-          ];
-
-          var href = 'mailto:' + CLUB_EMAIL +
-            '?subject=' + encodeURIComponent(emailSubject) +
-            '&body=' + encodeURIComponent(lines.join('\r\n'));
-
-          window.location.href = href;
-
-          if (bundleStatus) {
-            bundleStatus.textContent =
-              'Your email app should open with your bundle request ready to send to ' +
-              CLUB_EMAIL + '. If it did not, email us directly at that address.';
+          // Not configured yet: never POST to a non-existent endpoint. Fall back
+          // to the visitor's email client with a prefilled message.
+          if (!isConfigured(form)) {
+            e.preventDefault();
+            window.location.href = mailHref;
+            setStatus(statusEl, 'info', messageNode(
+              'Opening your email app with your request ready to send. If it ' +
+              'did not open, email us directly at ' + CLUB_EMAIL + '.', null));
+            return;
           }
+
+          // Configured: POST to Formspree via fetch and show inline feedback.
+          e.preventDefault();
+          var submitBtn = form.querySelector('button[type="submit"]');
+          if (submitBtn) { submitBtn.disabled = true; }
+          setStatus(statusEl, 'info', messageNode('Sending your request…', null));
+
+          fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          }).then(function (res) {
+            if (submitBtn) { submitBtn.disabled = false; }
+            if (res.ok) {
+              setStatus(statusEl, 'success', messageNode(
+                'Thanks! We got your request and will reply within 24 hours.', null));
+              form.reset();
+            } else {
+              setStatus(statusEl, 'error', messageNode(
+                'Sorry, something went wrong sending your request.', mailHref));
+            }
+          }).catch(function () {
+            if (submitBtn) { submitBtn.disabled = false; }
+            setStatus(statusEl, 'error', messageNode(
+              'Sorry, we could not reach the server.', mailHref));
+          });
         });
       }
+
+      function picked(form, name) {
+        var el = form.querySelector('input[name="' + name + '"]:checked');
+        return el ? el.value : '';
+      }
+
+      // Session-request form.
+      wireForm('booking-form', 'bf-status', 'New tutoring session request', function (form) {
+        return [
+          ['Parent/Guardian name', fieldValue(form, 'guardianName')],
+          ['Your email', fieldValue(form, '_replyto')],
+          ['Parent/Guardian email or phone', fieldValue(form, 'guardianContact')],
+          ['Student name', fieldValue(form, 'student')],
+          ['Student grade/level', fieldValue(form, 'grade')],
+          ['Subject', fieldValue(form, 'subject')],
+          ['Session type', picked(form, 'sessionType')],
+          ['Session length', fieldValue(form, 'length')],
+          ['Preferred days & times', fieldValue(form, 'times')],
+          ['Notes', fieldValue(form, 'notes')]
+        ];
+      });
+
+      // Bundle-purchase form.
+      wireForm('bundle-form', 'bundle-status', 'New $70 bundle request', function (form) {
+        return [
+          ['Parent/Guardian name', fieldValue(form, 'guardianName')],
+          ['Your email', fieldValue(form, '_replyto')],
+          ['Student name & grade', fieldValue(form, 'student')],
+          ['Notes', fieldValue(form, 'notes')]
+        ];
+      });
     })();
   </script>
 </body>
