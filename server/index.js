@@ -10,8 +10,14 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const helmet = require('helmet');
+const session = require('express-session');
+const PgSession = require('connect-pg-simple')(session);
 
 const { migrate } = require('./db/migrate');
+const { pool } = require('./db/pool');
+const authRouter = require('./routes/auth');
+
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
 const WEB_ROOT = path.join(__dirname, '..');
 const isProduction = process.env.NODE_ENV === 'production';
@@ -28,6 +34,23 @@ function buildApp() {
   );
 
   app.use(express.json());
+
+  // Server-side sessions backed by the FEAT-001 "session" table. Wired BEFORE
+  // the routers so req.session is available everywhere downstream.
+  app.use(
+    session({
+      store: new PgSession({ pool, tableName: 'session' }),
+      secret: process.env.SESSION_SECRET || 'dev-insecure-secret',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: isProduction,
+        maxAge: THIRTY_DAYS_MS,
+      },
+    })
+  );
 
   // Same-origin guard: for state-changing methods under /api and /admin,
   // reject requests whose Origin host does not match the request Host.
@@ -54,11 +77,12 @@ function buildApp() {
     return next();
   });
 
-  // Routers are mounted here. Later features replace these stubs with the real
-  // auth/bookings/admin routers; starting empty lets this feature boot alone.
-  const apiRouter = express.Router();
+  // API routers. The bookings/admin routers from later features mount on the
+  // same /api base. Route order keeps /api/* ahead of express.static.
+  app.use('/api', authRouter);
+
+  // Admin dashboard routes are added by a later feature.
   const adminRouter = express.Router();
-  app.use('/api', apiRouter);
   app.use('/admin', adminRouter);
 
   // Serve the repo root as the web root. extensions: ['html'] lets
