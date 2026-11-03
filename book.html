@@ -42,6 +42,10 @@
        backend disabled (config.js) it resolves false and the inline script
        below falls back to Formspree/mailto. -->
   <script src="js/booking-api.js" defer></script>
+  <!-- Progressive enhancement for the optional "Preferred tutor" select: moves
+       tutors who teach the chosen subject to the top and shows a hint. The
+       select works without this script (static options). -->
+  <script src="js/tutor-picker.js" defer></script>
 </head>
 <body data-page="book">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -65,6 +69,13 @@
           Reserve a private one-on-one session or a small group of up to four. Sessions are
           held at your local library, and payment is handled on arrival. Fill out the form
           below and we'll reply to confirm a time.
+        </p>
+        <!-- TODO(founders): free-trial offer terms are adjustable — edit the
+             duration ("30-minute") and the "one free trial per student" limit to
+             change the offer. Keep in sync with index.html and pricing.html. -->
+        <p class="prose">
+          <strong>New here?</strong> Your first 30-minute session is free — one free trial
+          per student. Just mention it in the form below and we'll set it up.
         </p>
 
         <section class="section" aria-labelledby="booking-heading">
@@ -148,6 +159,29 @@
               </select>
             </div>
 
+            <div class="field">
+              <label for="bf-tutor">Preferred tutor (optional)</label>
+              <!-- Progressive baseline: the full tutor list is in the HTML so the
+                   select works with no JS and if data/tutors.json fails to load.
+                   js/tutor-picker.js enhances it to move tutors who teach the
+                   chosen subject to the top and show a hint. Keep names in sync
+                   with data/tutors.json. -->
+              <select id="bf-tutor" name="preferredTutor">
+                <option value="" selected>No preference</option>
+                <option>Aarav Marfatia</option>
+                <option>Adhidev Nithyanandan</option>
+                <option>Adam Ozdogan</option>
+                <option>Ethan Torres</option>
+                <option>Mateus Aguiar</option>
+                <option>Ryan Tran</option>
+              </select>
+              <p class="field-help">
+                This is a preference, not a guaranteed assignment — your final tutor
+                and time depend on availability.
+              </p>
+              <p id="bf-tutor-hint" class="field-help tutor-hint" role="status" aria-live="polite"></p>
+            </div>
+
             <fieldset class="field">
               <legend>Session type <span aria-hidden="true">*</span></legend>
               <label class="choice">
@@ -218,6 +252,13 @@
             8 group hours (1 private hour = 2 group hours). Mix and match however you like.
             Payment is handled offline. Request a bundle below and we'll email you back to
             arrange payment and schedule your first session.
+          </p>
+          <!-- TODO(founders): pre-book sale terms are adjustable — edit the regular
+               bundle price ($70), the discounted price ($60), and the savings ($10)
+               to change the offer. Keep in sync with pricing.html. -->
+          <p class="form-intro">
+            <strong>Pre-book sale:</strong> pre-book your first bundle and save $10 — pay
+            just $60 instead of $70. Mention the pre-book sale in the form below.
           </p>
           <form id="bundle-form" class="booking-form"
                 action="https://formspree.io/f/mjyypzay" method="POST" novalidate>
@@ -429,6 +470,7 @@
           ['Student name', fieldValue(form, 'student')],
           ['Student grade/level', fieldValue(form, 'grade')],
           ['Subject', fieldValue(form, 'subject')],
+          ['Preferred tutor', fieldValue(form, 'preferredTutor') || 'No preference'],
           ['Session type', picked(form, 'sessionType')],
           ['Session length', fieldValue(form, 'length')],
           ['Preferred days & times', fieldValue(form, 'times')],

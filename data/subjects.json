@@ -1,141 +1,29 @@
 [
   {
-    "name": "Elementary Math (K–5)",
-    "category": "Elementary School",
-    "levels": ["Elementary"],
+    "name": "PSAT Prep",
+    "category": "Test Prep",
     "topics": [
-      "Counting and number sense",
-      "Addition and subtraction",
-      "Multiplication and division facts",
-      "Fractions and decimals",
-      "Place value",
-      "Measurement and time",
-      "Shapes and basic geometry",
-      "Word problems",
-      "Intro to data and graphs"
-    ]
-  },
-  {
-    "name": "Elementary Reading & Phonics (K–5)",
-    "category": "Elementary School",
-    "levels": ["Elementary"],
-    "topics": [
-      "Letter sounds and phonics",
-      "Sight words",
-      "Reading fluency",
-      "Reading comprehension",
-      "Vocabulary building",
-      "Spelling",
-      "Reading aloud with confidence"
-    ]
-  },
-  {
-    "name": "Elementary Writing (K–5)",
-    "category": "Elementary School",
-    "levels": ["Elementary"],
-    "topics": [
-      "Sentence building",
-      "Handwriting",
-      "Capitalization and punctuation",
-      "Writing short paragraphs",
-      "Storytelling and narrative writing",
-      "Spelling and grammar basics"
-    ]
-  },
-  {
-    "name": "Elementary Science (K–5)",
-    "category": "Elementary School",
-    "levels": ["Elementary"],
-    "topics": [
-      "Plants and animals",
-      "Weather and seasons",
-      "The human body basics",
-      "Earth and space basics",
-      "States of matter",
-      "Simple experiments and observation",
-      "Science vocabulary"
-    ]
-  },
-  {
-    "name": "Elementary Social Studies (K–5)",
-    "category": "Elementary School",
-    "levels": ["Elementary"],
-    "topics": [
-      "Communities and neighborhoods",
-      "Maps and geography basics",
-      "U.S. symbols and holidays",
-      "Basic timelines and history",
-      "Citizenship and rules",
-      "Needs, wants, and jobs"
-    ]
-  },
-  {
-    "name": "Middle School Math (6–8)",
-    "category": "Middle School",
-    "levels": ["Middle School"],
-    "topics": [
-      "Ratios, rates, and proportions",
-      "Fractions, decimals, and percents",
-      "Integers and the number line",
-      "Expressions and equations",
-      "Intro to variables",
-      "Coordinate plane and graphing",
-      "Area, surface area, and volume",
-      "Intro to statistics and probability"
-    ]
-  },
-  {
-    "name": "Middle School English & Reading (6–8)",
-    "category": "Middle School",
-    "levels": ["Middle School"],
-    "topics": [
-      "Reading comprehension strategies",
-      "Theme and main idea",
+      "Reading & Writing section strategy",
+      "Math (calculator & no-calculator)",
+      "Pacing & time management",
       "Vocabulary in context",
-      "Grammar and sentence structure",
-      "Paragraph and essay writing",
-      "Citing text evidence",
-      "Narrative and informative writing"
+      "Grammar & editing questions",
+      "Practice tests & review",
+      "Score-building tips"
     ]
   },
   {
-    "name": "Middle School Science (6–8)",
-    "category": "Middle School",
-    "levels": ["Middle School"],
+    "name": "Essay Help",
+    "category": "English",
     "topics": [
-      "Scientific method and lab skills",
-      "Cells and living systems",
-      "Ecosystems and food webs",
-      "Matter and its properties",
-      "Forces and motion",
-      "Energy and heat",
-      "Earth, weather, and space science"
-    ]
-  },
-  {
-    "name": "Middle School Social Studies (6–8)",
-    "category": "Middle School",
-    "levels": ["Middle School"],
-    "topics": [
-      "Ancient and world civilizations",
-      "U.S. history foundations",
-      "Geography and map skills",
-      "Civics and government basics",
-      "Reading primary sources",
-      "Writing short research responses"
-    ]
-  },
-  {
-    "name": "Pre-Algebra",
-    "category": "Math",
-    "topics": [
-      "Integers and operations",
-      "Fractions, decimals, and percents",
-      "Ratios and proportions",
-      "Intro to variables",
-      "Order of operations",
-      "Basic equations",
-      "Intro to the coordinate plane"
+      "Brainstorming & outlining",
+      "Thesis statements",
+      "Essay structure & flow",
+      "Introductions & conclusions",
+      "Evidence & analysis",
+      "Revising & editing",
+      "College/application essays",
+      "Grammar & clarity"
     ]
   },
   {
@@ -167,19 +55,6 @@
     ]
   },
   {
-    "name": "Algebra 2",
-    "category": "Math",
-    "topics": [
-      "Quadratics and the quadratic formula",
-      "Polynomials",
-      "Rational expressions",
-      "Exponential and logarithmic functions",
-      "Systems of equations",
-      "Complex numbers",
-      "Sequences and series"
-    ]
-  },
-  {
     "name": "Biology",
     "category": "Science",
     "topics": [
@@ -204,6 +79,32 @@
       "States of matter and gas laws",
       "Acids and bases",
       "Chemical reactions"
+    ]
+  },
+  {
+    "name": "Algebra 2",
+    "category": "Math",
+    "topics": [
+      "Quadratics and the quadratic formula",
+      "Polynomials",
+      "Rational expressions",
+      "Exponential and logarithmic functions",
+      "Systems of equations",
+      "Complex numbers",
+      "Sequences and series"
+    ]
+  },
+  {
+    "name": "Pre-Algebra",
+    "category": "Math",
+    "topics": [
+      "Integers and operations",
+      "Fractions, decimals, and percents",
+      "Ratios and proportions",
+      "Intro to variables",
+      "Order of operations",
+      "Basic equations",
+      "Intro to the coordinate plane"
     ]
   },
   {
@@ -303,6 +204,132 @@
       "Advanced reading and composition",
       "Idiomatic expressions",
       "Discussion and presentation skills"
+    ]
+  },
+  {
+    "name": "Middle School Math (6–8)",
+    "category": "Middle School",
+    "levels": ["Middle School"],
+    "topics": [
+      "Ratios, rates, and proportions",
+      "Fractions, decimals, and percents",
+      "Integers and the number line",
+      "Expressions and equations",
+      "Intro to variables",
+      "Coordinate plane and graphing",
+      "Area, surface area, and volume",
+      "Intro to statistics and probability"
+    ]
+  },
+  {
+    "name": "Middle School English & Reading (6–8)",
+    "category": "Middle School",
+    "levels": ["Middle School"],
+    "topics": [
+      "Reading comprehension strategies",
+      "Theme and main idea",
+      "Vocabulary in context",
+      "Grammar and sentence structure",
+      "Paragraph and essay writing",
+      "Citing text evidence",
+      "Narrative and informative writing"
+    ]
+  },
+  {
+    "name": "Middle School Science (6–8)",
+    "category": "Middle School",
+    "levels": ["Middle School"],
+    "topics": [
+      "Scientific method and lab skills",
+      "Cells and living systems",
+      "Ecosystems and food webs",
+      "Matter and its properties",
+      "Forces and motion",
+      "Energy and heat",
+      "Earth, weather, and space science"
+    ]
+  },
+  {
+    "name": "Middle School Social Studies (6–8)",
+    "category": "Middle School",
+    "levels": ["Middle School"],
+    "topics": [
+      "Ancient and world civilizations",
+      "U.S. history foundations",
+      "Geography and map skills",
+      "Civics and government basics",
+      "Reading primary sources",
+      "Writing short research responses"
+    ]
+  },
+  {
+    "name": "Elementary Math (K–5)",
+    "category": "Elementary School",
+    "levels": ["Elementary"],
+    "topics": [
+      "Counting and number sense",
+      "Addition and subtraction",
+      "Multiplication and division facts",
+      "Fractions and decimals",
+      "Place value",
+      "Measurement and time",
+      "Shapes and basic geometry",
+      "Word problems",
+      "Intro to data and graphs"
+    ]
+  },
+  {
+    "name": "Elementary Reading & Phonics (K–5)",
+    "category": "Elementary School",
+    "levels": ["Elementary"],
+    "topics": [
+      "Letter sounds and phonics",
+      "Sight words",
+      "Reading fluency",
+      "Reading comprehension",
+      "Vocabulary building",
+      "Spelling",
+      "Reading aloud with confidence"
+    ]
+  },
+  {
+    "name": "Elementary Writing (K–5)",
+    "category": "Elementary School",
+    "levels": ["Elementary"],
+    "topics": [
+      "Sentence building",
+      "Handwriting",
+      "Capitalization and punctuation",
+      "Writing short paragraphs",
+      "Storytelling and narrative writing",
+      "Spelling and grammar basics"
+    ]
+  },
+  {
+    "name": "Elementary Science (K–5)",
+    "category": "Elementary School",
+    "levels": ["Elementary"],
+    "topics": [
+      "Plants and animals",
+      "Weather and seasons",
+      "The human body basics",
+      "Earth and space basics",
+      "States of matter",
+      "Simple experiments and observation",
+      "Science vocabulary"
+    ]
+  },
+  {
+    "name": "Elementary Social Studies (K–5)",
+    "category": "Elementary School",
+    "levels": ["Elementary"],
+    "topics": [
+      "Communities and neighborhoods",
+      "Maps and geography basics",
+      "U.S. symbols and holidays",
+      "Basic timelines and history",
+      "Citizenship and rules",
+      "Needs, wants, and jobs"
     ]
   },
   {

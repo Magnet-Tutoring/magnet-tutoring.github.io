@@ -39,6 +39,16 @@
   // accepts the frontend names directly, but we send explicit keys so the
   // contract is clear and the email field maps to guardian_contact.
   function payloadFromForm(form) {
+    var preferredTutor = fieldValue(form, 'preferredTutor');
+    var notes = fieldValue(form, 'notes');
+    // The bookings table/validator has no dedicated preferred-tutor column, so
+    // we both send preferredTutor as its own key (forward-compatible if a
+    // column is added later) AND fold it into notes so it surfaces in the admin
+    // view today. An empty value means "No preference" and is left out.
+    var notesWithTutor = preferredTutor
+      ? (notes ? notes + '\n\nPreferred tutor: ' + preferredTutor
+               : 'Preferred tutor: ' + preferredTutor)
+      : notes;
     return {
       guardianName: fieldValue(form, 'guardianName'),
       guardianContact: fieldValue(form, 'guardianContact') || fieldValue(form, '_replyto'),
@@ -48,7 +58,8 @@
       sessionType: picked(form, 'sessionType'),
       length: fieldValue(form, 'length'),
       times: fieldValue(form, 'times'),
-      notes: fieldValue(form, 'notes')
+      notes: notesWithTutor,
+      preferredTutor: preferredTutor
     };
   }
 

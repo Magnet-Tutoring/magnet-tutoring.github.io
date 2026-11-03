@@ -511,7 +511,7 @@ function reviewCard(item) {
 function renderReviews(container, items) {
   clear(container);
   if (!items.length) {
-    showMessage(container, 'empty-state', 'Reviews coming soon.');
+    showMessage(container, 'empty-state', 'No reviews yet — be the first to review us! Email tutoringmagnet@gmail.com to share your experience.');
     return;
   }
   const grid = document.createElement('div');

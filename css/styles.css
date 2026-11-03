@@ -509,10 +509,14 @@ svg {
 #subjects-preview:empty { min-height: 560px; }
 #subjects-grid:empty    { min-height: 2090px; }
 #tutors-grid:empty      { min-height: 2052px; }
-/* reviews.json is currently empty, so the rendered result is the short
-   "Reviews coming soon" message. Reserve only that height; revisit if real
-   review cards are added (a full 3-up row renders ~300px). */
-#reviews-list:empty     { min-height: 120px; }
+/* reviews.json is currently empty, so the rendered result is the "be the first
+   to review" empty-state message. Reserve this height UNCONDITIONALLY (not just
+   while :empty) so the container is the same height before and after render.js
+   swaps in the short empty-state paragraph — the paragraph is shorter than this
+   reservation, so the box never grows or shrinks (CLS = 0). A full 3-up row of
+   real review cards (~300px) exceeds this, so the min-height is harmless once
+   real reviews are added. */
+#reviews-list           { min-height: 160px; }
 #pricing-blocks:empty   { min-height: 479px; }
 
 /* account.html: the view swaps from the one-line "Loading your account…"
@@ -1226,6 +1230,16 @@ details.accordion > summary:hover {
 .field-help {
   color: var(--muted);
   font-size: 0.875rem;
+  margin: var(--space-1) 0 0;
+}
+
+/* Preferred-tutor hint (book.html). tutor-picker.js fills this with a line like
+   "Aarav Marfatia teaches Algebra 1" after a subject is chosen. Reserve the
+   one-line height while it is empty so appending text never shifts the form
+   (CLS = 0); the reservation drops to auto once text is present. Two lines of
+   worst-case wrap on narrow screens stay within this reservation. */
+.tutor-hint:empty {
+  min-height: 2.5rem;
   margin: var(--space-1) 0 0;
 }
 
