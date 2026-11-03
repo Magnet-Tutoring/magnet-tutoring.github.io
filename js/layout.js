@@ -70,22 +70,33 @@
     brand.appendChild(brandText);
 
     // Hidden easter egg: 5 quick clicks on the logo launch a mini-game.
-    // A normal single click still navigates home as expected; only a rapid
-    // 5-click burst (within ~1.5s) triggers the game and cancels navigation.
+    // The logo is a link to home, so a click would normally navigate away before
+    // a burst can be counted. We therefore cancel navigation on EVERY click and
+    // count them: 5 within ~1.5s launches the game; otherwise, when the window
+    // lapses, a normal click falls through to navigating home.
     var eggClicks = 0;
     var eggTimer = null;
     brand.addEventListener('click', function (e) {
+      e.preventDefault(); // we control navigation ourselves below
       eggClicks += 1;
-      if (eggTimer) { clearTimeout(eggTimer); }
-      eggTimer = setTimeout(function () { eggClicks = 0; }, 1500);
+
       if (eggClicks >= 5) {
-        e.preventDefault();
+        if (eggTimer) { clearTimeout(eggTimer); eggTimer = null; }
         eggClicks = 0;
-        if (eggTimer) { clearTimeout(eggTimer); }
         if (window.MagnetGame && typeof window.MagnetGame.launch === 'function') {
           window.MagnetGame.launch();
         }
+        return;
       }
+
+      // Restart the burst window. If no further clicks arrive in time, treat it
+      // as an ordinary logo click and go home (single click still works).
+      if (eggTimer) { clearTimeout(eggTimer); }
+      eggTimer = setTimeout(function () {
+        eggClicks = 0;
+        eggTimer = null;
+        window.location.href = brand.getAttribute('href') || 'index.html';
+      }, 400);
     });
 
     // Nav wrapper
