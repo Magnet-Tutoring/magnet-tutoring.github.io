@@ -1754,7 +1754,7 @@ noscript nav {
   backdrop-filter: blur(2px);
 }
 .eggame-panel {
-  width: min(560px, 100%);
+  width: min(840px, 100%);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -1798,6 +1798,23 @@ noscript nav {
     var(--bg);
   border: 1px solid var(--border);
   outline-offset: 2px;
+}
+/* The Slope WebGL build wants more room. */
+.eggame-stage--slope {
+  height: 480px;
+  max-height: 70vh;
+  background: #231f20; /* matches the game's own background */
+}
+.eggame-stage--slope #gameContainer canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+.eggame-credit {
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-align: center;
 }
 .eggame-basket {
   position: absolute;

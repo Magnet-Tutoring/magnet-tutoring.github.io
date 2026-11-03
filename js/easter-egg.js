@@ -1,13 +1,19 @@
 /*
- * easter-egg.js — a hidden "catch the falling magnets" mini-game.
+ * easter-egg.js — a hidden mini-game: "Slope".
  *
- * Trigger: 5 quick clicks on the site logo (handled in layout.js, which calls
- * window.MagnetGame.launch()). Loaded with `defer`; it does nothing and renders
- * nothing until launched, so it has no effect on page performance or layout.
+ * Trigger: 5 quick clicks on the site logo (wired in layout.js, which calls
+ * window.MagnetGame.launch()). The game is a Unity WebGL build located in
+ * assets/slope/. It is LARGE (~14 MB), so it is loaded ONLY when launched —
+ * nothing is fetched on normal page load, so the game has no effect on the
+ * site's performance or Lighthouse scores until a visitor deliberately opens it.
  *
- * Pure vanilla JS, no dependencies. Respects prefers-reduced-motion by using a
- * calmer fall speed. Fully keyboard-accessible (arrow keys + Escape to close),
- * and the game surface is dialog-role with a focus trap kept simple.
+ * Attribution: the Slope WebGL build is from
+ * https://github.com/catfoolyou/Slope (used with permission), which credits the
+ * original source https://github.com/cgolden15/Slope-Game . All third-party ad
+ * and analytics scripts that shipped in the original page were removed — only
+ * the game itself is loaded here.
+ *
+ * Esc or the Close button exits and tears the game down.
  */
 (function () {
   'use strict';
@@ -18,17 +24,12 @@
     if (active) { return; }
     active = true;
 
-    var reduce = false;
-    try {
-      reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    } catch (e) {}
-
     // ---- Overlay + dialog ----
     var overlay = document.createElement('div');
     overlay.className = 'eggame-overlay';
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', 'Hidden mini-game: catch the falling magnets');
+    overlay.setAttribute('aria-label', 'Hidden mini-game: Slope');
 
     var panel = document.createElement('div');
     panel.className = 'eggame-panel';
@@ -38,11 +39,7 @@
 
     var title = document.createElement('h2');
     title.className = 'eggame-title';
-    title.textContent = 'Magnet Catch';
-
-    var scoreEl = document.createElement('p');
-    scoreEl.className = 'eggame-score';
-    scoreEl.setAttribute('aria-live', 'polite');
+    title.textContent = 'Slope';
 
     var closeBtn = document.createElement('button');
     closeBtn.type = 'button';
@@ -50,165 +47,98 @@
     closeBtn.textContent = 'Close';
 
     header.appendChild(title);
-    header.appendChild(scoreEl);
     header.appendChild(closeBtn);
 
     var hint = document.createElement('p');
     hint.className = 'eggame-hint';
-    hint.textContent = 'Move the basket with your mouse or the \u2190 \u2192 arrow keys. Catch the magnets, dodge nothing \u2014 just have fun! Press Esc to close.';
+    hint.textContent = 'Use the \u2190 \u2192 arrow keys to steer the ball down the slope. Big download \u2014 give it a moment to load. Press Esc to close.';
 
+    // Unity renders into this container.
     var stage = document.createElement('div');
-    stage.className = 'eggame-stage';
-    stage.tabIndex = 0;
+    stage.className = 'eggame-stage eggame-stage--slope';
 
-    var basket = document.createElement('div');
-    basket.className = 'eggame-basket';
-    basket.setAttribute('aria-hidden', 'true');
-    basket.textContent = '\u{1F9FA}'; // basket emoji
-    stage.appendChild(basket);
+    var gameContainer = document.createElement('div');
+    gameContainer.id = 'gameContainer';
+    gameContainer.style.width = '100%';
+    gameContainer.style.height = '100%';
+    stage.appendChild(gameContainer);
+
+    // Attribution line (always visible, honest credit).
+    var credit = document.createElement('p');
+    credit.className = 'eggame-credit';
+    credit.appendChild(document.createTextNode('Slope game build by '));
+    var a1 = document.createElement('a');
+    a1.href = 'https://github.com/catfoolyou/Slope';
+    a1.target = '_blank';
+    a1.rel = 'noopener';
+    a1.textContent = 'catfoolyou';
+    credit.appendChild(a1);
+    credit.appendChild(document.createTextNode(' (used with permission), original source '));
+    var a2 = document.createElement('a');
+    a2.href = 'https://github.com/cgolden15/Slope-Game';
+    a2.target = '_blank';
+    a2.rel = 'noopener';
+    a2.textContent = 'cgolden15/Slope-Game';
+    credit.appendChild(a2);
+    credit.appendChild(document.createTextNode('.'));
 
     panel.appendChild(header);
     panel.appendChild(hint);
     panel.appendChild(stage);
+    panel.appendChild(credit);
     overlay.appendChild(panel);
     document.body.appendChild(overlay);
 
-    // ---- Game state ----
-    var score = 0;
-    var missed = 0;
-    var running = true;
-    var basketX = 0.5; // 0..1 fraction across the stage
-    var items = [];    // {el, x, y, vy, caught}
-    var spawnTimer = 0;
-    var lastTs = 0;
-    var ICONS = ['\u{1F9F2}', '\u{1F4D8}', '\u{1F4D0}', '\u2B50', '\u{1F9EE}']; // magnet, book, ruler, star, abacus
+    // ---- Load the Unity loader script on demand, then instantiate ----
+    var gameInstance = null;
 
-    function updateScore() {
-      scoreEl.textContent = 'Score: ' + score + (missed ? '  \u00b7  Missed: ' + missed : '');
-    }
-    updateScore();
-
-    function stageSize() {
-      var r = stage.getBoundingClientRect();
-      return { w: r.width, h: r.height };
+    function instantiate() {
+      if (typeof window.UnityLoader === 'undefined') {
+        gameContainer.textContent = 'Sorry — the game could not load.';
+        return;
+      }
+      try {
+        gameInstance = window.UnityLoader.instantiate(
+          'gameContainer',
+          'assets/slope/Build/slope.json'
+        );
+      } catch (e) {
+        gameContainer.textContent = 'Sorry — the game could not start.';
+      }
     }
 
-    function placeBasket() {
-      var s = stageSize();
-      var bw = basket.offsetWidth || 48;
-      var x = basketX * s.w - bw / 2;
-      x = Math.max(0, Math.min(s.w - bw, x));
-      basket.style.transform = 'translateX(' + x + 'px)';
-    }
-
-    function spawnItem() {
-      var s = stageSize();
-      var el = document.createElement('div');
-      el.className = 'eggame-item';
-      el.setAttribute('aria-hidden', 'true');
-      el.textContent = ICONS[Math.floor(Math.random() * ICONS.length)];
-      stage.appendChild(el);
-      var item = {
-        el: el,
-        x: Math.random() * 0.86 + 0.02, // fraction
-        y: -0.05,
-        vy: (reduce ? 0.14 : 0.28) + Math.random() * (reduce ? 0.06 : 0.16), // fraction/sec
-        caught: false
+    if (typeof window.UnityLoader === 'undefined') {
+      var loader = document.createElement('script');
+      loader.src = 'assets/slope/TemplateData/unityloader41.js';
+      loader.onload = instantiate;
+      loader.onerror = function () {
+        gameContainer.textContent = 'Sorry — the game could not load.';
       };
-      el.style.left = (item.x * s.w) + 'px';
-      items.push(item);
+      document.body.appendChild(loader);
+    } else {
+      instantiate();
     }
 
-    function tick(ts) {
-      if (!running) { return; }
-      if (!lastTs) { lastTs = ts; }
-      var dt = Math.min(0.05, (ts - lastTs) / 1000);
-      lastTs = ts;
-
-      var s = stageSize();
-      spawnTimer += dt;
-      var spawnEvery = reduce ? 1.1 : 0.75;
-      if (spawnTimer >= spawnEvery) {
-        spawnTimer = 0;
-        spawnItem();
-      }
-
-      var bw = basket.offsetWidth || 48;
-      var bx = basketX * s.w - bw / 2;
-      bx = Math.max(0, Math.min(s.w - bw, bx));
-      var basketLeft = bx;
-      var basketRight = bx + bw;
-      var basketTopY = 0.86; // fraction
-
-      for (var i = items.length - 1; i >= 0; i--) {
-        var it = items[i];
-        it.y += it.vy * dt;
-        it.el.style.top = (it.y * s.h) + 'px';
-
-        if (!it.caught && it.y >= basketTopY && it.y <= 0.98) {
-          var itemPx = it.x * s.w;
-          if (itemPx >= basketLeft - 14 && itemPx <= basketRight + 14) {
-            it.caught = true;
-            score += 1;
-            updateScore();
-            it.el.classList.add('is-caught');
-            (function (node) {
-              setTimeout(function () { if (node.parentNode) { node.parentNode.removeChild(node); } }, 160);
-            })(it.el);
-            items.splice(i, 1);
-            continue;
-          }
-        }
-        if (it.y > 1.05) {
-          if (!it.caught) { missed += 1; updateScore(); }
-          if (it.el.parentNode) { it.el.parentNode.removeChild(it.el); }
-          items.splice(i, 1);
-        }
-      }
-
-      raf = requestAnimationFrame(tick);
-    }
-
-    // ---- Input ----
-    function onMouseMove(e) {
-      var r = stage.getBoundingClientRect();
-      basketX = (e.clientX - r.left) / r.width;
-      basketX = Math.max(0, Math.min(1, basketX));
-      placeBasket();
-    }
-    function onTouchMove(e) {
-      if (!e.touches || !e.touches[0]) { return; }
-      var r = stage.getBoundingClientRect();
-      basketX = (e.touches[0].clientX - r.left) / r.width;
-      basketX = Math.max(0, Math.min(1, basketX));
-      placeBasket();
-      e.preventDefault();
-    }
+    // ---- Input / teardown ----
     function onKey(e) {
-      if (e.key === 'Escape') { close(); return; }
-      if (e.key === 'ArrowLeft') { basketX = Math.max(0, basketX - 0.07); placeBasket(); e.preventDefault(); }
-      if (e.key === 'ArrowRight') { basketX = Math.min(1, basketX + 0.07); placeBasket(); e.preventDefault(); }
+      if (e.key === 'Escape') { close(); }
     }
-
-    stage.addEventListener('mousemove', onMouseMove);
-    stage.addEventListener('touchmove', onTouchMove, { passive: false });
     document.addEventListener('keydown', onKey);
     closeBtn.addEventListener('click', close);
     overlay.addEventListener('click', function (e) { if (e.target === overlay) { close(); } });
 
-    var raf = requestAnimationFrame(tick);
-
-    // Place basket + focus after layout settles.
-    setTimeout(function () { placeBasket(); stage.focus(); }, 0);
+    closeBtn.focus();
 
     function close() {
-      if (!running) { return; }
-      running = false;
+      if (!active) { return; }
       active = false;
-      if (raf) { cancelAnimationFrame(raf); }
-      stage.removeEventListener('mousemove', onMouseMove);
-      stage.removeEventListener('touchmove', onTouchMove);
       document.removeEventListener('keydown', onKey);
+      // Best-effort teardown of the Unity instance to free memory.
+      try {
+        if (gameInstance && typeof gameInstance.Quit === 'function') {
+          gameInstance.Quit();
+        }
+      } catch (e) { /* ignore */ }
       if (overlay.parentNode) { overlay.parentNode.removeChild(overlay); }
     }
   }
