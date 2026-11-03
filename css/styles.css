@@ -1725,3 +1725,91 @@ noscript nav {
   color: var(--pill-push-fg);
   font-weight: 600;
 }
+
+/* ---------------------------------------------------------------------------
+   Easter-egg mini-game ("Magnet Catch") — hidden; only rendered when launched
+   by 5 quick clicks on the logo. Scoped styles so it never affects normal pages.
+--------------------------------------------------------------------------- */
+.eggame-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  background: rgba(2, 6, 12, 0.72);
+  backdrop-filter: blur(2px);
+}
+.eggame-panel {
+  width: min(560px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-3);
+  color: var(--text);
+}
+.eggame-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.eggame-title {
+  margin: 0;
+  font-size: var(--step-2);
+}
+.eggame-score {
+  margin: 0;
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--accent);
+}
+.eggame-close {
+  flex: none;
+}
+.eggame-hint {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: var(--space-1) 0 var(--space-2);
+}
+.eggame-stage {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  max-height: 60vh;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(45, 212, 191, 0.10), transparent 60%),
+    var(--bg);
+  border: 1px solid var(--border);
+  outline-offset: 2px;
+}
+.eggame-basket {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  font-size: 2rem;
+  line-height: 1;
+  will-change: transform;
+  user-select: none;
+}
+.eggame-item {
+  position: absolute;
+  top: 0;
+  font-size: 1.6rem;
+  line-height: 1;
+  will-change: top;
+  user-select: none;
+}
+.eggame-item.is-caught {
+  transition: transform 0.16s ease, opacity 0.16s ease;
+  transform: scale(1.5);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .eggame-overlay { backdrop-filter: none; }
+  .eggame-item.is-caught { transition: none; }
+}
