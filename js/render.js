@@ -186,19 +186,98 @@ async function initSubjects() {
   }
 
   if (grid) {
+    // Render every subject card once, then filter by toggling a CSS class on
+    // each card (never display:none from JS directly) so matches/non-matches
+    // fade smoothly instead of popping. This keeps the DOM stable (cards are
+    // created a single time) and lets the browser animate opacity/transform.
+    renderSubjects(grid, subjects, true);
+
+    // The aria-live region is the #subjects-grid container itself; announce
+    // result counts through a dedicated status node so screen readers hear
+    // "Showing N of M subjects" without re-reading every card.
+    const gridInner = grid.querySelector('.grid');
+    let status = null;
+    if (gridInner) {
+      status = document.createElement('p');
+      status.className = 'search-status visually-hidden';
+      grid.insertBefore(status, gridInner);
+    }
+
+    // No-results message lives alongside the grid and is shown only when a
+    // search matches nothing; the friendly copy invites contact.
+    let noResults = null;
+    if (gridInner) {
+      noResults = document.createElement('p');
+      noResults.className = 'empty-state search-no-results';
+      noResults.hidden = true;
+      noResults.textContent = "Don't see your subject? Email us at wheelytutoringclub@gmail.com and we'll do our best to help.";
+      grid.appendChild(noResults);
+    }
+
+    const cards = gridInner
+      ? Array.prototype.slice.call(gridInner.querySelectorAll('.subject-card'))
+      : [];
+
+    // Once a card finishes fading out, collapse its row by setting [hidden] so
+    // the list shrinks; if it is no longer in the filtered-out state (user kept
+    // typing), leave it visible. Under reduced-motion the transition is ~instant
+    // so this fires right away — still no layout shift beyond the list shrinking.
+    cards.forEach(function (card) {
+      card.addEventListener('transitionend', function (e) {
+        if (e.target !== card || e.propertyName !== 'opacity') {
+          return;
+        }
+        if (card.classList.contains('is-filtered-out')) {
+          card.setAttribute('hidden', '');
+        }
+      });
+    });
+
     const apply = function () {
       const term = search ? search.value.trim().toLowerCase() : '';
-      const filtered = term
-        ? subjects.filter(function (s) {
-            return String(s.name).toLowerCase().indexOf(term) !== -1;
-          })
-        : subjects;
-      // Schedule grid cards are expandable where topics exist.
-      renderSubjects(grid, filtered, true);
+      let shown = 0;
+      cards.forEach(function (card, i) {
+        const name = String(subjects[i] && subjects[i].name || '').toLowerCase();
+        const match = !term || name.indexOf(term) !== -1;
+        if (match) {
+          shown++;
+          // Show: clear hidden first so the fade-in transition can run.
+          card.removeAttribute('hidden');
+          // Force a reflow read so removing hidden + removing the class on the
+          // same frame still animates opacity back up.
+          void card.offsetWidth;
+          card.classList.remove('is-filtered-out');
+        } else {
+          // Hide: fade/scale out via the class, then collapse the row once the
+          // transition ends so the list shrinks naturally (no abrupt pop). The
+          // card keeps its place in source order for keyboard/tab consistency.
+          card.classList.add('is-filtered-out');
+        }
+      });
+
+      const total = subjects.length;
+      if (noResults) {
+        noResults.hidden = shown !== 0;
+      }
+      if (status) {
+        status.textContent = term
+          ? 'Showing ' + shown + ' of ' + total + ' subjects'
+          : 'Showing all ' + total + ' subjects';
+      }
     };
+
     apply();
+
     if (search) {
-      search.addEventListener('input', apply);
+      // Debounce input so rapid typing stays smooth; the filter itself is cheap
+      // but debouncing keeps the aria-live announcements from firing per key.
+      let t = null;
+      search.addEventListener('input', function () {
+        if (t) {
+          clearTimeout(t);
+        }
+        t = setTimeout(apply, 120);
+      });
     }
   }
 }
@@ -238,6 +317,18 @@ function tutorCard(tutor, categoryByName) {
     img.setAttribute('decoding', 'async');
     img.setAttribute('width', '800');
     img.setAttribute('height', '800');
+    // Fade the photo in once it decodes (opacity only — the box is already
+    // reserved via width/height + aspect-ratio, so there is no layout shift).
+    // The .img-fade class starts it transparent; .is-loaded fades it in.
+    img.classList.add('img-fade');
+    var markLoaded = function () {
+      img.classList.add('is-loaded');
+    };
+    if (img.complete && img.naturalWidth > 0) {
+      markLoaded();
+    } else {
+      img.addEventListener('load', markLoaded);
+    }
     // If the photo fails to load, drop it so the initials avatar shows through.
     img.addEventListener('error', function () {
       if (img.parentNode) {

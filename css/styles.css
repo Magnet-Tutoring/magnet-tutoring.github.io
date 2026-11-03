@@ -371,7 +371,8 @@ svg {
   color: var(--text);
   font-size: 1.25rem;
   cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.15s ease, background-color 0.15s ease,
+    transform 0.15s ease;
 }
 .nav-toggle:hover {
   border-color: var(--accent);
@@ -379,6 +380,13 @@ svg {
 .nav.is-open .nav-toggle {
   border-color: var(--accent);
   background: var(--bg);
+}
+/* Gentle state feedback on the hamburger glyph itself (transform only). */
+.nav-toggle:active {
+  transform: scale(0.94);
+}
+.nav.is-open .nav-toggle {
+  transform: rotate(90deg);
 }
 
 /* Dark-mode toggle button */
@@ -716,6 +724,18 @@ svg {
   object-fit: cover;
   border-radius: 50%;
 }
+
+/* Image fade-in (JS-added class only). The element box is always reserved by
+   width/height + aspect-ratio, so fading opacity never shifts layout. The class
+   is added by JS right as the <img> is created, so a no-JS page never carries
+   it; images without JS simply aren't injected at all. */
+.img-fade {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.img-fade.is-loaded {
+  opacity: 1;
+}
 /* Initials avatar sits behind the photo; visible only if the photo is absent. */
 .tutor-avatar {
   position: absolute;
@@ -822,6 +842,32 @@ svg {
 }
 .search-box:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* Smooth subject-search filtering. render.js toggles .is-filtered-out on cards
+   that don't match; the card fades + scales down on transform/opacity only
+   (no reflow of neighbours mid-animation), then render.js sets [hidden] on the
+   transitionend so the row collapses and the list shrinks naturally. Matching
+   cards fade back in. Only transform/opacity animate, so this never causes CLS
+   beyond the list getting shorter. */
+.subject-card {
+  transition: opacity 0.18s ease, transform 0.18s ease,
+    box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.subject-card.is-filtered-out {
+  opacity: 0;
+  transform: scale(0.98);
+  pointer-events: none;
+}
+/* The grid must not keep the gap for a collapsed (hidden) card. */
+.subject-card[hidden] {
+  display: none;
+}
+/* The live result count is announced via the grid's aria-live region but kept
+   visually hidden so the layout is unchanged. */
+.search-status {
+  margin: 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -1319,22 +1365,37 @@ noscript nav {
   .nav-toggle {
     display: inline-flex;
   }
+  /* The menu is an absolutely-positioned overlay, so animating it never moves
+     page content (CLS-safe). It stays display:flex and is hidden via opacity +
+     transform + visibility so it can slide/fade smoothly, and `visibility`
+     keeps it out of the tab order and off-screen readers while closed. */
   .nav-list {
-    display: none;
+    display: flex;
     position: absolute;
     left: 0;
     right: 0;
+    top: 100%;
     flex-direction: column;
     gap: 0;
     padding: var(--space-1) var(--space-3) var(--space-2);
     background: var(--surface);
     border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.18s ease, transform 0.18s ease,
+      visibility 0s linear 0.18s;
   }
   .site-header {
     position: relative;
   }
   .nav.is-open .nav-list {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.18s ease, transform 0.18s ease,
+      visibility 0s linear 0s;
   }
   .nav {
     gap: var(--space-1);
@@ -1416,6 +1477,28 @@ noscript nav {
     transform: translateY(-1px) scale(1.04);
     transition: transform 0.15s ease;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Theme switch transition (opt-in). The .theme-anim class is added by theme.js
+   ONLY on a user click, so the before-first-paint theme set by the inline
+   <head> script never animates (no load flash). Scoped to the handful of
+   surfaces that change color so the switch feels gentle without a heavy global
+   `*` transition that would jank. Color/background/border only — no transform,
+   no reflow, so CLS stays 0. Neutralized under prefers-reduced-motion below.
+--------------------------------------------------------------------------- */
+.theme-anim body,
+.theme-anim .site-header,
+.theme-anim .site-footer,
+.theme-anim .card,
+.theme-anim .hero,
+.theme-anim .schedule-card,
+.theme-anim .search-box,
+.theme-anim .theme-toggle,
+.theme-anim .nav-toggle,
+.theme-anim details.accordion {
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 /* ---------------------------------------------------------------------------
