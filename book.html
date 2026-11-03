@@ -33,12 +33,14 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <!-- page scripts: non-render-blocking. layout + theme on every page -->
+  <script src="js/config.js" defer></script>
   <script src="js/layout.js" defer></script>
   <script src="js/theme.js" defer></script>
   <script src="js/reveal.js" defer></script>
   <script src="js/easter-egg.js" defer></script>
-  <!-- API-first booking submit. Exposes MagnetBookingApi.trySubmit; the inline
-       script below tries it first and falls back to Formspree/mailto. -->
+  <!-- API-first booking submit. Exposes MagnetBookingApi.trySubmit; with the
+       backend disabled (config.js) it resolves false and the inline script
+       below falls back to Formspree/mailto. -->
   <script src="js/booking-api.js" defer></script>
 </head>
 <body data-page="book">

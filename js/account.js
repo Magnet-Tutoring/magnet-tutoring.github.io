@@ -253,7 +253,27 @@
 
   // ---- init --------------------------------------------------------------
 
+  // Is the server-backed feature set turned on? (see js/config.js). On the
+  // static GitHub Pages site this is false, so we never hit /api/* — we just
+  // show a friendly "coming soon" note and make no failing request.
+  function backendEnabled() {
+    return !!(window.MagnetConfig && window.MagnetConfig.BACKEND_ENABLED);
+  }
+
+  function showComingSoon() {
+    hide($('account-loading'));
+    hide($('auth-view'));
+    hide($('my-account-view'));
+    show($('account-coming-soon'));
+  }
+
   function init() {
+    if (!backendEnabled()) {
+      // Static mode: no backend. Show the coming-soon note; make no API call.
+      showComingSoon();
+      return;
+    }
+
     wireLogin();
     wireRegister();
     wireLogout();

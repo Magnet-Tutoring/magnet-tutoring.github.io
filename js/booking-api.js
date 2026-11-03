@@ -59,6 +59,11 @@
     if (!form || typeof fetch !== 'function') {
       return Promise.resolve(false);
     }
+    // In static mode (no backend — see js/config.js) skip the API entirely so no
+    // failing request is made; the caller falls back to Formspree/mailto.
+    if (!(window.MagnetConfig && window.MagnetConfig.BACKEND_ENABLED)) {
+      return Promise.resolve(false);
+    }
     return fetch('/api/bookings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },

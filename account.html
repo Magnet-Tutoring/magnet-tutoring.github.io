@@ -33,12 +33,14 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <!-- page scripts: non-render-blocking. layout + theme on every page -->
+  <script src="js/config.js" defer></script>
   <script src="js/layout.js" defer></script>
   <script src="js/theme.js" defer></script>
   <script src="js/reveal.js" defer></script>
   <script src="js/easter-egg.js" defer></script>
-  <!-- Account view: feature-detects the session via /api/me and wires the
-       login/register/logout flows. Falls back gracefully if the API is down. -->
+  <!-- Account view: in static mode (backend disabled via config.js) shows a
+       coming-soon note and makes no /api request; with the backend on, it
+       feature-detects the session and wires login/register/logout. -->
   <script src="js/account.js" defer></script>
 </head>
 <body data-page="account">
@@ -67,6 +69,19 @@
 
         <!-- Shown while /api/me is in flight; hidden once we know the state. -->
         <p id="account-loading" class="form-intro">Loading your account…</p>
+
+        <!-- Shown when the backend is not enabled (e.g. on the static GitHub
+             Pages site). No server request is made in this mode. -->
+        <div id="account-coming-soon" class="form-card" hidden>
+          <p><strong>Accounts are coming soon.</strong></p>
+          <p>
+            We're putting the finishing touches on family accounts, where you'll be
+            able to track your booking requests and any remaining bundle credit.
+            In the meantime, you can <a href="book.html">book a session</a> any time,
+            or email us at <a href="mailto:tutoringmagnet@gmail.com">tutoringmagnet@gmail.com</a>
+            or call/text <a href="tel:+19293745741">(929) 374-5741</a>.
+          </p>
+        </div>
 
         <!-- Logged-OUT view: login + register forms. Hidden by default; the
              script reveals whichever view matches the session. -->
