@@ -213,5 +213,5 @@ check-in, tutors, email). These items remain:
   gradual rescheduling (`pricing.html`, `subjects.html`, `faq.html`).
 - **What to bring** — pencil + notebook, laptop for grades 5–12 (`about.html`).
 - **Check-in** — text on arrival; up to 5 min late accommodated (`about.html`, `faq.html`).
-- **Club email** — `wheelytutoringclub@gmail.com` (`js/layout.js`, `book.html`, `faq.html`).
+- **Club email** — `tutoringmagnet@gmail.com` (`js/layout.js`, `book.html`, `faq.html`).
 - **Booking** — email-based forms (see "How booking works" above).

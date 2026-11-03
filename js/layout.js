@@ -22,7 +22,7 @@
     { page: 'faq', href: 'faq.html', label: 'FAQ' }
   ];
 
-  var CLUB_EMAIL = 'wheelytutoringclub@gmail.com';
+  var CLUB_EMAIL = 'tutoringmagnet@gmail.com';
 
   function buildHeader() {
     var currentPage = document.body.dataset.page || '';

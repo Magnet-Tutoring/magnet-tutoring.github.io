@@ -147,7 +147,7 @@ function subjectCard(subject, expandable) {
 function renderSubjects(container, subjects, expandable) {
   clear(container);
   if (!subjects.length) {
-    showMessage(container, 'empty-state', "Don't see your subject? Email us at wheelytutoringclub@gmail.com and we'll do our best to help.");
+    showMessage(container, 'empty-state', "Don't see your subject? Email us at tutoringmagnet@gmail.com and we'll do our best to help.");
     return;
   }
   const grid = document.createElement('div');
@@ -210,7 +210,7 @@ async function initSubjects() {
       noResults = document.createElement('p');
       noResults.className = 'empty-state search-no-results';
       noResults.hidden = true;
-      noResults.textContent = "Don't see your subject? Email us at wheelytutoringclub@gmail.com and we'll do our best to help.";
+      noResults.textContent = "Don't see your subject? Email us at tutoringmagnet@gmail.com and we'll do our best to help.";
       grid.appendChild(noResults);
     }
 
