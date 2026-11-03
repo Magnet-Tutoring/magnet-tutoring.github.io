@@ -43,11 +43,18 @@
     document.documentElement.classList.add('reveal-ready');
 
     var observer = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          obs.unobserve(entry.target);
-        }
+      // Reveal entries that just entered, with a slight stagger when several
+      // come in on the same tick so a row of cards cascades rather than
+      // snapping in all at once. The stagger is a transition-delay only
+      // (transform/opacity still do the moving), so it never affects layout.
+      var incoming = entries.filter(function (entry) {
+        return entry.isIntersecting;
+      });
+      incoming.forEach(function (entry, i) {
+        var delay = Math.min(i, 5) * 60; // cap the cascade so nothing lags far behind
+        entry.target.style.transitionDelay = delay + 'ms';
+        entry.target.classList.add('is-revealed');
+        obs.unobserve(entry.target);
       });
     }, {
       root: null,

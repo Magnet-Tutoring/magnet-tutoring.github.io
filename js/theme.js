@@ -33,6 +33,10 @@
     reflect(button);
 
     button.addEventListener('click', function () {
+      // Enable the gentle color transition ONLY on a user-initiated switch, so
+      // the inline <head> script's before-first-paint theming never animates
+      // (no flash on load). The class stays on for subsequent toggles.
+      document.documentElement.classList.add('theme-anim');
       var next = currentTheme() === 'dark' ? 'light' : 'dark';
       document.documentElement.dataset.theme = next;
       reflect(button);
