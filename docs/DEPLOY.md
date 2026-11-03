@@ -104,6 +104,28 @@ Pages to claim the domain. Once DNS points at Render:
 Leaving both GitHub Pages and Render pointed at the same domain causes conflicts,
 so retire the GitHub Pages side once Render is serving traffic.
 
+## 6. Turn on the dynamic features (CRITICAL — the backend is not "on" until you do this)
+
+Deploying the backend and repointing DNS are **not** enough on their own.
+`js/config.js` ships with `BACKEND_ENABLED: false`, and that flag is what the
+frontend reads. **Until you flip it, the deployed Render server still serves the
+STATIC experience:** account pages show "coming soon", the booking form uses its
+Formspree/mailto path, and the browser makes **no `/api` calls**. The backend
+being live does not by itself switch on accounts, database-backed bookings, or
+the admin dashboard — **only the flag does.**
+
+Once the backend is live on Render and DNS points at it (steps 1–5 complete and
+verified via the `*.onrender.com` URL):
+
+1. In `js/config.js`, change `BACKEND_ENABLED: false` to `BACKEND_ENABLED: true`.
+2. Commit that change and let Render redeploy (or trigger a manual deploy).
+3. Verify on the live domain: account registration/login works, bookings go
+   through `/api`, and `/admin` serves the dashboard for the `ADMIN_EMAIL` user.
+
+If you ever need to fall back to the static experience (e.g. the backend is
+down), set `BACKEND_ENABLED` back to `false` and redeploy — the site keeps
+working as a static site with the Formspree/mailto booking path.
+
 ## CSRF / cookie strategy
 
 The app is same-origin: the static pages, the API (`/api/*`), and the admin
