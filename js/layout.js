@@ -187,14 +187,18 @@
     email.href = 'mailto:' + CLUB_EMAIL;
     email.textContent = CLUB_EMAIL;
 
-    var sep = document.createTextNode(' \u00B7 ');
+    var phone = document.createElement('a');
+    phone.href = 'tel:+19293745741';
+    phone.textContent = '(929) 374-5741';
 
     var book = document.createElement('a');
     book.href = 'book.html';
     book.textContent = 'Book a Session';
 
     links.appendChild(email);
-    links.appendChild(sep);
+    links.appendChild(document.createTextNode(' \u00B7 '));
+    links.appendChild(phone);
+    links.appendChild(document.createTextNode(' \u00B7 '));
     links.appendChild(book);
 
     inner.appendChild(copy);
