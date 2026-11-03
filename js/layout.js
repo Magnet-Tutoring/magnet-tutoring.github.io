@@ -169,8 +169,16 @@
 
     inner.appendChild(copy);
     inner.appendChild(links);
+
+    // Independence disclaimer: our tutors study in the Wheeler Magnet program,
+    // but the business itself is independent and not affiliated with the school.
+    var disclaimer = document.createElement('p');
+    disclaimer.className = 'footer-disclaimer';
+    disclaimer.textContent = 'Magnet Tutoring is an independent, student-run service. Our tutors are students in Wheeler\u2019s Magnet program, but Magnet Tutoring is not affiliated with, sponsored by, or endorsed by Wheeler High School or the Cobb County School District.';
+
     footer.appendChild(ctaWrap);
     footer.appendChild(inner);
+    footer.appendChild(disclaimer);
 
     return footer;
   }

@@ -1345,6 +1345,16 @@ details.accordion > summary:hover {
 .site-footer a:not(.btn) {
   color: var(--accent);
 }
+/* Fine-print independence disclaimer at the very bottom of the footer. */
+.footer-disclaimer {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--space-3) var(--space-4);
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: center;
+}
 
 /* ---------------------------------------------------------------------------
    noscript fallback nav
