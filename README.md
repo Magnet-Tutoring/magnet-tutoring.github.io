@@ -1,9 +1,16 @@
 # Magnet Tutoring
+# Magnet Tutoring
+
+Live at **https://magnettutoring.com/**
+
+> **Want to change the site's content (bios, prices, subjects, wording)?**
+> See **[EDITING.md](EDITING.md)** — a plain-language guide, no coding needed.
 
 A static website for a student-run tutoring service — one-on-one and small-group tutoring
-by top Wheeler Magnet students, held at the local library. It is built with plain HTML, CSS,
-and vanilla JavaScript: **no framework, no bundler, and no build step.** The files in this
-folder are exactly what gets served. You edit them, test locally, and deploy them as-is.
+by top students from Wheeler's Magnet program, held at the local library. It is built with
+plain HTML, CSS, and vanilla JavaScript: **no framework, no bundler, and no build step.** The
+files in this folder are exactly what gets served. You edit them, test locally, and deploy
+them as-is.
 
 Pages: Home (`index.html`), About (`about.html`), Subjects (`subjects.html`),
 Pricing (`pricing.html`), Tutors (`tutors.html`), Book (`book.html`),
