@@ -16,6 +16,8 @@ const PgSession = require('connect-pg-simple')(session);
 const { migrate } = require('./db/migrate');
 const { pool } = require('./db/pool');
 const authRouter = require('./routes/auth');
+const bookingsRouter = require('./routes/bookings');
+const { pageRouter: adminPageRouter, apiRouter: adminApiRouter } = require('./routes/admin');
 
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -34,6 +36,10 @@ function buildApp() {
   );
 
   app.use(express.json());
+  // Parse urlencoded bodies so the admin dashboard's native HTML forms (which
+  // POST application/x-www-form-urlencoded, with ?_method=PATCH overrides) work
+  // without JavaScript.
+  app.use(express.urlencoded({ extended: false }));
 
   // Server-side sessions backed by the FEAT-001 "session" table. Wired BEFORE
   // the routers so req.session is available everywhere downstream.
@@ -77,13 +83,14 @@ function buildApp() {
     return next();
   });
 
-  // API routers. The bookings/admin routers from later features mount on the
-  // same /api base. Route order keeps /api/* ahead of express.static.
+  // API routers. All /api and /admin handling must precede express.static so
+  // dynamic routes win over any same-named static file.
   app.use('/api', authRouter);
+  app.use('/api', bookingsRouter);
+  app.use('/api/admin', adminApiRouter);
 
-  // Admin dashboard routes are added by a later feature.
-  const adminRouter = express.Router();
-  app.use('/admin', adminRouter);
+  // Server-rendered admin dashboard page (admin-only).
+  app.use('/admin', adminPageRouter);
 
   // Serve the repo root as the web root. extensions: ['html'] lets
   // /book resolve to book.html, while /book.html continues to work.
