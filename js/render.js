@@ -147,7 +147,7 @@ function subjectCard(subject, expandable) {
 function renderSubjects(container, subjects, expandable) {
   clear(container);
   if (!subjects.length) {
-    showMessage(container, 'empty-state', 'No subjects match that search — try another word.');
+    showMessage(container, 'empty-state', "Don't see your subject? Email us at wheelytutoringclub@gmail.com and we'll do our best to help.");
     return;
   }
   const grid = document.createElement('div');
