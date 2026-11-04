@@ -88,32 +88,38 @@
           <form id="booking-form" class="booking-form"
                 action="https://formspree.io/f/mjyypzay" method="POST" novalidate>
             <input type="hidden" name="_subject" value="New tutoring session request">
-            <div class="field">
-              <label for="bf-guardian-name">Parent/Guardian name <span aria-hidden="true">*</span></label>
-              <input type="text" id="bf-guardian-name" name="guardianName" autocomplete="name" required>
-            </div>
 
-            <div class="field">
-              <label for="bf-email">Your email <span aria-hidden="true">*</span></label>
-              <input type="email" id="bf-email" name="_replyto" autocomplete="email" required>
-              <p class="field-help">So we can reply to confirm your session.</p>
-            </div>
+            <!-- Parent / guardian details grouped together -->
+            <fieldset class="field field-group">
+              <legend>Parent / guardian</legend>
+              <div class="field">
+                <label for="bf-guardian-name">Full name <span aria-hidden="true">*</span></label>
+                <input type="text" id="bf-guardian-name" name="guardianName" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="bf-email">Email <span aria-hidden="true">*</span></label>
+                <input type="email" id="bf-email" name="_replyto" autocomplete="email" required>
+                <p class="field-help">We'll reply here to confirm your session.</p>
+              </div>
+              <div class="field">
+                <label for="bf-guardian-contact">Phone <span aria-hidden="true">*</span></label>
+                <input type="tel" id="bf-guardian-contact" name="guardianContact" autocomplete="tel" required>
+                <p class="field-help">A contact number for scheduling and approval.</p>
+              </div>
+            </fieldset>
 
-            <div class="field">
-              <label for="bf-guardian-contact">Parent/Guardian email or phone <span aria-hidden="true">*</span></label>
-              <input type="text" id="bf-guardian-contact" name="guardianContact" autocomplete="tel" required>
-              <p class="field-help">A guardian contact for scheduling and approval.</p>
-            </div>
-
-            <div class="field">
-              <label for="bf-student">Student name</label>
-              <input type="text" id="bf-student" name="student" placeholder="e.g. Jamie">
-            </div>
-
-            <div class="field">
-              <label for="bf-grade">Student grade/level <span aria-hidden="true">*</span></label>
-              <input type="text" id="bf-grade" name="grade" placeholder="e.g. 8th grade" required>
-            </div>
+            <!-- Student details grouped together -->
+            <fieldset class="field field-group">
+              <legend>Student</legend>
+              <div class="field">
+                <label for="bf-student">Student name</label>
+                <input type="text" id="bf-student" name="student" placeholder="e.g. Jamie">
+              </div>
+              <div class="field">
+                <label for="bf-grade">Grade / level <span aria-hidden="true">*</span></label>
+                <input type="text" id="bf-grade" name="grade" placeholder="e.g. 8th grade" required>
+              </div>
+            </fieldset>
 
             <div class="field">
               <label for="bf-subject">Subject <span aria-hidden="true">*</span></label>
@@ -182,7 +188,7 @@
               <p id="bf-tutor-hint" class="field-help tutor-hint" role="status" aria-live="polite"></p>
             </div>
 
-            <fieldset class="field">
+            <fieldset class="field field-radios">
               <legend>Session type <span aria-hidden="true">*</span></legend>
               <label class="choice">
                 <input type="radio" name="sessionType" value="Private (one-on-one)" required>

@@ -1234,12 +1234,11 @@ details.accordion > summary:hover {
 }
 
 /* Preferred-tutor hint (book.html). tutor-picker.js fills this with a line like
-   "Aarav Marfatia teaches Algebra 1" after a subject is chosen. Reserve the
-   one-line height while it is empty so appending text never shifts the form
-   (CLS = 0); the reservation drops to auto once text is present. Two lines of
-   worst-case wrap on narrow screens stay within this reservation. */
+   "Aarav Marfatia teaches Algebra 1" after a subject is chosen. Reserve ~one
+   line of height while it is empty so appending text never shifts the form
+   (CLS = 0); the reservation drops to auto once text is present. */
 .tutor-hint:empty {
-  min-height: 2.5rem;
+  min-height: 1.3rem;
   margin: var(--space-1) 0 0;
 }
 
@@ -1668,6 +1667,7 @@ noscript nav {
 }
 .booking-form input[type='text'],
 .booking-form input[type='email'],
+.booking-form input[type='tel'],
 .booking-form select,
 .booking-form textarea {
   width: 100%;
@@ -1694,13 +1694,34 @@ noscript nav {
   outline-offset: 1px;
   border-color: var(--accent);
 }
-/* Fieldset for the session-type radios */
-.booking-form fieldset.field {
+/* Grouped sections (Parent / guardian, Student) — a light divider + heading so
+   related fields read as one block, without a heavy boxed look. */
+.booking-form fieldset.field-group {
+  border: 0;
+  border-top: 1px solid var(--border);
+  padding: var(--space-2) 0 0;
+  margin-bottom: var(--space-3);
+}
+.booking-form fieldset.field-group > legend {
+  font-weight: 700;
+  font-size: var(--step-1);
+  padding: 0;
+  margin-bottom: var(--space-1);
+  color: var(--accent);
+}
+/* Nested fields inside a group keep tidy spacing; last one has no trailing gap. */
+.booking-form .field-group .field:last-child {
+  margin-bottom: 0;
+}
+
+/* Fieldset for the session-type radios (scoped to .field-radios so it never
+   boxes the .field-group sections above). */
+.booking-form fieldset.field-radios {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: var(--space-2);
 }
-.booking-form fieldset.field > legend {
+.booking-form fieldset.field-radios > legend {
   font-weight: 600;
   padding: 0 var(--space-1);
 }
