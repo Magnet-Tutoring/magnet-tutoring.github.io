@@ -187,7 +187,7 @@
     if (active) { return; }
     active = true;
     var ui = buildOverlay('Secret games', 'You found the secret games!',
-      'Nice \u2014 you entered the Konami code. Pick a game to play. Press Esc to close.');
+      'Nice \u2014 you found the secret code. Pick a game to play. Press Esc to close.');
 
     var choices = document.createElement('div');
     choices.className = 'eggame-picker btn-row';
@@ -219,12 +219,12 @@
     slopeBtn.focus();
   }
 
-  // ---- Hidden trigger: the classic Konami code (deliberate, not accidental)
-  // ↑ ↑ ↓ ↓ ← → ← → B A  launches the hidden game. Ignores typing inside form
-  // fields so it never fires while a visitor is filling out a form.
+  // ---- Hidden trigger: ↑ ↑ ↓ ↓ ← ← → →  opens the secret-games picker.
+  // Deliberate, not accidental. Ignores typing inside form fields so it never
+  // fires while a visitor is filling out a form.
   function wireTriggers() {
     var konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
-                  'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+                  'ArrowLeft', 'ArrowLeft', 'ArrowRight', 'ArrowRight'];
     var pos = 0;
 
     function inFormField(t) {
