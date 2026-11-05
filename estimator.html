@@ -58,8 +58,10 @@
       <div class="container">
         <h1>Grade Calculator</h1>
         <p class="section-intro">
-          Two quick, free tools to help you understand where you stand in a class.
-          Everything stays in your browser — nothing is sent anywhere.
+          Free tools to help you understand exactly where you stand in a class — your current
+          grade, what you need on the final, the highest grade you can still reach, and the
+          lowest score that holds your grade. Everything stays in your browser; nothing is sent
+          anywhere.
         </p>
         <noscript>
           <p class="prose">This calculator needs JavaScript turned on. You can still
@@ -67,18 +69,18 @@
           <a href="mailto:tutoringmagnet@gmail.com">tutoringmagnet@gmail.com</a>.</p>
         </noscript>
 
-        <!-- TOOL 1: current grade from weighted categories -->
+        <!-- TOOL 1: current grade from up to 10 weighted categories -->
         <section class="section" aria-labelledby="current-heading">
           <h2 id="current-heading">1. What's my current grade?</h2>
           <p class="prose">
             Enter each category (like Tests, Homework, Quizzes), the weight it's worth in
-            your class, and your average score in it. We'll compute your overall grade.
+            your class, and your average score in it. You can use up to 10 categories — leave
+            a row blank and it counts as 0% (ignored). We'll compute your overall grade.
           </p>
 
           <form id="current-form" class="estimator-form" novalidate>
             <div id="category-rows"></div>
             <p class="btn-row">
-              <button type="button" id="add-category" class="btn btn-secondary">+ Add category</button>
               <button type="submit" class="btn btn-primary">Calculate my grade</button>
             </p>
             <p id="current-weight-note" class="field-help" aria-live="polite"></p>
@@ -92,7 +94,7 @@
           <h2 id="needed-heading">2. What do I need on the final?</h2>
           <p class="prose">
             Enter your current grade, the grade you're hoping to finish with, and how much
-            the final (or remaining assignment) is worth. We'll tell you the score you need.
+            the final (or remaining work) is worth. We'll tell you the score you need.
           </p>
 
           <form id="needed-form" class="estimator-form" novalidate>
@@ -116,6 +118,93 @@
 
           <div id="needed-result" class="estimator-result" role="status" aria-live="polite"></div>
         </section>
+
+        <!-- TOOL 3: maximum possible grade -->
+        <section class="section" aria-labelledby="max-heading">
+          <h2 id="max-heading">3. What's the highest grade I can still get?</h2>
+          <p class="prose">
+            If you aced everything left in the class, how high could you finish? Enter your
+            current grade and how much of the grade is still unscored (the final plus any
+            remaining assignments).
+          </p>
+
+          <form id="max-form" class="estimator-form" novalidate>
+            <div class="field">
+              <label for="max-current">Your current grade (%)</label>
+              <input type="number" id="max-current" name="maxCurrent" min="0" max="150" step="0.1" inputmode="decimal" required>
+            </div>
+            <div class="field">
+              <label for="max-remaining">Weight of all remaining work (%)</label>
+              <input type="number" id="max-remaining" name="maxRemaining" min="0" max="100" step="0.1" inputmode="decimal" required>
+              <p class="field-help">For example, if the final is 20% and a project is 10%, enter 30.</p>
+            </div>
+            <p class="btn-row">
+              <button type="submit" class="btn btn-primary">Show my ceiling</button>
+            </p>
+          </form>
+
+          <div id="max-result" class="estimator-result" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- TOOL 4: minimum to maintain / pass -->
+        <section class="section" aria-labelledby="min-heading">
+          <h2 id="min-heading">4. What's the lowest I can score and still hold my grade?</h2>
+          <p class="prose">
+            Want to know how much cushion you have? Enter your current grade, the grade you
+            need to keep (like 90 for an A-), and the weight of your remaining work. We'll find
+            the lowest score on that work that still keeps you at or above your target.
+          </p>
+
+          <form id="min-form" class="estimator-form" novalidate>
+            <div class="field">
+              <label for="min-current">Your current grade (%)</label>
+              <input type="number" id="min-current" name="minCurrent" min="0" max="150" step="0.1" inputmode="decimal" required>
+            </div>
+            <div class="field">
+              <label for="min-target">Grade you need to keep (%)</label>
+              <input type="number" id="min-target" name="minTarget" min="0" max="150" step="0.1" inputmode="decimal" required>
+            </div>
+            <div class="field">
+              <label for="min-remaining">Weight of remaining work (%)</label>
+              <input type="number" id="min-remaining" name="minRemaining" min="0.1" max="100" step="0.1" inputmode="decimal" required>
+            </div>
+            <p class="btn-row">
+              <button type="submit" class="btn btn-primary">Find my floor</button>
+            </p>
+          </form>
+
+          <div id="min-result" class="estimator-result" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- Honest "the math behind it" explainer -->
+        <details class="accordion" data-reveal>
+          <summary>The math behind the maximum (for the curious)</summary>
+          <div class="prose">
+            <p>
+              Your course grade is a weighted average. If your current grade is <strong>C</strong>
+              (as a percent) and the remaining work is worth a fraction <strong>w</strong> of the
+              grade, then your finish is:
+            </p>
+            <p><code>Final grade = C·(1 − w) + (your remaining score)·w</code></p>
+            <p>
+              Your highest possible finish comes from scoring 100% on everything left. You can
+              see this with a quick bit of calculus: treat the final grade as a function of your
+              remaining score and take its derivative — the slope with respect to that score is
+              just <code>w</code>, which is positive. A function whose slope is always positive is
+              strictly increasing, so (by the Extreme Value Theorem) its maximum on the allowed
+              range sits at the top boundary — a perfect 100%. Plugging that in gives the clean
+              formula the "ceiling" tool uses:
+            </p>
+            <p><code>Maximum grade = C·(1 − w) + 100·w</code></p>
+            <p>
+              So the calculus confirms the common-sense answer: the best you can do is lock in what
+              you've earned and ace what's left. No hidden "effort" or "efficiency" fudge factors —
+              just the exact math your gradebook uses. (If a formula promised to predict your
+              <em>actual</em> max based on you personally, it would be guessing — real improvement
+              comes from the work, which is where a tutor helps.)
+            </p>
+          </div>
+        </details>
 
         <p class="estimator-disclaimer">
           This calculator is an estimate for your own planning — your school's exact grading

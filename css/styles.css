@@ -1273,12 +1273,16 @@ details.accordion > summary:hover {
   cursor: pointer;
 }
 
-/* estimator.js injects three seeded category rows into #category-rows after
-   first paint. Reserve their height while the container is empty so adding them
-   does not push the page down (CLS = 0); the reservation drops to auto once the
-   rows are present. ~3 rows at desktop height. */
+/* estimator.js injects 10 category rows into #category-rows after first paint.
+   Reserve their height while the container is empty so adding them does not push
+   the page down (CLS = 0); the reservation drops to auto once the rows are
+   present. ~10 rows at desktop height (each row ~140px incl. gap). */
 #category-rows:empty {
-  min-height: 465px;
+  min-height: 1480px;
+}
+@media (min-width: 640px) {
+  /* On wider screens each row is a single flex line, so it's shorter. */
+  #category-rows:empty { min-height: 880px; }
 }
 
 /* One category row in the current-grade tool: name / weight / score / remove.

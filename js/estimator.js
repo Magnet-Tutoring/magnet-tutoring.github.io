@@ -1,14 +1,23 @@
 /*
- * estimator.js — the free grade calculator on estimator.html. Two tools:
- *   1. Current grade from weighted categories (Tests 40% @ 88%, etc.).
+ * estimator.js — the free grade calculator on estimator.html. Four tools:
+ *   1. Current grade from up to 10 weighted categories (blank row = 0% weight).
  *   2. Score needed on the final to reach a target grade.
+ *   3. Maximum possible grade = C(1-w) + 100w (the real optimization result).
+ *   4. Minimum score on remaining work to hold a target grade.
  *
  * Loaded with `defer`. Pure vanilla JS, no network, no dependencies — all
  * numbers stay in the browser. All output is written with textContent (never
  * innerHTML), so nothing a user types can inject markup.
+ *
+ * The math is plain weighted-average arithmetic (exactly what a gradebook uses).
+ * The "maximum" is a genuine linear optimization: the final grade is strictly
+ * increasing in your remaining score, so its max on [0,100] is at 100 — giving
+ * C(1-w) + 100w. See the "math behind it" explainer on the page.
  */
 (function () {
   'use strict';
+
+  var CATEGORY_COUNT = 10;
 
   function $(id) { return document.getElementById(id); }
 
@@ -18,6 +27,8 @@
     var n = Number(el.value);
     return isFinite(n) ? n : null;
   }
+
+  function round2(n) { return Math.round(n * 100) / 100; }
 
   function clear(el) {
     while (el && el.firstChild) { el.removeChild(el.firstChild); }
@@ -47,146 +58,6 @@
     container.appendChild(p);
   }
 
-  // ---- Tool 1: current grade from weighted categories --------------------
-
-  var catRows = $('category-rows');
-  var catSeq = 0;
-
-  function addCategoryRow(name, weight, score) {
-    if (!catRows) { return; }
-    catSeq += 1;
-    var id = catSeq;
-
-    var row = document.createElement('div');
-    row.className = 'field estimator-cat-row';
-
-    // Name
-    var nameWrap = document.createElement('div');
-    nameWrap.className = 'field';
-    var nameLabel = document.createElement('label');
-    nameLabel.setAttribute('for', 'cat-name-' + id);
-    nameLabel.textContent = 'Category';
-    var nameInput = document.createElement('input');
-    nameInput.type = 'text';
-    nameInput.id = 'cat-name-' + id;
-    nameInput.className = 'cat-name';
-    nameInput.placeholder = 'e.g. Tests';
-    if (name) { nameInput.value = name; }
-    nameWrap.appendChild(nameLabel);
-    nameWrap.appendChild(nameInput);
-
-    // Weight
-    var weightWrap = document.createElement('div');
-    weightWrap.className = 'field';
-    var weightLabel = document.createElement('label');
-    weightLabel.setAttribute('for', 'cat-weight-' + id);
-    weightLabel.textContent = 'Weight (%)';
-    var weightInput = document.createElement('input');
-    weightInput.type = 'number';
-    weightInput.id = 'cat-weight-' + id;
-    weightInput.className = 'cat-weight';
-    weightInput.min = '0';
-    weightInput.max = '100';
-    weightInput.step = '0.1';
-    weightInput.setAttribute('inputmode', 'decimal');
-    weightInput.placeholder = 'e.g. 40';
-    if (weight != null) { weightInput.value = weight; }
-    weightWrap.appendChild(weightLabel);
-    weightWrap.appendChild(weightInput);
-
-    // Score
-    var scoreWrap = document.createElement('div');
-    scoreWrap.className = 'field';
-    var scoreLabel = document.createElement('label');
-    scoreLabel.setAttribute('for', 'cat-score-' + id);
-    scoreLabel.textContent = 'Your average (%)';
-    var scoreInput = document.createElement('input');
-    scoreInput.type = 'number';
-    scoreInput.id = 'cat-score-' + id;
-    scoreInput.className = 'cat-score';
-    scoreInput.min = '0';
-    scoreInput.max = '150';
-    scoreInput.step = '0.1';
-    scoreInput.setAttribute('inputmode', 'decimal');
-    scoreInput.placeholder = 'e.g. 88';
-    if (score != null) { scoreInput.value = score; }
-    scoreWrap.appendChild(scoreLabel);
-    scoreWrap.appendChild(scoreInput);
-
-    // Remove button
-    var removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.className = 'btn btn-secondary estimator-remove';
-    removeBtn.textContent = 'Remove';
-    removeBtn.setAttribute('aria-label', 'Remove this category');
-    removeBtn.addEventListener('click', function () {
-      row.parentNode.removeChild(row);
-      updateWeightNote();
-    });
-
-    row.appendChild(nameWrap);
-    row.appendChild(weightWrap);
-    row.appendChild(scoreWrap);
-    row.appendChild(removeBtn);
-
-    weightInput.addEventListener('input', updateWeightNote);
-    catRows.appendChild(row);
-    updateWeightNote();
-  }
-
-  function readCategories() {
-    var rows = catRows ? catRows.querySelectorAll('.estimator-cat-row') : [];
-    var cats = [];
-    for (var i = 0; i < rows.length; i++) {
-      var w = num(rows[i].querySelector('.cat-weight'));
-      var s = num(rows[i].querySelector('.cat-score'));
-      if (w != null && s != null && w > 0) {
-        cats.push({ weight: w, score: s });
-      }
-    }
-    return cats;
-  }
-
-  function updateWeightNote() {
-    var note = $('current-weight-note');
-    if (!note) { return; }
-    var cats = readCategories();
-    var total = cats.reduce(function (sum, c) { return sum + c.weight; }, 0);
-    if (cats.length === 0) {
-      note.textContent = '';
-      return;
-    }
-    var rounded = Math.round(total * 10) / 10;
-    if (Math.abs(rounded - 100) < 0.05) {
-      note.textContent = 'Weights add up to 100%. ';
-    } else {
-      note.textContent = 'Weights add up to ' + rounded + '%. That\u2019s fine \u2014 ' +
-        'we\u2019ll scale them to compute your grade.';
-    }
-  }
-
-  function calcCurrent(e) {
-    e.preventDefault();
-    var container = $('current-result');
-    var cats = readCategories();
-    if (cats.length === 0) {
-      clear(container);
-      addMsg(container, 'Add at least one category with a weight and your average score.');
-      return;
-    }
-    var totalWeight = cats.reduce(function (s, c) { return s + c.weight; }, 0);
-    var weighted = cats.reduce(function (s, c) { return s + c.weight * c.score; }, 0);
-    var grade = weighted / totalWeight; // normalized so weights needn't sum to 100
-    var rounded = Math.round(grade * 100) / 100;
-
-    resultLead(container, 'Your current grade is about ' + rounded + '%.');
-    addMsg(container, 'Letter grade (typical US scale): ' + letterGrade(grade) + '.');
-    if (Math.abs(totalWeight - 100) > 0.05) {
-      addMsg(container, 'Note: your weights added up to ' + (Math.round(totalWeight * 10) / 10) +
-        '%, so this is scaled to a 100% total.');
-    }
-  }
-
   function letterGrade(g) {
     if (g >= 97) { return 'A+'; }
     if (g >= 93) { return 'A'; }
@@ -203,7 +74,107 @@
     return 'F';
   }
 
+  // ---- Tool 1: current grade from up to 10 weighted categories -----------
+
+  var catRows = $('category-rows');
+
+  function buildCategoryRow(index, name) {
+    var id = index;
+
+    var row = document.createElement('div');
+    row.className = 'field estimator-cat-row';
+
+    function field(labelText, cls, type, placeholder, extras) {
+      var wrap = document.createElement('div');
+      wrap.className = 'field';
+      var label = document.createElement('label');
+      var inputId = cls + '-' + id;
+      label.setAttribute('for', inputId);
+      label.textContent = labelText;
+      var input = document.createElement('input');
+      input.type = type;
+      input.id = inputId;
+      input.className = cls;
+      input.placeholder = placeholder;
+      if (type === 'number') {
+        input.setAttribute('inputmode', 'decimal');
+        input.step = '0.1';
+        input.min = '0';
+      }
+      if (extras) { extras(input); }
+      wrap.appendChild(label);
+      wrap.appendChild(input);
+      return { wrap: wrap, input: input };
+    }
+
+    var nameF = field('Category', 'cat-name', 'text', 'e.g. ' + (name || 'Category'));
+    if (name) { nameF.input.value = name; }
+    var weightF = field('Weight (%)', 'cat-weight', 'number', 'e.g. 40', function (i) { i.max = '100'; });
+    var scoreF = field('Your average (%)', 'cat-score', 'number', 'e.g. 88', function (i) { i.max = '150'; });
+
+    weightF.input.addEventListener('input', updateWeightNote);
+
+    row.appendChild(nameF.wrap);
+    row.appendChild(weightF.wrap);
+    row.appendChild(scoreF.wrap);
+    return row;
+  }
+
+  function readCategories() {
+    var rows = catRows ? catRows.querySelectorAll('.estimator-cat-row') : [];
+    var cats = [];
+    for (var i = 0; i < rows.length; i++) {
+      // Blank weight = 0% (ignored). Only count rows with a positive weight AND
+      // a score entered.
+      var w = num(rows[i].querySelector('.cat-weight'));
+      var s = num(rows[i].querySelector('.cat-score'));
+      if (w != null && w > 0 && s != null) {
+        cats.push({ weight: w, score: s });
+      }
+    }
+    return cats;
+  }
+
+  function updateWeightNote() {
+    var note = $('current-weight-note');
+    if (!note) { return; }
+    var cats = readCategories();
+    if (cats.length === 0) { note.textContent = ''; return; }
+    var total = cats.reduce(function (sum, c) { return sum + c.weight; }, 0);
+    var rounded = Math.round(total * 10) / 10;
+    if (Math.abs(rounded - 100) < 0.05) {
+      note.textContent = 'Weights add up to 100%.';
+    } else {
+      note.textContent = 'Weights add up to ' + rounded + '%. That\u2019s fine \u2014 ' +
+        'blank rows count as 0%, and we scale the rest to compute your grade.';
+    }
+  }
+
+  function calcCurrent(e) {
+    e.preventDefault();
+    var container = $('current-result');
+    var cats = readCategories();
+    if (cats.length === 0) {
+      clear(container);
+      addMsg(container, 'Fill in at least one row with a weight above 0 and your average score.');
+      return;
+    }
+    var totalWeight = cats.reduce(function (s, c) { return s + c.weight; }, 0);
+    var weighted = cats.reduce(function (s, c) { return s + c.weight * c.score; }, 0);
+    var grade = weighted / totalWeight; // normalized so weights needn't sum to 100
+
+    resultLead(container, 'Your current grade is about ' + round2(grade) + '%.');
+    addMsg(container, 'Letter grade (typical US scale): ' + letterGrade(grade) + '.');
+    addMsg(container, 'Based on ' + cats.length + ' categor' + (cats.length === 1 ? 'y' : 'ies') +
+      ' totalling ' + (Math.round(totalWeight * 10) / 10) + '% weight' +
+      (Math.abs(totalWeight - 100) > 0.05 ? ' (scaled to 100%).' : '.'));
+  }
+
   // ---- Tool 2: score needed on the final ---------------------------------
+
+  function highestPossible(current, w) {
+    return round2(current * (1 - w) + 100 * w);
+  }
 
   function calcNeeded(e) {
     e.preventDefault();
@@ -223,13 +194,12 @@
     }
 
     var w = weight / 100;
-    // target = current*(1-w) + needed*w  ->  needed = (target - current*(1-w)) / w
     var needed = (target - current * (1 - w)) / w;
-    var roundedNeeded = Math.round(needed * 100) / 100;
+    var roundedNeeded = round2(needed);
 
     if (needed <= 0) {
       resultLead(container,
-        'You\u2019ve already secured your goal! Even a 0% on the final keeps you at or above ' +
+        'You\u2019ve already secured it! Even a 0% on the final keeps you at or above ' +
         target + '%.', 'You\u2019re set', 'pill-ok');
     } else if (needed <= 100) {
       var pillClass = needed <= 70 ? 'pill-ok' : (needed <= 90 ? 'pill-push' : 'pill-hard');
@@ -242,32 +212,98 @@
         'Even a perfect 100% on the final would leave you below ' + target + '%. ' +
         'The highest you could reach is about ' + highestPossible(current, w) + '%.',
         'Out of reach', 'pill-hard');
-      addMsg(container, 'Consider talking to your teacher about extra credit \u2014 and we can ' +
-        'help you lock down as many points as possible. Your first session is free.');
+      addMsg(container, 'Ask your teacher about extra credit \u2014 and we can help you lock down ' +
+        'as many points as possible. Your first session is free.');
     }
   }
 
-  function highestPossible(current, w) {
-    return Math.round((current * (1 - w) + 100 * w) * 100) / 100;
+  // ---- Tool 3: maximum possible grade ------------------------------------
+
+  function calcMax(e) {
+    e.preventDefault();
+    var container = $('max-result');
+    var current = num($('max-current'));
+    var remaining = num($('max-remaining'));
+
+    clear(container);
+    if (current == null || remaining == null) {
+      addMsg(container, 'Fill in your current grade and the weight of your remaining work.');
+      return;
+    }
+    if (remaining < 0 || remaining > 100) {
+      addMsg(container, 'Remaining weight should be between 0 and 100%.');
+      return;
+    }
+    var w = remaining / 100;
+    var max = current * (1 - w) + 100 * w;
+    var locked = current * (1 - w);
+
+    resultLead(container, 'The highest you can still finish with is about ' + round2(max) + '% (' +
+      letterGrade(max) + ').', 'Your ceiling', 'pill-ok');
+    addMsg(container, 'That\u2019s ' + round2(locked) + '% already locked in from past work, plus up to ' +
+      round2(100 * w) + '% from acing everything that\u2019s left.');
+  }
+
+  // ---- Tool 4: minimum to hold a target grade ----------------------------
+
+  function calcMin(e) {
+    e.preventDefault();
+    var container = $('min-result');
+    var current = num($('min-current'));
+    var target = num($('min-target'));
+    var remaining = num($('min-remaining'));
+
+    clear(container);
+    if (current == null || target == null || remaining == null) {
+      addMsg(container, 'Fill in your current grade, the grade you need to keep, and the remaining weight.');
+      return;
+    }
+    if (remaining <= 0 || remaining > 100) {
+      addMsg(container, 'Remaining weight should be between 0 and 100%.');
+      return;
+    }
+    var w = remaining / 100;
+    // target = current*(1-w) + floor*w  ->  floor = (target - current*(1-w)) / w
+    var floor = (target - current * (1 - w)) / w;
+
+    if (floor <= 0) {
+      resultLead(container,
+        'You\u2019ve got full cushion \u2014 even a 0% on the rest keeps you at or above ' + target + '%.',
+        'Lots of room', 'pill-ok');
+    } else if (floor <= 100) {
+      var pillClass = floor <= 60 ? 'pill-ok' : (floor <= 80 ? 'pill-push' : 'pill-hard');
+      var pillText = floor <= 60 ? 'Comfortable' : (floor <= 80 ? 'Stay focused' : 'Little room to slip');
+      resultLead(container,
+        'You can score as low as about ' + round2(floor) + '% on the rest and still hold ' + target + '%.',
+        pillText, pillClass);
+    } else {
+      resultLead(container,
+        'Keeping ' + target + '% isn\u2019t possible from here \u2014 even a perfect 100% on the rest ' +
+        'would finish at about ' + highestPossible(current, w) + '%.',
+        'Out of reach', 'pill-hard');
+      addMsg(container, 'Let\u2019s focus on the best grade you can still reach \u2014 we can help.');
+    }
   }
 
   // ---- Init --------------------------------------------------------------
 
   function init() {
     if (catRows) {
-      // Seed with three common categories so the tool is usable immediately.
-      addCategoryRow('Tests', '', '');
-      addCategoryRow('Homework', '', '');
-      addCategoryRow('Quizzes', '', '');
-    }
-    var addBtn = $('add-category');
-    if (addBtn) {
-      addBtn.addEventListener('click', function () { addCategoryRow('', '', ''); });
+      // 10 fixed rows; the first three are named for convenience, the rest blank.
+      // A blank/zero-weight row simply counts as 0% and is ignored.
+      var seeds = ['Tests', 'Homework', 'Quizzes'];
+      for (var i = 1; i <= CATEGORY_COUNT; i++) {
+        catRows.appendChild(buildCategoryRow(i, seeds[i - 1] || ''));
+      }
     }
     var currentForm = $('current-form');
     if (currentForm) { currentForm.addEventListener('submit', calcCurrent); }
     var neededForm = $('needed-form');
     if (neededForm) { neededForm.addEventListener('submit', calcNeeded); }
+    var maxForm = $('max-form');
+    if (maxForm) { maxForm.addEventListener('submit', calcMax); }
+    var minForm = $('min-form');
+    if (minForm) { minForm.addEventListener('submit', calcMin); }
   }
 
   if (document.readyState === 'loading') {
