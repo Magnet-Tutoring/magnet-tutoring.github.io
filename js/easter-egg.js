@@ -172,11 +172,40 @@
     ui.closeBtn.focus();
   }
 
+  // ---- Snake -------------------------------------------------------------
+  function launchSnake() {
+    var ui = buildOverlay('Snake', 'Snake',
+      'Use the arrow keys (or swipe on a phone) to steer the snake and eat the food. Press Esc to close.');
+
+    var stage = document.createElement('div');
+    stage.className = 'eggame-stage eggame-stage--snake';
+
+    var frame = document.createElement('iframe');
+    frame.className = 'eggame-frame';
+    frame.title = 'Snake game';
+    frame.setAttribute('loading', 'lazy');
+    frame.src = 'assets/snake-game/snake/index.html';
+    stage.appendChild(frame);
+
+    var credit = document.createElement('p');
+    credit.className = 'eggame-credit';
+    credit.appendChild(document.createTextNode('Snake by '));
+    credit.appendChild(creditLink('https://github.com/TomMalbran/games', 'Tom\u00e1s Malbr\u00e1n'));
+    credit.appendChild(document.createTextNode(' \u2014 MIT License.'));
+
+    ui.panel.appendChild(stage);
+    ui.panel.appendChild(credit);
+    document.body.appendChild(ui.overlay);
+    ui.closeBtn.focus();
+  }
+
   function launch(key) {
     if (active) { return; }
     active = true;
     if (key === '2048') {
       launch2048();
+    } else if (key === 'snake') {
+      launchSnake();
     } else {
       launchSlope();
     }
@@ -212,8 +241,19 @@
       launch('2048');
     });
 
+    var snakeBtn = document.createElement('button');
+    snakeBtn.type = 'button';
+    snakeBtn.className = 'btn btn-secondary';
+    snakeBtn.textContent = 'Play Snake';
+    snakeBtn.addEventListener('click', function () {
+      ui.close();
+      active = false;
+      launch('snake');
+    });
+
     choices.appendChild(slopeBtn);
     choices.appendChild(g2048Btn);
+    choices.appendChild(snakeBtn);
     ui.panel.appendChild(choices);
     document.body.appendChild(ui.overlay);
     slopeBtn.focus();
@@ -233,15 +273,61 @@
       return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t.isContentEditable;
     }
 
-    document.addEventListener('keydown', function (e) {
-      if (inFormField(e.target)) { return; }
-      var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      pos = (key === konami[pos]) ? pos + 1 : (key === konami[0] ? 1 : 0);
+    // Advance the sequence by one direction ('ArrowUp' etc). A wrong step
+    // resets (but still counts if it matches the first step). Fires the picker
+    // on completion.
+    function step(dir) {
+      pos = (dir === konami[pos]) ? pos + 1 : (dir === konami[0] ? 1 : 0);
       if (pos === konami.length) {
         pos = 0;
         launchPicker();
       }
+    }
+
+    // Desktop: the arrow-key sequence.
+    document.addEventListener('keydown', function (e) {
+      if (inFormField(e.target)) { return; }
+      if (e.key.indexOf('Arrow') !== 0) {
+        // Any non-arrow key breaks the run (keeps it deliberate).
+        pos = 0;
+        return;
+      }
+      step(e.key);
     });
+
+    // Mobile: the SAME sequence performed as swipes — up, up, down, down,
+    // left, left, right, right. Each swipe maps to an arrow direction. We only
+    // treat a touch as a swipe when it moves far enough and is clearly
+    // horizontal or vertical, so normal scrolling/taps don't trigger it.
+    var sx = 0, sy = 0, tracking = false;
+    var SWIPE_MIN = 28; // px
+
+    document.addEventListener('touchstart', function (e) {
+      if (active) { return; } // a game is open
+      if (inFormField(e.target)) { tracking = false; return; }
+      if (!e.touches || e.touches.length !== 1) { tracking = false; return; }
+      tracking = true;
+      sx = e.touches[0].clientX;
+      sy = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', function (e) {
+      if (!tracking) { return; }
+      tracking = false;
+      var t = (e.changedTouches && e.changedTouches[0]) || null;
+      if (!t) { return; }
+      var dx = t.clientX - sx;
+      var dy = t.clientY - sy;
+      var adx = Math.abs(dx), ady = Math.abs(dy);
+      if (adx < SWIPE_MIN && ady < SWIPE_MIN) { return; } // a tap, not a swipe
+      var dir;
+      if (ady >= adx) {
+        dir = dy < 0 ? 'ArrowUp' : 'ArrowDown';
+      } else {
+        dir = dx < 0 ? 'ArrowLeft' : 'ArrowRight';
+      }
+      step(dir);
+    }, { passive: true });
   }
 
   if (document.readyState === 'loading') {

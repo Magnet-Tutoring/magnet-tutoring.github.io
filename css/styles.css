@@ -1916,6 +1916,12 @@ noscript nav {
   max-height: 78vh;
   background: #faf8ef; /* matches the 2048 page background */
 }
+/* Snake runs in a self-contained iframe too. */
+.eggame-stage--snake {
+  height: 560px;
+  max-height: 76vh;
+  background: #0b0e14;
+}
 .eggame-frame {
   width: 100%;
   height: 100%;
