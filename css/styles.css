@@ -1910,6 +1910,18 @@ noscript nav {
   max-height: 70vh;
   background: #231f20; /* matches the game's own background */
 }
+/* 2048 runs in a self-contained iframe; give it room and its own light bg. */
+.eggame-stage--2048 {
+  height: 620px;
+  max-height: 78vh;
+  background: #faf8ef; /* matches the 2048 page background */
+}
+.eggame-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
 .eggame-stage--slope #gameContainer canvas {
   width: 100% !important;
   height: 100% !important;
