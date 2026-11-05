@@ -182,5 +182,73 @@
     }
   }
 
+  // The Konami code opens this picker so either hidden game can be chosen.
+  function launchPicker() {
+    if (active) { return; }
+    active = true;
+    var ui = buildOverlay('Secret games', 'You found the secret games!',
+      'Nice \u2014 you entered the Konami code. Pick a game to play. Press Esc to close.');
+
+    var choices = document.createElement('div');
+    choices.className = 'eggame-picker btn-row';
+
+    var slopeBtn = document.createElement('button');
+    slopeBtn.type = 'button';
+    slopeBtn.className = 'btn btn-primary';
+    slopeBtn.textContent = 'Play Slope';
+    slopeBtn.addEventListener('click', function () {
+      ui.close();         // tear down the picker
+      active = false;     // allow the next game to open
+      launch('slope');
+    });
+
+    var g2048Btn = document.createElement('button');
+    g2048Btn.type = 'button';
+    g2048Btn.className = 'btn btn-secondary';
+    g2048Btn.textContent = 'Play 2048';
+    g2048Btn.addEventListener('click', function () {
+      ui.close();
+      active = false;
+      launch('2048');
+    });
+
+    choices.appendChild(slopeBtn);
+    choices.appendChild(g2048Btn);
+    ui.panel.appendChild(choices);
+    document.body.appendChild(ui.overlay);
+    slopeBtn.focus();
+  }
+
+  // ---- Hidden trigger: the classic Konami code (deliberate, not accidental)
+  // ↑ ↑ ↓ ↓ ← → ← → B A  launches the hidden game. Ignores typing inside form
+  // fields so it never fires while a visitor is filling out a form.
+  function wireTriggers() {
+    var konami = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+                  'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    var pos = 0;
+
+    function inFormField(t) {
+      if (!t) { return false; }
+      var tag = t.tagName;
+      return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t.isContentEditable;
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (inFormField(e.target)) { return; }
+      var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      pos = (key === konami[pos]) ? pos + 1 : (key === konami[0] ? 1 : 0);
+      if (pos === konami.length) {
+        pos = 0;
+        launchPicker();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wireTriggers);
+  } else {
+    wireTriggers();
+  }
+
   window.MagnetGame = { launch: launch };
 })();

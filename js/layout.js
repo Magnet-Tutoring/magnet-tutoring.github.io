@@ -70,47 +70,8 @@
     brand.appendChild(brandLogo);
     brand.appendChild(brandText);
 
-    // Hidden easter egg: 5 quick clicks on the logo launch a mini-game.
-    // The logo is a link to home, so a click would normally navigate away before
-    // a burst can be counted. We therefore cancel navigation on EVERY click and
-    // count them: 5 within ~1.5s launches the game; otherwise, when the window
-    // lapses, a normal click falls through to navigating home.
-    // Two hidden games: a burst of 5 quick clicks launches Slope, 10 launches
-    // 2048. We cancel navigation on every click, count the burst, and only fall
-    // through to navigating home when the burst window lapses below 5 (so a
-    // single ordinary click still works, after a short pause).
-    var eggClicks = 0;
-    var eggTimer = null;
-    function launchEgg(key) {
-      if (window.MagnetGame && typeof window.MagnetGame.launch === 'function') {
-        window.MagnetGame.launch(key);
-      }
-    }
-    brand.addEventListener('click', function (e) {
-      e.preventDefault(); // we control navigation ourselves below
-      eggClicks += 1;
-
-      if (eggClicks >= 10) {
-        if (eggTimer) { clearTimeout(eggTimer); eggTimer = null; }
-        eggClicks = 0;
-        launchEgg('2048');
-        return;
-      }
-
-      // Restart the burst window on each click. If it lapses at 5+ clicks,
-      // launch Slope; below 5, treat it as a normal click and go home.
-      if (eggTimer) { clearTimeout(eggTimer); }
-      eggTimer = setTimeout(function () {
-        var count = eggClicks;
-        eggClicks = 0;
-        eggTimer = null;
-        if (count >= 5) {
-          launchEgg('slope');
-        } else {
-          window.location.href = brand.getAttribute('href') || 'index.html';
-        }
-      }, 450);
-    });
+    // The logo is a plain link home. The hidden games are now reached only via
+    // the Konami code (handled in js/easter-egg.js), so no click handler here.
 
     // Nav wrapper
     var nav = document.createElement('nav');
