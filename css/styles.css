@@ -1273,6 +1273,72 @@ details.accordion > summary:hover {
   cursor: pointer;
 }
 
+/* estimator.js injects three seeded category rows into #category-rows after
+   first paint. Reserve their height while the container is empty so adding them
+   does not push the page down (CLS = 0); the reservation drops to auto once the
+   rows are present. ~3 rows at desktop height. */
+#category-rows:empty {
+  min-height: 465px;
+}
+
+/* One category row in the current-grade tool: name / weight / score / remove.
+   Wraps cleanly and never overflows at 360px. */
+.estimator-cat-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-2);
+}
+.estimator-cat-row > .field {
+  flex: 1 1 8rem;
+  min-width: 0;
+  margin-bottom: 0;
+}
+.estimator-cat-row .cat-name,
+.estimator-cat-row .cat-weight,
+.estimator-cat-row .cat-score {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: none;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.7rem;
+}
+.estimator-cat-row .cat-name:focus-visible,
+.estimator-cat-row .cat-weight:focus-visible,
+.estimator-cat-row .cat-score:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+.estimator-remove {
+  flex: 0 0 auto;
+}
+/* The needed-grade tool reuses .field; give its number inputs the themed look. */
+.estimator-form .field > input[type='number'] {
+  width: 100%;
+  max-width: 260px;
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.7rem;
+}
+.estimator-form .field > input[type='number']:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
 .estimator-result {
   max-width: 640px;
 }
@@ -1396,7 +1462,7 @@ noscript nav {
 --------------------------------------------------------------------------- */
 
 /* On small screens the primary nav collapses behind the hamburger. */
-@media (max-width: 639.98px) {
+@media (max-width: 1023.98px) {
   .nav-toggle {
     display: inline-flex;
   }

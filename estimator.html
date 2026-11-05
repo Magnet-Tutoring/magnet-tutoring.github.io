@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grade Calculator — Magnet Tutoring</title>
+  <meta name="description" content="A free grade calculator from Magnet Tutoring: work out your current class grade from weighted categories, and find out what you need on the final to hit your goal.">
+
+  <!-- Open Graph (per page) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Grade Calculator — Magnet Tutoring">
+  <meta property="og:description" content="A free grade calculator: find your current class grade from weighted categories, and the score you need on the final to reach your target.">
+  <meta property="og:url" content="https://magnettutoring.com/estimator.html">
+  <meta property="og:image" content="https://magnettutoring.com/assets/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://magnettutoring.com/estimator.html">
+
+  <!-- Favicon (relative, every page) -->
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/logo-og.png">
+
+  <!-- EXACT inline theme script: must run before the stylesheet link / before first paint -->
+  <script>
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved ?? (prefersDark ? 'dark' : 'light');
+  </script>
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- page scripts: non-render-blocking. layout + theme on every page -->
+  <script src="js/layout.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/reveal.js" defer></script>
+  <script src="js/easter-egg.js" defer></script>
+  <script src="js/estimator.js" defer></script>
+</head>
+<body data-page="estimator">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <noscript>
+    <nav aria-label="Primary (no JavaScript)">
+      <a href="index.html">Home</a> · <a href="about.html">About</a> ·
+      <a href="subjects.html">Subjects</a> · <a href="pricing.html">Pricing</a> ·
+      <a href="tutors.html">Tutors</a> · <a href="book.html">Book</a> ·
+      <a href="reviews.html">Reviews</a> · <a href="faq.html">FAQ</a> · <a href="estimator.html">Calculator</a>
+    </nav>
+  </noscript>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <h1>Grade Calculator</h1>
+        <p class="section-intro">
+          Two quick, free tools to help you understand where you stand in a class.
+          Everything stays in your browser — nothing is sent anywhere.
+        </p>
+        <noscript>
+          <p class="prose">This calculator needs JavaScript turned on. You can still
+          <a href="book.html">book a session</a> any time, or email
+          <a href="mailto:tutoringmagnet@gmail.com">tutoringmagnet@gmail.com</a>.</p>
+        </noscript>
+
+        <!-- TOOL 1: current grade from weighted categories -->
+        <section class="section" aria-labelledby="current-heading">
+          <h2 id="current-heading">1. What's my current grade?</h2>
+          <p class="prose">
+            Enter each category (like Tests, Homework, Quizzes), the weight it's worth in
+            your class, and your average score in it. We'll compute your overall grade.
+          </p>
+
+          <form id="current-form" class="estimator-form" novalidate>
+            <div id="category-rows"></div>
+            <p class="btn-row">
+              <button type="button" id="add-category" class="btn btn-secondary">+ Add category</button>
+              <button type="submit" class="btn btn-primary">Calculate my grade</button>
+            </p>
+            <p id="current-weight-note" class="field-help" aria-live="polite"></p>
+          </form>
+
+          <div id="current-result" class="estimator-result" role="status" aria-live="polite"></div>
+        </section>
+
+        <!-- TOOL 2: what I need on the final -->
+        <section class="section" aria-labelledby="needed-heading">
+          <h2 id="needed-heading">2. What do I need on the final?</h2>
+          <p class="prose">
+            Enter your current grade, the grade you're hoping to finish with, and how much
+            the final (or remaining assignment) is worth. We'll tell you the score you need.
+          </p>
+
+          <form id="needed-form" class="estimator-form" novalidate>
+            <div class="field">
+              <label for="cur-grade">Your current grade (%)</label>
+              <input type="number" id="cur-grade" name="curGrade" min="0" max="150" step="0.1" inputmode="decimal" required>
+            </div>
+            <div class="field">
+              <label for="target-grade">Grade you want (%)</label>
+              <input type="number" id="target-grade" name="targetGrade" min="0" max="150" step="0.1" inputmode="decimal" required>
+            </div>
+            <div class="field">
+              <label for="final-weight">How much the final is worth (%)</label>
+              <input type="number" id="final-weight" name="finalWeight" min="0.1" max="100" step="0.1" inputmode="decimal" required>
+              <p class="field-help">For example, if the final is 20% of your grade, enter 20.</p>
+            </div>
+            <p class="btn-row">
+              <button type="submit" class="btn btn-primary">What do I need?</button>
+            </p>
+          </form>
+
+          <div id="needed-result" class="estimator-result" role="status" aria-live="polite"></div>
+        </section>
+
+        <p class="estimator-disclaimer">
+          This calculator is an estimate for your own planning — your school's exact grading
+          rules (rounding, dropped scores, extra credit) may differ, so always check your
+          official gradebook. Stuck on the material behind the grade?
+          <a href="book.html">Book a session</a> and we'll help.
+        </p>
+
+        <div class="cta-band" data-reveal>
+          <h2>Want to bring that grade up?</h2>
+          <p>Our tutors help with the subjects behind the numbers. Your first 30-minute session is free.</p>
+          <p class="btn-row">
+            <a class="btn btn-primary" href="book.html">Book a free trial</a>
+            <a class="btn btn-secondary" href="subjects.html">See subjects</a>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

@@ -192,6 +192,10 @@
     phone.href = 'tel:+19293745741';
     phone.textContent = '(929) 374-5741';
 
+    var calc = document.createElement('a');
+    calc.href = 'estimator.html';
+    calc.textContent = 'Grade Calculator';
+
     var book = document.createElement('a');
     book.href = 'book.html';
     book.textContent = 'Book a Session';
@@ -199,6 +203,8 @@
     links.appendChild(email);
     links.appendChild(document.createTextNode(' \u00B7 '));
     links.appendChild(phone);
+    links.appendChild(document.createTextNode(' \u00B7 '));
+    links.appendChild(calc);
     links.appendChild(document.createTextNode(' \u00B7 '));
     links.appendChild(book);
 
