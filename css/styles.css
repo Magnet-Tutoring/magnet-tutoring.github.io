@@ -1492,8 +1492,12 @@ noscript nav {
     transition: opacity 0.18s ease, transform 0.18s ease,
       visibility 0s linear 0.18s;
   }
+  /* The dropdown hangs below the header, so the header needs its own stacking
+     level above page content (e.g. the home hero), or the menu opens behind it.
+     Stays below the game overlay (z-index 1000). */
   .site-header {
     position: relative;
+    z-index: 100;
   }
   .nav.is-open .nav-list {
     opacity: 1;
