@@ -145,7 +145,7 @@
     if (Math.abs(rounded - 100) < 0.05) {
       note.textContent = 'Weights add up to 100%.';
     } else {
-      note.textContent = 'Weights add up to ' + rounded + '%. That\u2019s fine \u2014 ' +
+      note.textContent = 'Weights add up to ' + rounded + '%. That\u2019s fine. ' +
         'blank rows count as 0%, and we scale the rest to compute your grade.';
     }
   }
@@ -199,7 +199,7 @@
 
     if (needed <= 0) {
       resultLead(container,
-        'You\u2019ve already secured it! Even a 0% on the final keeps you at or above ' +
+        'You\u2019ve already secured it. Even a 0% on the final keeps you at or above ' +
         target + '%.', 'You\u2019re set', 'pill-ok');
     } else if (needed <= 100) {
       var pillClass = needed <= 70 ? 'pill-ok' : (needed <= 90 ? 'pill-push' : 'pill-hard');
@@ -212,7 +212,7 @@
         'Even a perfect 100% on the final would leave you below ' + target + '%. ' +
         'The highest you could reach is about ' + highestPossible(current, w) + '%.',
         'Out of reach', 'pill-hard');
-      addMsg(container, 'Ask your teacher about extra credit \u2014 and we can help you lock down ' +
+      addMsg(container, 'Ask your teacher about extra credit, and we can help you lock down ' +
         'as many points as possible. Your first session is free.');
     }
   }
@@ -268,7 +268,7 @@
 
     if (floor <= 0) {
       resultLead(container,
-        'You\u2019ve got full cushion \u2014 even a 0% on the rest keeps you at or above ' + target + '%.',
+        'You\u2019ve got full cushion: even a 0% on the rest keeps you at or above ' + target + '%.',
         'Lots of room', 'pill-ok');
     } else if (floor <= 100) {
       var pillClass = floor <= 60 ? 'pill-ok' : (floor <= 80 ? 'pill-push' : 'pill-hard');
@@ -278,10 +278,10 @@
         pillText, pillClass);
     } else {
       resultLead(container,
-        'Keeping ' + target + '% isn\u2019t possible from here \u2014 even a perfect 100% on the rest ' +
+        'Keeping ' + target + '% isn\u2019t possible from here: even a perfect 100% on the rest ' +
         'would finish at about ' + highestPossible(current, w) + '%.',
         'Out of reach', 'pill-hard');
-      addMsg(container, 'Let\u2019s focus on the best grade you can still reach \u2014 we can help.');
+      addMsg(container, 'Let\u2019s focus on the best grade you can still reach. We can help.');
     }
   }
 

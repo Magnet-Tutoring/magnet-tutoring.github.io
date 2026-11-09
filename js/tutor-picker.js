@@ -130,7 +130,7 @@
           return opt.value;
         });
         if (!names.length) {
-          setHint('No listed tutor is tagged for ' + subject + ' yet — pick "No preference" and we\'ll match you with the best fit.');
+          setHint('No listed tutor is tagged for ' + subject + ' yet. Pick "No preference" and we\'ll match you with the best fit.');
           return;
         }
         var list;
@@ -142,7 +142,7 @@
           list = names.slice(0, -1).join(', ') + ', and ' + names[names.length - 1];
         }
         var verb = names.length === 1 ? ' teaches ' : ' teach ';
-        setHint(list + verb + subject + '. This is a preference — final tutor depends on availability.');
+        setHint(list + verb + subject + '. This is a preference. The final tutor depends on availability.');
       }
 
       subjectSelect.addEventListener('change', function () {

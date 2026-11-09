@@ -93,7 +93,7 @@
   // ---- Slope (5 clicks) --------------------------------------------------
   function launchSlope() {
     var ui = buildOverlay('Slope', 'Slope',
-      'Use the \u2190 \u2192 arrow keys to steer the ball down the slope. Big download \u2014 give it a moment to load. Press Esc to close.');
+      'Use the \u2190 \u2192 arrow keys to steer the ball down the slope. It is a big download, so give it a moment to load. Press Esc to close.');
 
     var stage = document.createElement('div');
     stage.className = 'eggame-stage eggame-stage--slope';
@@ -118,20 +118,20 @@
     var gameInstance = null;
     function instantiate() {
       if (typeof window.UnityLoader === 'undefined') {
-        gameContainer.textContent = 'Sorry — the game could not load.';
+        gameContainer.textContent = 'Sorry, the game could not load.';
         return;
       }
       try {
         gameInstance = window.UnityLoader.instantiate('gameContainer', 'assets/slope/Build/slope.json');
       } catch (e) {
-        gameContainer.textContent = 'Sorry — the game could not start.';
+        gameContainer.textContent = 'Sorry, the game could not start.';
       }
     }
     if (typeof window.UnityLoader === 'undefined') {
       var loader = document.createElement('script');
       loader.src = 'assets/slope/TemplateData/unityloader41.js';
       loader.onload = instantiate;
-      loader.onerror = function () { gameContainer.textContent = 'Sorry — the game could not load.'; };
+      loader.onerror = function () { gameContainer.textContent = 'Sorry, the game could not load.'; };
       document.body.appendChild(loader);
     } else {
       instantiate();
@@ -164,7 +164,7 @@
     credit.className = 'eggame-credit';
     credit.appendChild(document.createTextNode('2048 by '));
     credit.appendChild(creditLink('https://github.com/gabrielecirulli/2048', 'Gabriele Cirulli'));
-    credit.appendChild(document.createTextNode(' \u2014 MIT License.'));
+    credit.appendChild(document.createTextNode(', MIT License.'));
 
     ui.panel.appendChild(stage);
     ui.panel.appendChild(credit);
@@ -191,7 +191,7 @@
     credit.className = 'eggame-credit';
     credit.appendChild(document.createTextNode('Snake by '));
     credit.appendChild(creditLink('https://github.com/TomMalbran/games', 'Tom\u00e1s Malbr\u00e1n'));
-    credit.appendChild(document.createTextNode(' \u2014 MIT License.'));
+    credit.appendChild(document.createTextNode(', MIT License.'));
 
     ui.panel.appendChild(stage);
     ui.panel.appendChild(credit);
@@ -216,7 +216,7 @@
     if (active) { return; }
     active = true;
     var ui = buildOverlay('Secret games', 'You found the secret games!',
-      'Nice \u2014 you found the secret code. Pick a game to play. Press Esc to close.');
+      'Nice, you found the secret code. Pick a game to play. Press Esc to close.');
 
     var choices = document.createElement('div');
     choices.className = 'eggame-picker btn-row';

@@ -54,7 +54,7 @@ async function main() {
     process.exit(0);
   } catch (err) {
     // Never print the connection password.
-    console.error('migrate: failed —', err.message);
+    console.error('migrate: failed:', err.message);
     try {
       await pool.end();
     } catch {

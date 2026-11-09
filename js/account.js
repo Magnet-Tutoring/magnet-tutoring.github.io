@@ -111,7 +111,7 @@
       li.appendChild(title);
 
       if (b.status) {
-        li.appendChild(document.createTextNode(' — '));
+        li.appendChild(document.createTextNode(': '));
         var status = document.createElement('span');
         status.textContent = String(b.status);
         li.appendChild(status);

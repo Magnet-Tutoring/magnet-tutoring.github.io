@@ -172,10 +172,10 @@ async function initSubjects() {
     subjects = await loadJSON('data/subjects.json');
   } catch (e) {
     if (preview) {
-      showMessage(preview, 'error-state', 'We could not load the subject list right now — please refresh in a moment.');
+      showMessage(preview, 'error-state', 'We could not load the subject list right now. Please refresh in a moment.');
     }
     if (grid) {
-      showMessage(grid, 'error-state', 'We could not load the subject list right now — please refresh in a moment.');
+      showMessage(grid, 'error-state', 'We could not load the subject list right now. Please refresh in a moment.');
     }
     return;
   }
@@ -393,7 +393,7 @@ function tutorCard(tutor, categoryByName) {
 function renderTutors(container, tutors, categoryByName) {
   clear(container);
   if (!tutors.length) {
-    showMessage(container, 'empty-state', 'No tutors listed yet — check back soon!');
+    showMessage(container, 'empty-state', 'No tutors listed yet. Check back soon.');
     return;
   }
   var grid = document.createElement('div');
@@ -415,7 +415,7 @@ async function initTutors() {
   try {
     tutors = await loadJSON('data/tutors.json');
   } catch (e) {
-    showMessage(grid, 'error-state', 'We could not load the tutor list right now — please refresh in a moment.');
+    showMessage(grid, 'error-state', 'We could not load the tutor list right now. Please refresh in a moment.');
     return;
   }
 
@@ -511,7 +511,7 @@ function reviewCard(item) {
 function renderReviews(container, items) {
   clear(container);
   if (!items.length) {
-    showMessage(container, 'empty-state', 'No reviews yet — be the first to review us! Email tutoringmagnet@gmail.com to share your experience.');
+    showMessage(container, 'empty-state', 'No reviews yet. Be the first to review us: email tutoringmagnet@gmail.com to share your experience.');
     return;
   }
   const grid = document.createElement('div');
@@ -533,7 +533,7 @@ async function initReviews() {
   try {
     reviews = await loadJSON('data/reviews.json');
   } catch (e) {
-    showMessage(list, 'error-state', 'We could not load the reviews right now — please refresh in a moment.');
+    showMessage(list, 'error-state', 'We could not load the reviews right now. Please refresh in a moment.');
     return;
   }
 
@@ -656,7 +656,7 @@ async function initPricing() {
   try {
     pricing = await loadJSON('data/pricing.json');
   } catch (e) {
-    showMessage(blocks, 'error-state', 'We could not load pricing right now — please refresh in a moment.');
+    showMessage(blocks, 'error-state', 'We could not load pricing right now. Please refresh in a moment.');
     return;
   }
 

@@ -92,7 +92,7 @@ function renderStatusControls(booking) {
 
 function renderCreditControls(booking) {
   if (booking.user_id == null) {
-    return '<p class="field-help">Guest booking — no family account to credit.</p>';
+    return '<p class="field-help">Guest booking, no family account to credit.</p>';
   }
   const suggested = privateHoursForSession({
     sessionType: booking.session_type,
@@ -122,14 +122,14 @@ function renderBooking(booking, balances) {
       : '<p class="field-help">Guest booking (no account).</p>';
   return `
     <article class="form-card" style="margin-bottom:1.5rem;">
-      <h3>#${esc(booking.id)} — ${esc(booking.student_name) || '(student)'} · ${esc(booking.subject) || '(subject)'}</h3>
+      <h3>#${esc(booking.id)}: ${esc(booking.student_name) || '(student)'} · ${esc(booking.subject) || '(subject)'}</h3>
       <p>
         Guardian: ${esc(booking.guardian_name)} (${esc(booking.guardian_contact)})<br>
         Grade: ${esc(booking.student_grade)} ·
         ${esc(booking.session_type) || '(type n/a)'} ·
         ${esc(booking.length) || '(length n/a)'}<br>
-        Preferred times: ${esc(booking.preferred_times) || '—'}<br>
-        Notes: ${esc(booking.notes) || '—'}<br>
+        Preferred times: ${esc(booking.preferred_times) || 'None'}<br>
+        Notes: ${esc(booking.notes) || 'None'}<br>
         Status: <strong>${esc(booking.status)}</strong> · Created: ${esc(booking.created_at)}
       </p>
       ${balanceLine}
@@ -162,7 +162,7 @@ function renderDashboard({ bookings, balances, statusFilter }) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin — Magnet Tutoring</title>
+  <title>Admin | Magnet Tutoring</title>
   <meta name="robots" content="noindex">
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <script>

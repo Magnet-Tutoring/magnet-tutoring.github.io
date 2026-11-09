@@ -22,7 +22,9 @@
     var label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
     button.setAttribute('aria-label', label);
     button.title = label;
-    button.textContent = isDark ? '\u2600\uFE0F Light' : '\u{1F319} Dark';
+    // Text-only: the button names the theme it switches to; the aria-label
+    // above contains the same word so the visible and accessible names match.
+    button.textContent = isDark ? 'Light' : 'Dark';
   }
 
   function wire(button) {
