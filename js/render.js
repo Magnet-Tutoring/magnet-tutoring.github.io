@@ -158,8 +158,8 @@ async function initSubjects() {
   if (grid) {
     // Render every subject card once, then filter by toggling a CSS class on
     // each card (never display:none from JS directly) so matches/non-matches
-    // fade smoothly instead of popping. This keeps the DOM stable (cards are
-    // created a single time) and lets the browser animate opacity/transform.
+    // toggle without re-rendering. This keeps the DOM stable (cards are
+    // created a single time) and keeps filtering cheap.
     renderSubjects(grid, subjects, true);
 
     // The aria-live region is the #subjects-grid container itself; announce
@@ -263,18 +263,6 @@ function tutorCard(tutor, categoryByName) {
     img.setAttribute('decoding', 'async');
     img.setAttribute('width', '800');
     img.setAttribute('height', '800');
-    // Fade the photo in once it decodes (opacity only — the box is already
-    // reserved via width/height + aspect-ratio, so there is no layout shift).
-    // The .img-fade class starts it transparent; .is-loaded fades it in.
-    img.classList.add('img-fade');
-    var markLoaded = function () {
-      img.classList.add('is-loaded');
-    };
-    if (img.complete && img.naturalWidth > 0) {
-      markLoaded();
-    } else {
-      img.addEventListener('load', markLoaded);
-    }
     // If the photo fails to load, drop it so the initials avatar shows through.
     img.addEventListener('error', function () {
       if (img.parentNode) {

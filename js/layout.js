@@ -47,21 +47,7 @@
     brandLogo.setAttribute('decoding', 'async');
     brandLogo.width = 40;
     brandLogo.height = 40;
-    // Fade the logo in once it loads (opacity only — the 36x36 box is fixed in
-    // CSS, so there is no layout shift). .img-fade starts transparent;
-    // .is-loaded fades it in. If it's already cached/complete, mark immediately.
-    brandLogo.className = 'brand-logo img-fade';
-    var markLogoLoaded = function () {
-      brandLogo.classList.add('is-loaded');
-    };
-    if (brandLogo.complete && brandLogo.naturalWidth > 0) {
-      markLogoLoaded();
-    } else {
-      brandLogo.addEventListener('load', markLogoLoaded);
-      // Safety: if the logo errors, still reveal the (empty) box so nothing
-      // stays stuck invisible — the alt is empty/decorative anyway.
-      brandLogo.addEventListener('error', markLogoLoaded);
-    }
+    brandLogo.className = 'brand-logo';
 
     var brandText = document.createElement('span');
     brandText.className = 'brand-text';

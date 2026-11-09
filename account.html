@@ -33,7 +33,8 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <!-- page scripts: non-render-blocking. layout + theme on every page -->
-  <script src="js/config.js" defer></script>
+  <script src="js/config.js"></script>
+  <script>document.documentElement.dataset.backend = String(!!(window.MagnetConfig && window.MagnetConfig.BACKEND_ENABLED));</script>
   <script src="js/layout.js" defer></script>
   <script src="js/theme.js" defer></script>
   <script src="js/easter-egg.js" defer></script>

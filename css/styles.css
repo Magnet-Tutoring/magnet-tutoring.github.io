@@ -417,15 +417,18 @@ svg {
   #pricing-blocks:empty   { min-height: 487px; }
 }
 
-/* account.html: the view swaps from the one-line "Loading your account…"
-   message to either the (tall) login/register forms or the My-account view
-   once GET /api/me resolves. Reserve the taller view's height on the account
-   container WHILE the loading message is still shown, so that swap does not
-   shift layout (CLS = 0). The reservation releases the instant account.js
-   hides #account-loading ([hidden]), so there is never a leftover gap. The
-   reservation is a progressive enhancement: browsers without :has() simply
-   skip it, and the page still works (content just renders a touch lower). */
-body[data-page="account"] .container:has(> #account-loading:not([hidden])) {
+/* account.html: config.js and a tiny inline script in <head> set
+   html[data-backend] before first paint. Static mode (false) renders the
+   coming-soon card from the start and never shows the loading line, so
+   nothing swaps. Backend mode reserves the taller login view's height while
+   "Loading your account…" is shown, so the swap does not shift layout. */
+html[data-backend="false"] #account-loading {
+  display: none;
+}
+html[data-backend="false"] #account-coming-soon[hidden] {
+  display: block;
+}
+html[data-backend="true"] body[data-page="account"] .container:has(> #account-loading:not([hidden])) {
   min-height: 1400px;
 }
 
@@ -744,7 +747,7 @@ details.accordion > summary:hover {
 .form-card {
   background: #ffffff;
   color: #14202e;
-  border: 1px solid #e3e8ef;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
   box-shadow: var(--shadow-md);
