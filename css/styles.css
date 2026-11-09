@@ -190,10 +190,6 @@ svg {
 #site-header:empty { /* reservation tuned to the logo-row header height */
   min-height: 65px;
 }
-@media (min-width: 1024px) {
-  /* The inline nav makes the header taller (measured 92px incl. border). */
-  #site-header:empty { min-height: 92px; }
-}
 
 .site-header {
   background: var(--surface);
@@ -255,7 +251,7 @@ svg {
 }
 .nav-list a {
   display: block;
-  padding: var(--space-1) var(--space-2);
+  padding: var(--space-1);
   color: var(--text);
   text-decoration: none;
   border-radius: var(--radius-sm);
