@@ -97,7 +97,6 @@
   <!-- page scripts: non-render-blocking. layout + theme on every page; render.js only where needed -->
   <script src="js/layout.js" defer></script>
   <script src="js/theme.js" defer></script>
-  <script src="js/reveal.js" defer></script>
   <script src="js/easter-egg.js" defer></script>
   <script type="module" src="js/render.js"></script>
 </head>
@@ -133,7 +132,7 @@
          to change the offer. Mirror any change on pricing.html and book.html. -->
     <section class="section">
       <div class="container">
-        <div class="cta-band" data-reveal>
+        <div class="cta-band">
           <h2>Your first session is on us</h2>
           <p>Your first 30-minute session is free, with one free trial per student. You meet your tutor and see how a session works before you pay for anything.</p>
           <p class="btn-row">
@@ -147,41 +146,20 @@
       <div class="container">
         <h2>How it works</h2>
         <p class="section-intro">Booking takes three steps.</p>
-        <div class="grid grid-3">
-          <article class="card step-card" data-reveal>
-            <span class="step-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                <circle cx="12" cy="12" r="10"></circle>
-              </svg>
-            </span>
-            <h3>1. Pick a subject</h3>
+        <ol class="steps">
+          <li>
+            <h3>Pick a subject</h3>
             <p>Tell us what you want help with: math, science, English, or Spanish.</p>
-          </article>
-          <article class="card step-card" data-reveal>
-            <span class="step-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-            </span>
-            <h3>2. Book a time</h3>
+          </li>
+          <li>
+            <h3>Book a time</h3>
             <p>Choose a time that works for you, either private one-on-one or a small group of up to four students.</p>
-          </article>
-          <article class="card step-card" data-reveal>
-            <span class="step-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-              </svg>
-            </span>
-            <h3>3. Meet at the library</h3>
+          </li>
+          <li>
+            <h3>Meet at the library</h3>
             <p>Come to the library on Saturday and work through the material with your tutor one concept at a time.</p>
-          </article>
-        </div>
+          </li>
+        </ol>
       </div>
     </section>
 
@@ -201,15 +179,15 @@
         <h2>Where students need the most help</h2>
         <p class="section-intro">These are the subjects families ask about most. We also help with any other subject you need.</p>
         <div class="grid grid-3">
-          <article class="card" data-reveal>
+          <article class="card">
             <h3>Math that builds on itself</h3>
             <p>Algebra, geometry, and pre-algebra are where a lot of students get stuck, because each unit depends on the last. We go back to the step that didn't click and build from there.</p>
           </article>
-          <article class="card" data-reveal>
+          <article class="card">
             <h3>Science with heavy concepts</h3>
             <p>Chemistry, biology, and physical science introduce a lot of vocabulary and problem solving quickly. We break the big ideas into smaller pieces.</p>
           </article>
-          <article class="card" data-reveal>
+          <article class="card">
             <h3>Writing &amp; reading</h3>
             <p>Essays, reading comprehension, and grammar are common sticking points at every grade. We help with structuring ideas, understanding the text, and writing clearly.</p>
           </article>
@@ -233,7 +211,7 @@
 
     <section class="section">
       <div class="container">
-        <div class="cta-band" data-reveal>
+        <div class="cta-band">
           <h2>Book a session</h2>
           <p>Pick a subject, book a time, and meet your tutor at the library.</p>
           <p class="btn-row">

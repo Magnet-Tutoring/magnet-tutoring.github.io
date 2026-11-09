@@ -52,24 +52,6 @@ async function loadText(path) {
 
 // ---- subjects ------------------------------------------------------------
 
-// Maps a category name to a decorative color+icon class. The class only drives
-// a colored icon in CSS; the category text itself is still set via textContent.
-// The mapping is a controlled normalization (lowercase, strip spaces/slashes)
-// of the category string — never raw innerHTML — and unknown values fall back
-// to 'cat-other' so a subject is never left unstyled / showing a plain dot.
-function categoryClass(name) {
-  switch (String(name).toLowerCase().replace(/[\s/]+/g, '')) {
-    case 'math': return 'cat-math';
-    case 'science': return 'cat-science';
-    case 'english': return 'cat-english';
-    case 'historysocialstudies': return 'cat-history';
-    case 'worldlanguages': return 'cat-languages';
-    case 'computerscience': return 'cat-cs';
-    case 'other': return 'cat-other';
-    default: return 'cat-other';
-  }
-}
-
 // Build one subject card. When `expandable` is true (the schedule grid) and the
 // subject carries a non-empty topics array, the card wraps its header in a
 // native <details>/<summary> that reveals a topic list; otherwise it renders a
@@ -94,15 +76,9 @@ function subjectCard(subject, expandable) {
 
     const category = document.createElement('span');
     category.className = 'subject-category';
-    category.classList.add(categoryClass(subject.category));
     category.textContent = subject.category;
     summary.appendChild(category);
 
-    // Decorative chevron affordance; hidden from assistive tech.
-    const chevron = document.createElement('span');
-    chevron.className = 'subject-chevron';
-    chevron.setAttribute('aria-hidden', 'true');
-    summary.appendChild(chevron);
 
     details.appendChild(summary);
 
@@ -125,20 +101,14 @@ function subjectCard(subject, expandable) {
 
   const category = document.createElement('p');
   category.className = 'subject-category';
-  category.classList.add(categoryClass(subject.category));
   category.textContent = subject.category;
   card.appendChild(category);
 
   if (Array.isArray(subject.levels) && subject.levels.length) {
-    const badges = document.createElement('p');
-    badges.className = 'badge-row';
-    subject.levels.forEach(function (level) {
-      const badge = document.createElement('span');
-      badge.className = 'badge';
-      badge.textContent = level;
-      badges.appendChild(badge);
-    });
-    card.appendChild(badges);
+    const levels = document.createElement('p');
+    levels.className = 'subject-levels';
+    levels.textContent = subject.levels.join(', ');
+    card.appendChild(levels);
   }
 
   return card;
@@ -218,21 +188,6 @@ async function initSubjects() {
       ? Array.prototype.slice.call(gridInner.querySelectorAll('.subject-card'))
       : [];
 
-    // Once a card finishes fading out, collapse its row by setting [hidden] so
-    // the list shrinks; if it is no longer in the filtered-out state (user kept
-    // typing), leave it visible. Under reduced-motion the transition is ~instant
-    // so this fires right away — still no layout shift beyond the list shrinking.
-    cards.forEach(function (card) {
-      card.addEventListener('transitionend', function (e) {
-        if (e.target !== card || e.propertyName !== 'opacity') {
-          return;
-        }
-        if (card.classList.contains('is-filtered-out')) {
-          card.setAttribute('hidden', '');
-        }
-      });
-    });
-
     const apply = function () {
       const term = search ? search.value.trim().toLowerCase() : '';
       let shown = 0;
@@ -241,20 +196,11 @@ async function initSubjects() {
         const match = !term || name.indexOf(term) !== -1;
         if (match) {
           shown++;
-          // Show: clear hidden first so the fade-in transition can run.
           card.removeAttribute('hidden');
-          // Force a reflow read so removing hidden + removing the class on the
-          // same frame still animates opacity back up.
-          void card.offsetWidth;
-          card.classList.remove('is-filtered-out');
         } else {
-          // Hide: fade/scale out via the class, then collapse the row once the
-          // transition ends so the list shrinks naturally (no abrupt pop). The
-          // card keeps its place in source order for keyboard/tab consistency.
-          card.classList.add('is-filtered-out');
+          card.setAttribute('hidden', '');
         }
       });
-
       const total = subjects.length;
       if (noResults) {
         noResults.hidden = shown !== 0;
