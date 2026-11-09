@@ -190,6 +190,10 @@ svg {
 #site-header:empty { /* reservation tuned to the logo-row header height */
   min-height: 65px;
 }
+@media (min-width: 1024px) {
+  /* The inline nav makes the header taller (measured 92px incl. border). */
+  #site-header:empty { min-height: 92px; }
+}
 
 .site-header {
   background: var(--surface);
@@ -296,7 +300,10 @@ svg {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
+  /* Fixed width: layout.js creates this button empty and theme.js fills in
+     "Light"/"Dark" later, so a content-sized box would widen after first
+     paint, re-wrap the desktop nav, and shift the page (CLS). */
+  width: var(--space-6);
   height: 44px;
   padding: 0 var(--space-1);
   background: var(--bg);
@@ -378,14 +385,16 @@ svg {
    selector means the reservation applies only before content arrives and drops
    to auto the instant render.js appends its grid — so there is never a visible
    empty gap once content is present. Values are sized to the rendered height at
-   the Lighthouse desktop viewport (1350px, 3-column grid) so the reserved space
+   each breakpoint (mobile base, 640px, 960px, 1100px) so the reserved space
    matches the final content and nothing moves.
 --------------------------------------------------------------------------- */
 /* Subject tiles now stack one per row, so these containers are taller: the
    home preview shows 6 single-column cards and the full grid shows all ~23. */
-#subjects-preview:empty { min-height: 560px; }
-#subjects-grid:empty    { min-height: 2090px; }
-#tutors-grid:empty      { min-height: 2052px; }
+/* Heights measured with headless Chrome after render, at 360px (base),
+   640px, and 1280px (the 960px+ values hold through 1920px). */
+#subjects-preview:empty { min-height: 1001px; }
+#subjects-grid:empty    { min-height: 3817px; }
+#tutors-grid:empty      { min-height: 5276px; }
 /* reviews.json is currently empty, so the rendered result is the "be the first
    to review" empty-state message. Reserve this height UNCONDITIONALLY (not just
    while :empty) so the container is the same height before and after render.js
@@ -393,8 +402,24 @@ svg {
    reservation, so the box never grows or shrinks (CLS = 0). A full 3-up row of
    real review cards (~300px) exceeds this, so the min-height is harmless once
    real reviews are added. */
-#reviews-list           { min-height: 160px; }
-#pricing-blocks:empty   { min-height: 479px; }
+#reviews-list           { min-height: 180px; }
+#reviews-list .empty-state { margin: 0; }
+#pricing-blocks:empty   { min-height: 1116px; }
+@media (min-width: 640px) {
+  #subjects-preview:empty { min-height: 1019px; }
+  #subjects-grid:empty    { min-height: 3208px; }
+  #tutors-grid:empty      { min-height: 3367px; }
+  #pricing-blocks:empty   { min-height: 887px; }
+}
+@media (min-width: 960px) {
+  #subjects-grid:empty    { min-height: 3088px; }
+  #tutors-grid:empty      { min-height: 2440px; }
+  #pricing-blocks:empty   { min-height: 547px; }
+}
+@media (min-width: 1100px) {
+  #tutors-grid:empty      { min-height: 2152px; }
+  #pricing-blocks:empty   { min-height: 487px; }
+}
 
 /* account.html: the view swaps from the one-line "Loading your account…"
    message to either the (tall) login/register forms or the My-account view
@@ -832,11 +857,14 @@ details.accordion > summary:hover {
    the page down (CLS = 0); the reservation drops to auto once the rows are
    present. ~10 rows at desktop height (each row ~140px incl. gap). */
 #category-rows:empty {
-  min-height: 1480px;
+  min-height: 2286px;
 }
 @media (min-width: 640px) {
   /* On wider screens each row is a single flex line, so it's shorter. */
-  #category-rows:empty { min-height: 880px; }
+  #category-rows:empty { min-height: 1305px; }
+}
+@media (min-width: 960px) {
+  #category-rows:empty { min-height: 1338px; }
 }
 
 /* One category row in the current-grade tool: name / weight / score / remove.
@@ -1134,7 +1162,7 @@ noscript nav {
   font-weight: 700;
 }
 .review-role {
-  margin: 2px 0 0;
+  margin: 0;
   color: var(--muted);
   font-size: 0.875rem;
 }
